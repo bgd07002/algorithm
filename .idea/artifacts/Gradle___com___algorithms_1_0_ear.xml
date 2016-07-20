@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="ear" name="Gradle : com : algorithms-1.0.ear">
+    <output-path>$PROJECT_DIR$/out/artifacts/algorithms</output-path>
+    <properties id="gradle-properties">
+      <options external-project-path="$PROJECT_DIR$" />
+    </properties>
+    <root id="archive" name="algorithms-1.0.ear">
+      <element id="artifact" artifact-name="Gradle : com : algorithms-1.0.ear (exploded)" />
+    </root>
+  </artifact>
+</component>

@@ -1,0 +1,15 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-ear" name="Gradle : com : algorithms-1.0.ear (exploded)">
+    <output-path>$PROJECT_DIR$/out/artifacts/algorithms/exploded/algorithms-1.0.ear</output-path>
+    <properties id="gradle-properties">
+      <options external-project-path="$PROJECT_DIR$" />
+    </properties>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="algorithms_main/javaeeApplication/JavaEE Application Gradle : algorithms-1.0.ear" />
+      <element id="dir-copy" path="$PROJECT_DIR$/src/main/app" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/algorithms/exploded/algorithms-1.0.ear/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

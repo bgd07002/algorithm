@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Gradle : com : algorithms-1.0.war">
+    <output-path>$PROJECT_DIR$/out/artifacts/algorithms</output-path>
+    <properties id="gradle-properties">
+      <options external-project-path="$PROJECT_DIR$" />
+    </properties>
+    <root id="archive" name="algorithms-1.0.war">
+      <element id="javaee-facet-resources" facet="algorithms_main/web/Web Gradle : algorithms-1.0.war" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="algorithms_main" />
+          <element id="dir-copy" path="$PROJECT_DIR$/build/resources/main" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Gradle: org.codehaus.groovy:groovy-all:2.3.11" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/algorithms/exploded/algorithms-1.0.war/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

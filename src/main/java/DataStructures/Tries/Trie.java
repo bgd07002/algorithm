@@ -10,6 +10,10 @@ public class Trie {
         root = new TrieNode('&');
     }
 
+    public TrieNode getRoot() {
+        return root;
+    }
+
     public void addString(String s) {
         if (s == null || s.length() < 1)
             return;
@@ -88,7 +92,7 @@ public class Trie {
         return true;
     }
 
-    private class TrieNode {
+    protected class TrieNode {
 
         private ArrayList<TrieNode> childTrieNodes;
         private char value;

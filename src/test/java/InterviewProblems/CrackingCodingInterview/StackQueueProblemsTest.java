@@ -1,5 +1,6 @@
-package InterviewProblems;
+package InterviewProblems.CrackingCodingInterview;
 
+import InterviewProblems.StackQueueProblems;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 import InterviewProblems.StackQueueProblems.StackWithThreeArrays;

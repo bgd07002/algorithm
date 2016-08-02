@@ -1,7 +1,8 @@
-package InterviewProblems;
+package InterviewProblems.CrackingCodingInterview;
 
 import DataStructures.ListStackQueue.DoublyLinkedList;
 import DataStructures.ListStackQueue.SinglyLinkedList;
+import InterviewProblems.LinkedListsProblems;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 

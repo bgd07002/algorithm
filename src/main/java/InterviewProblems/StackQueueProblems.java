@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class StackQueueProblems<T> {
 
     /**
-     * Describe how you could use a single array to implement three stacks.
+     * 3.1 Describe how you could use a single array to implement three stacks.
      */
     public class StackWithThreeArrays<T>{
 
@@ -48,7 +48,7 @@ public class StackQueueProblems<T> {
     }
 
     /**
-     * How would you design a stack which, in addition to push and pop, also has a function
+     * 3.2 How would you design a stack which, in addition to push and pop, also has a function
      * min which returns the minimum element? Push, pop and min should all operate in O(1) time.
      */
     public class StackWithMin<T extends Comparable<T>> {
@@ -100,7 +100,7 @@ public class StackQueueProblems<T> {
     }
 
     /**
-     * Implement a MyQueue class which implements a queue using two stacks.
+     * 3.4 Implement a MyQueue class which implements a queue using two stacks.
      */
     public class QueueWithTwoStacks<T> implements IQueue<T> {
 

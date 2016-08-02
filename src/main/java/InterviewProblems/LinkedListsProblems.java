@@ -82,6 +82,7 @@ public class LinkedListsProblems<T> {
         list.remove(cur1.getValue());
     }
 
+
     /**
      * 2.5 You have two numbers represented by a linked list, where each node contains a single digit.
      * The digits are stored in reverse order, such that the 1’s digit is at the head of the list.
@@ -143,18 +144,52 @@ public class LinkedListsProblems<T> {
     }
 
     /**
-     * Implement a function to check if a linked list is a palindrome
+     * 2.6 Implement a function to check if a linked list is a palindrome
      */
+    public boolean isListPalindrome(DoublyLinkedList<T> list) {
+        if (list.isEmpty())
+            return true;
 
+        DoublyLLNode<T> cur1 = (DoublyLLNode)list.getHead();
+        DoublyLLNode<T> cur2 = (DoublyLLNode)list.getTail();
+
+        int i =0;
+        while (i <= list.size()/2) {
+            if(cur1.getValue() != cur2.getValue())
+                return false;
+
+            i++;
+            cur1 = (DoublyLLNode) cur1.getNext();
+            cur2 = (DoublyLLNode) cur2.getPrev();
+        }
+        return true;
+    }
 
     /**
-     * Intersection: Given two (singly) linked lists, determine if the two list intersects.
+     * 2.7 Intersection: Given two (singly) linked lists, determine if the two list intersects.
      * Return intersecting node.
      */
+    public Node<T> findIntersectingNode(SinglyLinkedList<T> list1, SinglyLinkedList<T> list2) {
+        if (list1.isEmpty() || list2.isEmpty())
+            return null;
 
+        Node<T> cur1 = list1.getHead();
+
+        while(cur1 != null){
+            Node<T> cur2 = list2.getHead();
+            while (cur2 != null) {
+                if (cur1 == cur2)
+                    return cur1;
+
+                cur2 = cur2.getNext();
+            }
+            cur1 = cur1.getNext();
+        }
+        return null;
+    }
 
     /**
-     * Given a circular linked list, implement an algorithm which returns node at the beginning of the loop.
+     * 2.8 Given a circular linked list, implement an algorithm which returns node at the beginning of the loop.
      * DEFINITION
      * Circular linked list: A (corrupt) linked list in which a node’s next pointer points to an earlier node, so as to make a loop in the linked list.
      * EXAMPLE

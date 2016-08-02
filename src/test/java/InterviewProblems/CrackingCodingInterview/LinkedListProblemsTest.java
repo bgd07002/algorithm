@@ -1,6 +1,7 @@
 package InterviewProblems.CrackingCodingInterview;
 
 import DataStructures.ListStackQueue.DoublyLinkedList;
+import DataStructures.ListStackQueue.Node;
 import DataStructures.ListStackQueue.SinglyLinkedList;
 import InterviewProblems.LinkedListsProblems;
 import org.junit.Assert;
@@ -69,10 +70,52 @@ public class LinkedListProblemsTest {
     @Test
     public void sumListTest() {
         LinkedListsProblems<Integer> llP = new LinkedListsProblems<>();
-        //int sum = llP.sumList(513, 295);
-        //Assert.assertEquals(808, sum);
+        int sum = llP.sumList(513, 295);
+        Assert.assertEquals(808, sum);
 
-        int sum = llP.sumList(24, 987);
+        sum = llP.sumList(24, 987);
         Assert.assertEquals(1011, sum);
+    }
+
+    @Test
+    public void palindromeTest() {
+        LinkedListsProblems<Integer> llP = new LinkedListsProblems<>();
+        DoublyLinkedList<Integer> list = new DoublyLinkedList<>();
+        list.addLast(2);
+        list.addLast(3);
+        list.addLast(4);
+        list.addLast(3);
+        list.addLast(2);
+        Assert.assertEquals(true, llP.isListPalindrome(list));
+
+        list.remove(4);
+        Assert.assertEquals(true, llP.isListPalindrome(list));
+
+        list.addLast(7);
+        Assert.assertEquals(false, llP.isListPalindrome(list));
+    }
+
+    @Test
+    public void intersectionTest() {
+        LinkedListsProblems<Integer> llP = new LinkedListsProblems<>();
+        SinglyLinkedList<Integer> list1 = new SinglyLinkedList<>();
+        list1.addLast(1);
+        list1.addLast(2);
+        list1.addLast(3);
+        list1.addLast(4);
+        list1.addLast(5);
+        Node<Integer> intersect = list1.getHead().getNext().getNext();
+
+        SinglyLinkedList<Integer> list2 = new SinglyLinkedList<>();
+        list2.addLast(10);
+        list2.addLast(9);
+        list2.addLast(8);
+        list2.addLast(7);
+        list2.addLast(6);
+        Node<Integer> connect = list2.getHead().getNext().getNext().getNext().getNext();
+        connect.setNext(intersect);
+
+        Node<Integer> commonNode = llP.findIntersectingNode(list1, list2);
+        Assert.assertEquals(3, (int)commonNode.getValue());
     }
 }

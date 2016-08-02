@@ -101,4 +101,8 @@ public class DoublyLinkedList<T> extends IList<T>  {
     public Node<T> getHead() {
         return head;
     }
+
+    public Node<T> getTail() {
+        return tail;
+    }
 }

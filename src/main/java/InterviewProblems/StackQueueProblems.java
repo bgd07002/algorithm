@@ -140,6 +140,7 @@ public class StackQueueProblems<T> {
             return (stack1.isEmpty() && stack2.isEmpty());
         }
     }
+
     /**
      * Write a program to sort a stack in ascending order. You should not make any assumptions about
      * how the stack is implemented. The following are the only functions that should be used to

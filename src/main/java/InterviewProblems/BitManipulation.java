@@ -4,7 +4,7 @@ package InterviewProblems;
 public class BitManipulation {
 
     /**
-     * You are given two 32-bit numbers, N and M, and two bit positions, i and j. Write a method to set all bits between i and j
+     * 5.1 You are given two 32-bit numbers, N and M, and two bit positions, i and j. Write a method to set all bits between i and j
      * in N equal to M (e.g., M becomes a substring of N located at i and starting at j).
      * EXAMPLE:
      * Input: N = 10000000000, M = 10101, i = 2, j = 6
@@ -39,7 +39,7 @@ public class BitManipulation {
      */
 
     /**
-     * Given an integer, print the next smallest and next largest number that have the
+     * 5.4 Given an integer, print the next smallest and next largest number that have the
      * same number of 1 bits in their binary representation.
      */
     public int[] minMaxSameBits(int input) {
@@ -66,7 +66,11 @@ public class BitManipulation {
     }
 
     /**
-     * Write a function to determine the number of bits required to convert integer A to integer B.
+     * 5.5 What the following code does n & (n-1) == 0
+      */
+
+    /**
+     * 5.6 Write a function to determine the number of bits required to convert integer A to integer B.
      * Input: 31, 14
      * Output: 2
      */
@@ -82,7 +86,7 @@ public class BitManipulation {
     }
 
     /**
-     * Write a program to swap odd and even bits in an integer with as few instructions as possible (e.g., bit 0 and bit 1 are swapped, bit 2 and bit 3 are swapped, etc).
+     * 5.7 Write a program to swap odd and even bits in an integer with as few instructions as possible (e.g., bit 0 and bit 1 are swapped, bit 2 and bit 3 are swapped, etc).
      */
     public int swapOddEvenBits(int x) {
         return ((x & 0xaaaaaaaa) >> 1) | ((x & 0x55555555) << 1);

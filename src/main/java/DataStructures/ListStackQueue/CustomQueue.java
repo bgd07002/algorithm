@@ -2,11 +2,11 @@ package DataStructures.ListStackQueue;
 
 import java.util.LinkedList;
 
-public class Queue<T> implements IQueue<T> {
+public class CustomQueue<T> implements IQueue<T> {
 
     LinkedList<T> underlyingList;
 
-    public Queue() {
+    public CustomQueue() {
         underlyingList = new LinkedList<T>();
     }
 
@@ -28,4 +28,6 @@ public class Queue<T> implements IQueue<T> {
     public boolean isEmpty() {
         return underlyingList.size() == 0;
     }
+
+    public T peek() { return underlyingList.getFirst(); }
 }

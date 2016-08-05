@@ -1,11 +1,13 @@
 package InterviewProblems;
 
+import DataStructures.ListStackQueue.CustomQueue;
 import DataStructures.ListStackQueue.IQueue;
+import DataStructures.ListStackQueue.IStack;
 import DataStructures.ListStackQueue.Stack;
 
 import java.util.ArrayList;
 
-public class StackQueueProblems<T> {
+public class StackQueueProblems<T extends Comparable<T>> {
 
     /**
      * 3.1 Describe how you could use a single array to implement three stacks.
@@ -100,6 +102,58 @@ public class StackQueueProblems<T> {
     }
 
     /**
+     * 3.3 Implement set of stacks with threshold
+     */
+    public class SetOfStacks<T> implements IStack<T> {
+
+        private int threshold;
+        private ArrayList<Stack> listOfStack;
+
+        public SetOfStacks(int threshold) {
+            this.threshold = threshold;
+            listOfStack = new ArrayList<>();
+        }
+
+        @Override
+        public void push(T element) {
+            if (listOfStack.isEmpty() || listOfStack.get(listOfStack.size()-1).size() == threshold) {
+                Stack<T> newStack = new Stack<>();
+                newStack.push(element);
+                listOfStack.add(newStack);
+            } else {
+                listOfStack.get(listOfStack.size()-1).push(element);
+            }
+        }
+
+        @Override
+        public T pop() {
+            if (listOfStack.isEmpty())
+                return null;
+
+            Stack<T> lastStack = listOfStack.get(listOfStack.size()-1);
+            T removedElement = (T)lastStack.pop();
+            if (lastStack.isEmpty())
+                listOfStack.remove(lastStack);
+
+            return removedElement;
+        }
+
+        @Override
+        public int size() {
+            int size = 0;
+            for (Stack<T> aStack : listOfStack)
+                size += aStack.size();
+
+            return size;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return size() == 0;
+        }
+    }
+
+    /**
      * 3.4 Implement a MyQueue class which implements a queue using two stacks.
      */
     public class QueueWithTwoStacks<T> implements IQueue<T> {
@@ -142,8 +196,104 @@ public class StackQueueProblems<T> {
     }
 
     /**
-     * Write a program to sort a stack in ascending order. You should not make any assumptions about
+     * 3.5 Write a program to sort a stack in ascending order. You should not make any assumptions about
      * how the stack is implemented. The following are the only functions that should be used to
      * write this program: push | pop | peek | isEmpty.
      */
+    public java.util.Stack<T> sortStack(java.util.Stack<T> stack){
+        java.util.Stack<T> newStack = new java.util.Stack<>();
+
+        while(!stack.isEmpty()) {
+            T min = stack.pop();
+            int elementToCompare = stack.size();
+            while (!stack.isEmpty()) {
+                T temp = stack.pop();
+                if (min.compareTo(temp) < 0) {
+                    newStack.push(min);
+                    min = temp;
+                } else
+                    newStack.push(temp);
+            }
+
+            while (elementToCompare > 0) {
+                stack.push(newStack.pop());
+                elementToCompare--;
+            }
+            newStack.push(min);
+        }
+        return newStack;
+    }
+
+    /**
+     * 3.6 Animal shelter holds dog and cats. enqueue(), dequeueAny(), dequeueDog(), dequeueCat()
+     */
+    public class AnimalShelter {
+
+        private int priority;
+
+        public class Dog {
+            private int priority;
+            private String dogId;
+
+            public Dog(String dogId, int priority) {
+                this.dogId = dogId;
+                this.priority = priority;
+            }
+
+            public int getPriority() { return priority; }
+            public String getDogId() { return dogId; }
+        }
+
+        public class Cat {
+            private int priority;
+            private String catId;
+
+            public Cat(String catId, int priority) {
+                this.catId = catId;
+                this.priority = priority;
+            }
+            public int getPriority() { return priority; }
+            public String getCatId() { return catId; }
+        }
+
+        private CustomQueue<Dog> dogQueue;
+        private CustomQueue<Cat> catQueue;
+
+        public AnimalShelter() {
+            dogQueue = new CustomQueue<>();
+            catQueue = new CustomQueue<>();
+        }
+
+        public void enqueue(String animalName) {
+            if (animalName.startsWith("Dog"))
+                dogQueue.enqueue(new Dog(animalName, priority));
+            else if (animalName.startsWith("Cat"))
+                catQueue.enqueue(new Cat(animalName, priority));
+
+            priority++;
+        }
+
+        public String dequeue() {
+            if (dogQueue.peek().priority < catQueue.peek().priority)
+                return dogQueue.dequeue().dogId;
+            else
+                return catQueue.dequeue().catId;
+        }
+
+        public String dequeueDog() {
+            return dogQueue.dequeue().dogId;
+        }
+
+        public String dequeueCat() {
+            return catQueue.dequeue().catId;
+        }
+
+        public int size() {
+            return dogQueue.size()+catQueue.size();
+        }
+
+        public boolean isEmpty() {
+            return dogQueue.isEmpty() && catQueue.isEmpty();
+        }
+    }
 }

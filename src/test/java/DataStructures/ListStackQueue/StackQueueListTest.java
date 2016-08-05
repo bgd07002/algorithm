@@ -28,7 +28,7 @@ public class StackQueueListTest {
 
     @Test
     public void deQueueEnqueueTest() throws Exception {
-        IQueue<Integer> sa = new Queue<Integer>();
+        IQueue<Integer> sa = new CustomQueue<Integer>();
         Assert.assertTrue(sa.isEmpty());
         sa.enqueue(3);
         sa.enqueue(4);

@@ -95,7 +95,7 @@ public class HtmlTag {
 
     /**
      * Reads the file or URL given, and tokenizes the text in that file,
-     * placing the tokens into the given Queue.
+     * placing the tokens into the given CustomQueue.
      * You don't need to call this method in your homework code.
      * Precondition: text != null
      * */

@@ -15,4 +15,5 @@ public interface IBinarySearchTree<T> {
     void addElement(T element);
     boolean findElement(T element);
     T removeElement(T element);
+    BinaryTreeNode<T> getRoot();
 }

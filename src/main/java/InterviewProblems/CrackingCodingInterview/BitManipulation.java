@@ -1,5 +1,6 @@
-package InterviewProblems;
+package InterviewProblems.CrackingCodingInterview;
 
+import java.util.ArrayList;
 
 public class BitManipulation {
 
@@ -34,9 +35,74 @@ public class BitManipulation {
     }
 
     /**
-     * Given a (decimal - e.g. 3.72) number that is passed in as a string, print the binary representation. If the number can not
-     * be represented accurately in binary, print “ERROR”
+     * 5.2 Given a real number between 0 and 1 (eg 0.72) that is passed in as a double, print the binary representation.
+     * If the number can not be represented accurately in binary, print “ERROR”.
      */
+    public String decimalInBinary(double inputDec) {
+        if (inputDec >=1 || inputDec < 0)
+            return "ERROR";
+
+        StringBuilder sb = new StringBuilder();
+        String fracStr = Double.toString(inputDec);
+        fracStr = fracStr.substring(fracStr.indexOf('.')+1);
+
+        for (char c : fracStr.toCharArray()) {
+            String binFrac = Integer.toBinaryString(Character.getNumericValue(c));
+            for (int i=0; i < 4 - binFrac.length(); i++)
+                sb.append("0");
+            sb.append(binFrac);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 5.3 Flip Bit to Win: You have an option to flip only 1 bit to longest sequence of 1s.
+     * Input: 1775 -> 11011101111
+     * Output: 8
+     */
+    public int flipBitToWin(int input) {
+        String binaryInt = Integer.toBinaryString(input);
+        if (!binaryInt.contains("0"))
+            return binaryInt.length();
+
+        int max = maxOnes(binaryInt);
+
+        int i =0;
+        while (i < binaryInt.length()) {
+            int oneZeroOneIdx = binaryInt.indexOf("01", i+1);
+            if (oneZeroOneIdx > 0) {
+                i = oneZeroOneIdx;
+
+                StringBuilder sb = new StringBuilder(binaryInt);
+                sb.setCharAt(i, '1');
+                int potentialMax = maxOnes(sb.toString())-1;
+                if (potentialMax > max)
+                    max = potentialMax;
+            }else
+                break;
+        }
+
+        return max;
+    }
+
+    private int maxOnes(String binaryInt) {
+        ArrayList<Integer> onesList = new ArrayList();
+
+        //1. Partition ones and find max consecutive 1s.
+        int numOfConsqOnes =0;
+        for (char c : binaryInt.toCharArray()) {
+            if (c == '1')
+                numOfConsqOnes++;
+            else {
+                onesList.add(numOfConsqOnes);
+                numOfConsqOnes =0;
+            }
+        }
+        if (numOfConsqOnes > 0)
+            onesList.add(numOfConsqOnes);
+
+        return onesList.stream().max(Integer::compare).get()+1;
+    }
 
     /**
      * 5.4 Given an integer, print the next smallest and next largest number that have the

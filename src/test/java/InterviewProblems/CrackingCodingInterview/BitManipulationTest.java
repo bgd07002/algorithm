@@ -1,6 +1,5 @@
 package InterviewProblems.CrackingCodingInterview;
 
-import InterviewProblems.BitManipulation;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 
@@ -11,6 +10,23 @@ public class BitManipulationTest {
         BitManipulation b = new BitManipulation();
         int output = b.setNSubsetsOfM(1024, 21, 2, 6);
         Assert.assertEquals("10001010100", Integer.toBinaryString(output));
+    }
+
+    @Test
+    public void decimalInBinaryTest() {
+        BitManipulation b = new BitManipulation();
+        String output = b.decimalInBinary(0.972);
+        Assert.assertEquals("100101110010", output);
+    }
+
+    @Test
+    public void flipBitToWinTest() {
+        BitManipulation b = new BitManipulation();
+        int flipBitToWin = b.flipBitToWin(1775);
+        Assert.assertEquals(8, flipBitToWin);
+
+        flipBitToWin = b.flipBitToWin(487);
+        Assert.assertEquals(5, flipBitToWin);
     }
 
     @Test

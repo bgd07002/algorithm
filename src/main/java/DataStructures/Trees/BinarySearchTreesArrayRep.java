@@ -126,4 +126,9 @@ public class BinarySearchTreesArrayRep<T extends Comparable<T>> implements IBina
     public T removeElement(T element) {
         return null;
     }
+
+    @Override
+    public BinaryTreeNode<T> getRoot() {
+        return bstList.get(0);
+    }
 }

@@ -1,4 +1,4 @@
-package InterviewProblems;
+package InterviewProblems.CrackingCodingInterview;
 
 import DataStructures.ListStackQueue.CustomQueue;
 import DataStructures.ListStackQueue.IQueue;

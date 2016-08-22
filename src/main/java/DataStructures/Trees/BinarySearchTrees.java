@@ -52,6 +52,8 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
         return sb;
     }
 
+    public BinaryTreeNode<T> getRoot() { return root; }
+
     public boolean isRoot(BinaryTreeNode<T> node) {
         return node.equals(root);
     }

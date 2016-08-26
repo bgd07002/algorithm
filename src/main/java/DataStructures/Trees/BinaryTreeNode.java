@@ -2,26 +2,33 @@ package DataStructures.Trees;
 
 public class BinaryTreeNode<T> extends TreeNode<T> {
 
-    private TreeNode<T> leftChild;
-    private TreeNode<T> rightChild;
+    private BinaryTreeNode<T> leftChild;
+    private BinaryTreeNode<T> rightChild;
+    private BinaryTreeNode<T> parent;
 
     public BinaryTreeNode(T element) {
         super.setData(element);
     }
 
-    public TreeNode<T> getLeftChild() {
-        return leftChild;
-    }
+    public BinaryTreeNode<T> getLeftChild() { return leftChild; }
 
-    public void setLeftChild(TreeNode<T> leftChild) {
+    public void setLeftChild(BinaryTreeNode<T> leftChild) {
         this.leftChild = leftChild;
     }
 
-    public TreeNode<T> getRightChild() {
+    public BinaryTreeNode<T> getRightChild() {
         return rightChild;
     }
 
-    public void setRightChild(TreeNode<T> rightChild) {
+    public void setRightChild(BinaryTreeNode<T> rightChild) {
         this.rightChild = rightChild;
+    }
+
+    public BinaryTreeNode<T> getParentNode() {
+        return parent;
+    }
+
+    public void setParent(BinaryTreeNode<T> parent) {
+        this.parent = parent;
     }
 }

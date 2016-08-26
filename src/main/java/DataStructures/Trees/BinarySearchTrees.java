@@ -13,10 +13,10 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
         StringBuilder sb = new StringBuilder();
         sb.append(node.getData().toString()).append(", ");
         if (node.getLeftChild() != null)
-            sb.append(printPreOrder((BinaryTreeNode<T>)node.getLeftChild()));
+            sb.append(printPreOrder(node.getLeftChild()));
 
         if (node.getRightChild() != null)
-            sb.append(printPreOrder((BinaryTreeNode<T>)node.getRightChild()));
+            sb.append(printPreOrder(node.getRightChild()));
         return sb;
     }
 
@@ -27,10 +27,10 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
     private StringBuilder printPostOrder(BinaryTreeNode<T> node) {
         StringBuilder sb = new StringBuilder();
         if (node.getLeftChild() != null)
-            sb.append(printPostOrder((BinaryTreeNode<T>)node.getLeftChild()));
+            sb.append(printPostOrder(node.getLeftChild()));
 
         if (node.getRightChild() != null)
-            sb.append(printPostOrder((BinaryTreeNode<T>)node.getRightChild()));
+            sb.append(printPostOrder(node.getRightChild()));
 
         sb.append(node.getData().toString()).append(", ");
         return sb;
@@ -43,12 +43,12 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
     private StringBuilder printInOrder(BinaryTreeNode<T> node) {
         StringBuilder sb = new StringBuilder();
         if (node.getLeftChild() != null)
-            sb.append(printInOrder((BinaryTreeNode<T>)node.getLeftChild()));
+            sb.append(printInOrder(node.getLeftChild()));
 
         sb.append(node.getData().toString()).append(", ");
 
         if (node.getRightChild() != null)
-            sb.append(printInOrder((BinaryTreeNode<T>)node.getRightChild()));
+            sb.append(printInOrder(node.getRightChild()));
         return sb;
     }
 
@@ -71,7 +71,7 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
 
         BinaryTreeNode<T> cur = root;
         while (cur.getLeftChild() != null) {
-            cur = (BinaryTreeNode<T>) cur.getLeftChild();
+            cur = cur.getLeftChild();
         }
         return cur.getData();
     }
@@ -82,7 +82,7 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
 
         BinaryTreeNode<T> cur = root;
         while (cur.getRightChild() != null) {
-            cur = (BinaryTreeNode<T>) cur.getRightChild();
+            cur = cur.getRightChild();
         }
         return cur.getData();
     }
@@ -101,19 +101,19 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
         return computeHeight(root);
     }
 
-    private int computeHeight(BinaryTreeNode<T> curNode) {
+    public int computeHeight(BinaryTreeNode<T> curNode) {
 
         if (curNode == null)
-            return -1;
+            return 0;
 
-        return Math.max(computeHeight((BinaryTreeNode<T>)curNode.getLeftChild()),
-                computeHeight((BinaryTreeNode<T>)curNode.getRightChild())) +1;
+        return Math.max(computeHeight(curNode.getLeftChild()),
+                computeHeight(curNode.getRightChild())) +1;
 
     }
 
     public void addElement(T element) {
         if (root == null) {
-            root = new BinaryTreeNode<T>(element);
+            root = new BinaryTreeNode<>(element);
         } else {
             BinaryTreeNode<T> cur = root;
 
@@ -121,17 +121,21 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
                 int compare = cur.getData().compareTo(element);
                 if (compare > 0) {
                     if (cur.getLeftChild() == null) {
-                        cur.setLeftChild(new BinaryTreeNode<T>(element));
+                        BinaryTreeNode<T> newNode = new BinaryTreeNode<>(element);
+                        cur.setLeftChild(newNode);
+                        newNode.setParent(cur);
                         break;
                     } else
-                        cur = (BinaryTreeNode<T>) cur.getLeftChild();
+                        cur = cur.getLeftChild();
                 }
                 else if (compare < 0) {
                     if (cur.getRightChild() == null) {
-                        cur.setRightChild(new BinaryTreeNode<T>(element));
+                        BinaryTreeNode<T> newNode = new BinaryTreeNode<>(element);
+                        cur.setRightChild(newNode);
+                        newNode.setParent(cur);
                         break;
                     } else
-                        cur = (BinaryTreeNode<T>) cur.getRightChild();
+                        cur = cur.getRightChild();
                 }
                 else
                     return;
@@ -148,9 +152,9 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
         while (cur != null) {
             int compare = cur.getData().compareTo(element);
             if (compare > 0)
-                cur = (BinaryTreeNode<T>) cur.getLeftChild();
+                cur = cur.getLeftChild();
             else if (compare < 0)
-                cur = (BinaryTreeNode<T>) cur.getRightChild();
+                cur = cur.getRightChild();
             else
                 return true;
         }

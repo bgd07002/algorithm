@@ -85,6 +85,7 @@ public class BitManipulation {
         return max;
     }
 
+
     private int maxOnes(String binaryInt) {
         ArrayList<Integer> onesList = new ArrayList();
 

@@ -3,9 +3,6 @@ package InterviewProblems.CrackingCodingInterview;
 import DataStructures.Trees.BinarySearchTrees;
 import DataStructures.Trees.BinaryTreeNode;
 import DataStructures.Trees.IBinarySearchTree;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
@@ -149,17 +146,19 @@ public class TreesAndGraphs<T extends Comparable<T>> {
      * in a binary tree.
      */
     public T firstCommonAncestor(BinarySearchTrees<T> bst, BinaryTreeNode<T> node1, BinaryTreeNode<T> node2) {
-
         BinaryTreeNode<T> cur1 = node1;
-        BinaryTreeNode<T> cur2 = node2;
+        BinaryTreeNode<T> cur2;
 
-        while (cur1 != null) {
-            while (cur2 != null) {
-                if (cur1 == node2) {
-
+        while (!cur1.equals(bst.getRoot())) {
+            cur2 = node2;
+            while (!cur2.equals(bst.getRoot())) {
+                if (cur1.equals(cur2)) {
+                    return cur1.getData();
                 }
+                cur2 = cur2.getParentNode();
             }
+            cur1 = cur1.getParentNode();
         }
-        return null;
+        return bst.getRoot().getData();
     }
 }

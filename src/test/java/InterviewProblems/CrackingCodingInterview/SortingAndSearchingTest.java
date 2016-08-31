@@ -58,4 +58,38 @@ public class SortingAndSearchingTest {
         isFound = s.sortedMatrixSearch(6, multi);
         Assert.assertEquals(false, isFound);
     }
+
+    @Test
+    public void groupAnagramsTest() {
+        SortingAndSearching s = new SortingAndSearching();
+        String[] inputStrs = new String[]{"hello", "abaci", "hakkinen", "ciaba", "raikonen", "olleh"};
+
+        String[] groupAnag = s.groupAnagrams(inputStrs);
+        String[] expectedArr = new String[] {"abaci", "ciaba", "hakkinen", "hello", "olleh", "raikonen"};
+
+        for (int i =0; i < expectedArr.length; i++) {
+            Assert.assertEquals(expectedArr[i], groupAnag[i]);
+        }
+    }
+
+    @Test
+    public void sparseSearchTest() {
+        SortingAndSearching s = new SortingAndSearching();
+        String[] inputArr  = new String[]{"at", "", "", "", "ball", "", "", "car", "", "", "dad", "", ""};
+
+        Assert.assertEquals(4, s.sparseSearch("ball", inputArr));
+        Assert.assertEquals(0, s.sparseSearch("at", inputArr));
+        Assert.assertEquals(10, s.sparseSearch("dad", inputArr));
+        Assert.assertEquals(-1, s.sparseSearch("son", inputArr));
+    }
+
+    @Test
+    public void rankOfNumberTest() {
+        SortingAndSearching s = new SortingAndSearching();
+        Integer[] inputStream = new Integer[]{5, 1, 4, 4, 5, 9, 7, 13, 3};
+
+        Assert.assertEquals(0, s.rankOfNumber(inputStream, 1));
+        Assert.assertEquals(1, s.rankOfNumber(inputStream, 3));
+        Assert.assertEquals(4, s.rankOfNumber(inputStream, 5));
+    }
 }

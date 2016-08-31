@@ -21,7 +21,7 @@ public class TreesAndGraphsTest {
      * 1     4  6   9
      */
     @Test
-    public void validateBSTTest() throws Exception {
+    public void validateBSTTest() {
 
         TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
         BinarySearchTrees<Integer> bst = new BinarySearchTrees<>();
@@ -41,7 +41,7 @@ public class TreesAndGraphsTest {
     }
 
     @Test
-    public void bstFromSortedArrayTest() throws Exception {
+    public void bstFromSortedArrayTest() {
         TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
         int[] inputArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
         IBinarySearchTree<Integer> bst = s.bstFromSortedArray(inputArr);
@@ -50,7 +50,7 @@ public class TreesAndGraphsTest {
     }
 
     @Test
-    public void listAtDepthTest() throws Exception {
+    public void listAtDepthTest() {
         TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
         BinarySearchTrees<Integer> bst = new BinarySearchTrees<>();
         bst.addElement(10);
@@ -74,7 +74,7 @@ public class TreesAndGraphsTest {
     }
 
     @Test
-    public void checkBalancedTest() throws Exception {
+    public void checkBalancedTest() {
         TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
         BinarySearchTrees<Integer> bst = new BinarySearchTrees<>();
         bst.addElement(10);
@@ -99,7 +99,7 @@ public class TreesAndGraphsTest {
     }
 
     @Test
-    public void findSuccessorTest() throws Exception {
+    public void findSuccessorTest() {
         TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
         BinarySearchTrees<Integer> bst = new BinarySearchTrees<>();
         bst.addElement(10);
@@ -123,5 +123,48 @@ public class TreesAndGraphsTest {
 
         Integer successor2 = s.findSuccessor(bst.getRoot().getRightChild().getRightChild());
         Assert.assertEquals(null, successor2);
+    }
+
+    /**
+     *                 10
+     *               /    \
+     *             /       \
+     *           /          \
+     *         5            20
+     *      /    \         /  \
+     *     3      7      14    21
+     *   /  \    / \
+     * 1     4  6   9
+     */
+    @Test
+    public void firstCommonAncestorTest() {
+        TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
+        BinarySearchTrees<Integer> bst = new BinarySearchTrees<>();
+        bst.addElement(10);
+        bst.addElement(5);
+        bst.addElement(20);
+        bst.addElement(3);
+        bst.addElement(7);
+        bst.addElement(14);
+        bst.addElement(21);
+        bst.addElement(1);
+        bst.addElement(4);
+        bst.addElement(6);
+        bst.addElement(9);
+        bst.addElement(4);
+
+        BinaryTreeNode<Integer> one = bst.getRoot().getLeftChild().getLeftChild().getLeftChild();
+        BinaryTreeNode<Integer> six = bst.getRoot().getLeftChild().getRightChild().getLeftChild();
+        BinaryTreeNode<Integer> seven = bst.getRoot().getLeftChild().getRightChild();
+        BinaryTreeNode<Integer> ten = bst.getRoot();
+
+        int commonAnc = s.firstCommonAncestor(bst, one, six);
+        Assert.assertEquals(5, commonAnc);
+
+        commonAnc = s.firstCommonAncestor(bst, one, seven);
+        Assert.assertEquals(5, commonAnc);
+
+        commonAnc = s.firstCommonAncestor(bst, one, ten);
+        Assert.assertEquals(10, commonAnc);
     }
 }

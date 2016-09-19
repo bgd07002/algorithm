@@ -2,7 +2,7 @@ package DataStructures.ListStackQueue;
 
 import java.util.Iterator;
 
-public class ListIterator<T> implements Iterator<T> {
+public class ListIterator<T extends Comparable<T>> implements Iterator<T> {
 
     private IList<T> list;
     private Node<T> cur;

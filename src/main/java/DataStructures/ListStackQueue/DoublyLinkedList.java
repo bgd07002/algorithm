@@ -1,6 +1,6 @@
 package DataStructures.ListStackQueue;
 
-public class DoublyLinkedList<T> extends IList<T>  {
+public class DoublyLinkedList<T extends Comparable<T>> extends IList<T>  {
 
     private DoublyLLNode<T> head;
     private DoublyLLNode<T> tail;

@@ -1,6 +1,6 @@
 package DataStructures.ListStackQueue;
 
-public abstract class IList<T> {
+public abstract class IList<T extends Comparable<T>> {
 
     public abstract void addFirst(T element);
     public abstract void addLast(T element);

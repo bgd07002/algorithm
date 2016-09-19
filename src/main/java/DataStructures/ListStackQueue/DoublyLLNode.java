@@ -1,6 +1,6 @@
 package DataStructures.ListStackQueue;
 
-public class DoublyLLNode<T> extends Node<T>{
+public class DoublyLLNode<T extends Comparable<T>> extends Node<T>{
 
     private DoublyLLNode prev;
 

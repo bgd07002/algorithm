@@ -1,7 +1,7 @@
 package DataStructures.ListStackQueue;
 
 
-public class SinglyLinkedList<T> extends IList<T>{
+public class SinglyLinkedList<T extends Comparable<T>> extends IList<T>{
 
     private Node<T> head;
     private int size;
@@ -96,5 +96,9 @@ public class SinglyLinkedList<T> extends IList<T>{
 
     public Node<T> getHead() {
         return head;
+    }
+
+    public void setHead(Node<T> head) {
+        this.head = head;
     }
 }

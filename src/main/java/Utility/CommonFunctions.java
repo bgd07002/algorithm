@@ -8,7 +8,7 @@ public class CommonFunctions {
     /**
      * This method loads the dictionary
      */
-    public static ArrayList<String> loadDictionary(String fileName) throws IOException {
+    public static ArrayList<String> loadDictionary(String fileName, String separator) throws IOException {
 
         ArrayList<String> outputList = new ArrayList<>();
         ClassLoader classLoader = CommonFunctions.class.getClassLoader();
@@ -16,7 +16,13 @@ public class CommonFunctions {
 
         try (Scanner scanner = new Scanner(file)) {
             while (scanner.hasNextLine()) {
-                outputList.add(scanner.nextLine());
+                if (separator == null)
+                    outputList.add(scanner.nextLine());
+                else {
+                    String[] sepText = scanner.nextLine().split(separator);
+                    for (String s : sepText)
+                        outputList.add(s);
+                }
             }
         }
         return outputList;

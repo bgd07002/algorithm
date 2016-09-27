@@ -3,6 +3,8 @@ package InterviewProblems.ElementsOfProgrammingInterviews;
 import org.junit.Assert;
 import org.testng.annotations.*;
 
+import java.util.PriorityQueue;
+
 public class PrimitiveTypesTest {
 
     @Test
@@ -18,9 +20,9 @@ public class PrimitiveTypesTest {
     @Test
     public void swapBitsTest() {
         PrimitiveTypes p = new PrimitiveTypes();
-        Assert.assertEquals(45L, p.swapBits(45, 2,3));
-        Assert.assertEquals(43L, p.swapBits(45, 1,2));
-        Assert.assertEquals(29L, p.swapBits(45, 4,5));
+        Assert.assertEquals(45, p.swapBits(45, 2,3));
+        Assert.assertEquals(43, p.swapBits(45, 1,2));
+        Assert.assertEquals(29, p.swapBits(45, 4,5));
     }
 
     @Test
@@ -43,5 +45,42 @@ public class PrimitiveTypesTest {
     public void closestIntegerSameWeightTest() {
         PrimitiveTypes p = new PrimitiveTypes();
         Assert.assertEquals(46, p.closestIntegerSameWeight(45));
+        Assert.assertEquals(16, p.closestIntegerSameWeight(32));
+        Assert.assertEquals(-1, p.closestIntegerSameWeight(0));
+    }
+
+    @Test
+    public void powerSetTest() {
+        PrimitiveTypes p = new PrimitiveTypes();
+        String expected = "0, A, B, AB, C, AC, BC, ABC";
+        Assert.assertEquals(expected, p.powerSet(new String[]{"A", "B", "C"}));
+    }
+
+    @Test
+    public void stringIntegerEncodingTest() {
+        PrimitiveTypes p = new PrimitiveTypes();
+        Assert.assertEquals(123, p.stringIntegerEncoding("123"));
+        Assert.assertEquals(-123, p.stringIntegerEncoding("-123"));
+        Assert.assertEquals(1000, p.stringIntegerEncoding("1000"));
+        Assert.assertEquals(-1, p.stringIntegerEncoding("123abc"));
+        Assert.assertEquals(0, p.stringIntegerEncoding("0"));
+    }
+
+    @Test
+    public void baseConversionTest() {
+        PrimitiveTypes p = new PrimitiveTypes();
+        int num = 347;
+        Assert.assertEquals("101011011", p.baseConversion(num, 2));
+        Assert.assertEquals("110212", p.baseConversion(num, 3));
+        Assert.assertEquals("533", p.baseConversion(num, 8));
+        Assert.assertEquals("347", p.baseConversion(num, 10));
+        Assert.assertEquals("15B", p.baseConversion(num, 16));
+
+        num = -347;
+        Assert.assertEquals("-101011011", p.baseConversion(num, 2));
+        Assert.assertEquals("-110212", p.baseConversion(num, 3));
+        Assert.assertEquals("-533", p.baseConversion(num, 8));
+        Assert.assertEquals("-347", p.baseConversion(num, 10));
+        Assert.assertEquals("-15B", p.baseConversion(num, 16));
     }
 }

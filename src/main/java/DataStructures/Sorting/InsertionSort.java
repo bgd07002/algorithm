@@ -1,4 +1,4 @@
-package Sorting;
+package DataStructures.Sorting;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,6 @@ public class InsertionSort<T extends Comparable<T>> implements ISorter<T> {
         if (collection == null || collection.size() < 2)
             return;
 
-        //Object[] colArr = collection.toArray();
         for (int i=1; i< collection.size(); i++) {
             for (int j = i; j > 0; j--) {
 

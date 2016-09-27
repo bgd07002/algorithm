@@ -40,6 +40,7 @@ public class LongestCommonSubsequence {
                 j--;
             }
         }
+
         return lcs.reverse().toString();
     }
 }

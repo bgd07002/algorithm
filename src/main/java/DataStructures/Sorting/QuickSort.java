@@ -1,4 +1,4 @@
-package Sorting;
+package DataStructures.Sorting;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class QuickSort<T extends Comparable<T>> implements ISorter<T>  {
 
     private void quickSort(ArrayList<T> collection, int start, int end) {
 
-        int curToBeReplaced =-1;
+        int curToBeReplaced = -1;
         if (start < end-1) {
             T pivot = collection.get(end);
             int cur1 = start;
@@ -39,6 +39,7 @@ public class QuickSort<T extends Comparable<T>> implements ISorter<T>  {
                     cur1++;
                 }
             }
+
             curToBeReplaced = (cur1 >= cur2)? cur1 : cur2;
             if (collection.get(curToBeReplaced).compareTo(collection.get(end)) > 0) {
                 T temp = collection.get(curToBeReplaced);

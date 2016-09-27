@@ -119,6 +119,7 @@ public class TreesAndGraphs<T extends Comparable<T>> {
      */
     public T findSuccessor(BinaryTreeNode<T> node) {
         if (node.getRightChild() != null)
+            //Bug
             return node.getRightChild().getData();
         else {
             BinaryTreeNode<T> cur = node;
@@ -176,6 +177,7 @@ public class TreesAndGraphs<T extends Comparable<T>> {
      *  Output: {2,1,3} and {2,3,1}
      */
     public ArrayList<ArrayList<Integer>> bstSequences(BinarySearchTrees<Integer> bst) {
+
         ArrayList<ArrayList<Integer>> listSeq = new ArrayList<>();
         if (bst.getSize() > 0) {
             ArrayList<Integer> aList = new ArrayList<>();

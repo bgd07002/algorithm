@@ -27,15 +27,22 @@ public class ArrayHeap<K extends Comparable<K>,D> implements IHeap {
     }
 
     @Override
-    public D getMin() {
-        return heapList.get(0).getValue();
+    public Entry<K,D> getMin() {
+        return heapList.get(0);
     }
 
     @Override
-    public D extractMin() {
-        D minElement = heapList.get(0).getValue();
-        heapList.set(0, heapList.remove(heapList.size()-1));
-        sink();
+    public Entry<K,D> extractMin() {
+        if (heapList.size() == 0)
+            return null;
+
+        Entry<K,D> minElement = heapList.get(0);
+        if (heapList.size() > 1) {
+            heapList.set(0, heapList.remove(heapList.size()-1));
+            sink();
+        } else
+            heapList.remove(0);
+
         return minElement;
     }
 

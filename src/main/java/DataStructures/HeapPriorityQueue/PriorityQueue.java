@@ -19,17 +19,17 @@ public class PriorityQueue<K,D> implements IPriorityQueue<K,D> {
     }
 
     @Override
-    public D extractMin() {
+    public Entry<K,D> extractMin() {
         return heap.extractMin();
     }
 
     @Override
     public void insert(K key, D data) {
-        heap.insert(new Entry<K,D>(key,data));
+        heap.insert(new Entry<>(key,data));
     }
 
     @Override
-    public D getMin() {
+    public Entry<K,D> getMin() {
         return heap.getMin();
     }
 }

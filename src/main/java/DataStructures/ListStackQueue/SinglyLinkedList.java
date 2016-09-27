@@ -13,7 +13,7 @@ public class SinglyLinkedList<T extends Comparable<T>> extends IList<T>{
 
     public void addFirst(T element) {
         if (size == 0) {
-            head = new Node<T>(element, null);
+            head = new Node<>(element, null);
         } else {
             head = new Node(element, head);
         }
@@ -21,7 +21,7 @@ public class SinglyLinkedList<T extends Comparable<T>> extends IList<T>{
     }
     public void addLast(T element) {
         if (size == 0) {
-            head = new Node<T>(element, null);
+            head = new Node<>(element, null);
         } else {
             Node<T> cur = head;
 

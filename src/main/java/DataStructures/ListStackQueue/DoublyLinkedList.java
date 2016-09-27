@@ -12,10 +12,10 @@ public class DoublyLinkedList<T extends Comparable<T>> extends IList<T>  {
 
     public void addFirst(T element) {
         if (isEmpty())
-            head = tail = new DoublyLLNode<T>(null, null, element);
+            head = tail = new DoublyLLNode<>(null, null, element);
         else {
             DoublyLLNode<T> temp = head;
-            DoublyLLNode<T> newNode = new DoublyLLNode<T>(temp, null, element);
+            DoublyLLNode<T> newNode = new DoublyLLNode<>(temp, null, element);
             temp.setPrev(newNode);
             head= newNode;
         }
@@ -24,9 +24,9 @@ public class DoublyLinkedList<T extends Comparable<T>> extends IList<T>  {
 
     public void addLast(T element) {
         if (isEmpty())
-            head = tail = new DoublyLLNode<T>(null, null, element);
+            head = tail = new DoublyLLNode<>(null, null, element);
         else {
-            DoublyLLNode<T> newNode = new DoublyLLNode<T>(null, tail, element);
+            DoublyLLNode<T> newNode = new DoublyLLNode<>(null, tail, element);
             DoublyLLNode<T> temp = tail;
             temp.setNext(newNode);
             tail = newNode;

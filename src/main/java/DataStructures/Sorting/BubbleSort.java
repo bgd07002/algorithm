@@ -1,10 +1,7 @@
-package Sorting;
+package DataStructures.Sorting;
 
 import java.util.ArrayList;
 
-/**
- * Created by bdundar on 6/15/2016.
- */
 public class BubbleSort<T extends Comparable<T>> implements ISorter<T>  {
 
     public void sortList(ArrayList<T> collection) {

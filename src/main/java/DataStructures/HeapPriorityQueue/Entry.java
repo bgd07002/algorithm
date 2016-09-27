@@ -5,19 +5,10 @@ public class Entry<K,D> {
 
     private K key;
     private D value;
-    private int index;
 
     public Entry(K key, D value) {
         this.key = key;
         this.value = value;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public K getKey() {

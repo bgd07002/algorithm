@@ -12,7 +12,7 @@ public class SeparateChainingHashTable<K,T> implements IMap<K,T> {
 
     private ArrayList<List<Entry<K,T>>> bucketList;
     private int size;
-    private final static int LOAD_FACTOR = 5; //prime number
+    private final static int LOAD_FACTOR = 5;
 
     public SeparateChainingHashTable() {
         bucketList = new ArrayList<>();
@@ -37,7 +37,6 @@ public class SeparateChainingHashTable<K,T> implements IMap<K,T> {
             bucketList.add(new LinkedList<>());
             idx++;
         }
-
         return bucketList.get(bucketNumber);
     }
 

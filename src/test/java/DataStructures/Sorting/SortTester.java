@@ -1,4 +1,4 @@
-package Sorting;
+package DataStructures.Sorting;
 
 import org.junit.Assert;
 import org.testng.annotations.Test;

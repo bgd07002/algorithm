@@ -14,7 +14,7 @@ public abstract class IList<T extends Comparable<T>> {
 
     public void printElements() {
         StringBuilder sb = new StringBuilder("[");
-        ListIterator<T> it = new ListIterator<T>(this);
+        ListIterator<T> it = new ListIterator<>(this);
         while (it.hasNext()) {
             sb.append(it.next().toString());
             if (it.hasNext())

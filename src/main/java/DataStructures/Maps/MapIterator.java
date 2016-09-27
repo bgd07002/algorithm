@@ -26,9 +26,7 @@ public class MapIterator<K,T> implements Iterator<Entry<K,T>> {
 
     @Override
     public boolean hasNext() {
-        return (listIdx < bucketList.size() &&
-                //bucketList.get(listIdx)!= null &&
-                bucketList.get(listIdx).get(bucketIdx) != null);
+        return (listIdx < bucketList.size() && bucketList.get(listIdx).get(bucketIdx) != null);
     }
 
     @Override

@@ -4,7 +4,7 @@ public interface IPriorityQueue<K,D> {
 
     int getSize();
     boolean isEmpty();
-    D extractMin();
+    Entry<K,D> extractMin();
     void insert(K key,D data);
-    D getMin();
+    Entry<K,D> getMin();
 }

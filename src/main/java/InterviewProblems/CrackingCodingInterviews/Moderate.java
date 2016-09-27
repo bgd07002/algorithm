@@ -22,7 +22,7 @@ public class Moderate {
         //To specifically split on white space and the apostrophe
         //String[] tokens = text.split("[\\s']");
 
-        //Or to split on any non word character
+        //Or to split on any word character
         String[] tokens = text.split("[\\W]");
 
         int freq = 0;

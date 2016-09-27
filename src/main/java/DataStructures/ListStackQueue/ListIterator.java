@@ -9,7 +9,7 @@ public class ListIterator<T extends Comparable<T>> implements Iterator<T> {
 
     public ListIterator(IList<T> list) {
         this.list = list;
-        this.cur = list.getHead();
+        this.cur = this.list.getHead();
     }
 
     public boolean hasNext() {

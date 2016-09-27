@@ -23,19 +23,19 @@ public class HeapPriorityQueueTest {
         heap.insert(new Entry<>(1, "Bir"));
         Assert.assertEquals("1, 14, 5, 30, 50, 7, 20, 35, 36, 60, 70, 10, ", heap.printHeap());
         Assert.assertEquals(12, heap.getSize());
-        Assert.assertEquals("Bir", heap.extractMin());
+        Assert.assertEquals("Bir", heap.extractMin().getValue());
         Assert.assertEquals("5, 14, 7, 30, 50, 10, 20, 35, 36, 60, 70, ", heap.printHeap());
 
-        Assert.assertEquals("Bes", heap.extractMin());
+        Assert.assertEquals("Bes", heap.extractMin().getValue());
         Assert.assertEquals("7, 14, 10, 30, 50, 70, 20, 35, 36, 60, ", heap.printHeap());
 
-        Assert.assertEquals("Yedi", heap.extractMin());
+        Assert.assertEquals("Yedi", heap.extractMin().getValue());
         Assert.assertEquals("10, 14, 20, 30, 50, 70, 60, 35, 36, ", heap.printHeap());
 
-        Assert.assertEquals("On", heap.extractMin());
+        Assert.assertEquals("On", heap.extractMin().getValue());
         Assert.assertEquals("14, 30, 20, 35, 50, 70, 60, 36, ", heap.printHeap());
 
-        Assert.assertEquals("On dort", heap.extractMin());
+        Assert.assertEquals("On dort", heap.extractMin().getValue());
         Assert.assertEquals("20, 30, 36, 35, 50, 70, 60, ", heap.printHeap());
 
         Assert.assertEquals(7, heap.getSize());

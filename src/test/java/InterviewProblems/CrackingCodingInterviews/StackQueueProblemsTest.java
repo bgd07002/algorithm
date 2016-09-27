@@ -1,11 +1,8 @@
 package InterviewProblems.CrackingCodingInterviews;
 
-import InterviewProblems.CrackingCodingInterviews.StackQueueProblems;
+import InterviewProblems.CrackingCodingInterviews.StackQueueProblems.*;
 import org.junit.Assert;
 import org.testng.annotations.Test;
-import InterviewProblems.CrackingCodingInterviews.StackQueueProblems.StackWithThreeArrays;
-import InterviewProblems.CrackingCodingInterviews.StackQueueProblems.StackWithMin;
-import InterviewProblems.CrackingCodingInterviews.StackQueueProblems.QueueWithTwoStacks;
 
 import java.util.Stack;
 

@@ -8,7 +8,6 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
     public String preOrderTraversal() {
         return printPreOrder(root).toString();
     }
-
     private StringBuilder printPreOrder(BinaryTreeNode<T> node) {
         StringBuilder sb = new StringBuilder();
         sb.append(node.getData().toString()).append(", ");
@@ -62,7 +61,7 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
         return !isExternal(node);
     }
     public boolean isExternal(BinaryTreeNode<T> node) {
-        return (node.getRightChild() == null || node.getLeftChild() == null);
+        return (node.getRightChild() == null && node.getLeftChild() == null);
     }
 
     public T minElement() {
@@ -114,34 +113,36 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
     public void addElement(T element) {
         if (root == null) {
             root = new BinaryTreeNode<>(element);
-        } else {
-            BinaryTreeNode<T> cur = root;
-
-            while (cur != null) {
-                int compare = cur.getData().compareTo(element);
-                if (compare > 0) {
-                    if (cur.getLeftChild() == null) {
-                        BinaryTreeNode<T> newNode = new BinaryTreeNode<>(element);
-                        cur.setLeftChild(newNode);
-                        newNode.setParent(cur);
-                        break;
-                    } else
-                        cur = cur.getLeftChild();
-                }
-                else if (compare < 0) {
-                    if (cur.getRightChild() == null) {
-                        BinaryTreeNode<T> newNode = new BinaryTreeNode<>(element);
-                        cur.setRightChild(newNode);
-                        newNode.setParent(cur);
-                        break;
-                    } else
-                        cur = cur.getRightChild();
-                }
-                else
-                    return;
-            }
+            size++;
+            return;
         }
-        size++;
+
+        BinaryTreeNode<T> cur = root;
+        while (cur != null) {
+            int compare = cur.getData().compareTo(element);
+            if (compare > 0) {
+                if (cur.getLeftChild() == null) {
+                    BinaryTreeNode<T> newNode = new BinaryTreeNode<>(element);
+                    cur.setLeftChild(newNode);
+                    newNode.setParent(cur);
+                    size++;
+                    break;
+                } else
+                    cur = cur.getLeftChild();
+            }
+            else if (compare < 0) {
+                if (cur.getRightChild() == null) {
+                    BinaryTreeNode<T> newNode = new BinaryTreeNode<>(element);
+                    cur.setRightChild(newNode);
+                    newNode.setParent(cur);
+                    size++;
+                    break;
+                } else
+                    cur = cur.getRightChild();
+            }
+            else
+                return;
+        }
     }
 
     public boolean findElement(T element) {

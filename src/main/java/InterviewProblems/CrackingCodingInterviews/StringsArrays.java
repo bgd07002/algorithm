@@ -159,7 +159,7 @@ public class StringsArrays {
         int arrLength = matrix.length;
 
         for (int sum=0; sum< 2*(arrLength-1); sum++) {
-            int j = -1;
+            int j;
             for (int i=0; i <= sum; i++) {
                 if (i < arrLength && sum-i< arrLength && i < sum-i) {
                     j = sum-i;
@@ -229,14 +229,4 @@ public class StringsArrays {
 
         return false;
     }
-
-    public static void main(String[] args)
-    {
-        StringsArrays sa = new StringsArrays();
-        boolean b = sa.isAnagram("abcde", "edcba");
-        boolean b1 = sa.isAnagram("abcde", "cdeaaf");
-        System.out.println("Result1:" + b);
-        System.out.println("Result2:" + b1);
-    }
-
 }

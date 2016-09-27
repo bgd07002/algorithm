@@ -1,5 +1,9 @@
 package InterviewProblems.ElementsOfProgrammingInterviews;
 
+import com.sun.xml.internal.ws.api.streaming.XMLStreamWriterFactory;
+
+import java.util.ArrayList;
+
 public class PrimitiveTypes {
 
     /**
@@ -140,20 +144,89 @@ public class PrimitiveTypes {
      * 5.8 Spreadsheet Column Encoding: Convert id into A, B,...,Z, AA, AB,..., AZ,..., ZZ ,AAA, AAB,...
      */
     public String spreadsheetEncoding(int id) {
+        StringBuilder sbEncoding = new StringBuilder();
         char[] alphabetEnc = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
         int alphabetSize = alphabetEnc.length;
 
-        /**
-         * 0-5
-         * 6-30
-         * 31-155
-         */
-        int encodingLength = 0;
-        while () {
+        if (id < alphabetSize)
+            return sbEncoding.append(alphabetEnc[id % alphabetSize]).toString();
 
+        //First loop is for determining the encoding length
+        int encodingLength = 1;
+        while (id > 0) {
+            id -= Math.pow(alphabetSize, encodingLength);
             encodingLength++;
         }
 
-        return null;
+        id += Math.pow(alphabetSize, --encodingLength)+1;
+        while(id > 0 || encodingLength >0) {
+            sbEncoding.append(alphabetEnc[id % alphabetSize]);
+            id /= alphabetSize;
+            encodingLength--;
+        }
+
+        return sbEncoding.reverse().toString();
+    }
+
+    /**
+     * 5.9 Elias Gamma Encoding
+     *      1.) Write n in binary to form a string b
+     *      2.) Subtract 1 from string length and add that many zeros to the front
+     *      Example: 13 -> 1101 -> Encoding -> 0001101
+     */
+    public String eliasGammaEncoding(int[] numbers) {
+        StringBuilder sb = new StringBuilder();
+        StringBuilder temp;
+
+        for (int aNumber : numbers) {
+            temp = new StringBuilder();
+            while (aNumber > 0) {
+                temp.append(aNumber%2);
+                aNumber /=2;
+            }
+
+            int zerosPrefix = temp.length()-1;
+            while(zerosPrefix > 0) {
+                temp.append("0");
+                zerosPrefix--;
+            }
+            sb.append(temp.reverse());
+        }
+        return sb.toString();
+    }
+
+    public int[] eliasGammaDecoding(String encoding) {
+        if (!encoding.matches("[01]+"))
+            throw new IllegalArgumentException("Non-binary character on file or input contents");
+
+        ArrayList<Integer> numberCol = new ArrayList<>();
+        int countZeros = 0;
+        boolean zeroSection = true;
+        int number =0;
+        for (char c : encoding.toCharArray()) {
+            //if we are processing zeros
+            if (c == '0' && zeroSection)
+                countZeros++;
+
+            if (c == '1' && zeroSection) {
+                countZeros++;
+                zeroSection = false;
+                number = 1;
+                countZeros--;
+            } else if (!zeroSection && countZeros > 0) {
+                number = (int)c - 48 + (number << 1);
+                countZeros--;
+            } else if (!zeroSection && countZeros == 0) {
+                numberCol.add(number);
+                zeroSection = true;
+                number = 0;
+                countZeros++;
+            }
+        }
+        if (number > 0)
+            numberCol.add(number);
+
+        int[] arr = numberCol.stream().mapToInt(i -> i).toArray();
+        return arr;
     }
 }

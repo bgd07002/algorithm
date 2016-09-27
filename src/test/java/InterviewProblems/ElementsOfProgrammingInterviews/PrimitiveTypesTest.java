@@ -83,4 +83,24 @@ public class PrimitiveTypesTest {
         Assert.assertEquals("-347", p.baseConversion(num, 10));
         Assert.assertEquals("-15B", p.baseConversion(num, 16));
     }
+
+    @Test
+    public void spreadsheetEncodingTest() {
+        PrimitiveTypes p = new PrimitiveTypes();
+        Assert.assertEquals("ABC", p.spreadsheetEncoding(729));
+        Assert.assertEquals("CE", p.spreadsheetEncoding(81));
+        Assert.assertEquals("Y", p.spreadsheetEncoding(24));
+    }
+
+    @Test
+    public void eliasGammaEncodingTest() {
+        PrimitiveTypes p = new PrimitiveTypes();
+        Assert.assertEquals("00011010011100101", p.eliasGammaEncoding(new int[] {13,7,5}));
+        Assert.assertEquals("000110100101", p.eliasGammaEncoding(new int[] {13,0,5}));
+
+        int[] decodedArr = p.eliasGammaDecoding("00011010011100101");
+        Assert.assertEquals(13, decodedArr[0]);
+        Assert.assertEquals(7, decodedArr[1]);
+        Assert.assertEquals(5, decodedArr[2]);
+    }
 }

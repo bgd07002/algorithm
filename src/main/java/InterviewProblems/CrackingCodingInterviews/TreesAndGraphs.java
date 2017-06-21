@@ -93,20 +93,20 @@ public class TreesAndGraphs<T extends Comparable<T>> {
         if (inputTree.getSize() < 2)
             return true;
 
-        return validateBSTHelper(inputTree, inputTree.getRoot());
+        return validateBSTHelper(inputTree.getRoot());
     }
 
-    private boolean validateBSTHelper(BinarySearchTrees<T> inputTree, BinaryTreeNode<T> subRoot) {
+    private boolean validateBSTHelper(BinaryTreeNode<T> subRoot) {
         if (subRoot.getRightChild() != null) {
             if (subRoot.getData().compareTo(subRoot.getRightChild().getData()) <= 0)
-                validateBSTHelper(inputTree, subRoot.getRightChild());
+                validateBSTHelper(subRoot.getRightChild());
             else
                 return false;
         }
 
         if (subRoot.getLeftChild() != null) {
             if (subRoot.getData().compareTo(subRoot.getLeftChild().getData()) >= 0)
-                validateBSTHelper(inputTree, subRoot.getLeftChild());
+                validateBSTHelper(subRoot.getLeftChild());
             else
                 return false;
         }
@@ -232,9 +232,7 @@ public class TreesAndGraphs<T extends Comparable<T>> {
         if (curT1 == null && curT2 == null)
             return true;
 
-        if ((curT1 != null && curT2 == null) ||
-                (curT1 == null && curT2 != null) ||
-                !curT1.getData().equals(curT2.getData()))
+        if ((curT1 != null && curT2 == null) || (curT1 == null && curT2 != null) || !curT1.getData().equals(curT2.getData()))
             return false;
 
         return checkSubtreeHelper(curT1.getLeftChild(), curT2.getLeftChild()) &&

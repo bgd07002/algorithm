@@ -3,11 +3,13 @@ package DataStructures.ListStackQueue;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Iterator;
+
 public class StackQueueListTest {
 
     @Test
-    public void stackPushandPop() throws Exception {
-        IStack<Integer> sa = new Stack<Integer>(3);
+    public void stackPushandPopArrayImp() throws Exception {
+        IStack<Integer> sa = new StackArrayImp<Integer>(3);
         Assert.assertTrue(sa.isEmpty());
         sa.push(3);
         sa.push(4);
@@ -24,11 +26,46 @@ public class StackQueueListTest {
         sa.push(4);
         poppedEl = sa.pop();
         Assert.assertTrue(poppedEl == 4);
+
+        Iterator itr = sa.iterator();
+        StringBuilder sb = new StringBuilder();
+        while(itr.hasNext()) {
+            sb.append(itr.next()).append(", ");
+        }
+        Assert.assertTrue(sb.toString().equals("3, 2, 1, "));
     }
 
     @Test
-    public void deQueueEnqueueTest() throws Exception {
-        IQueue<Integer> sa = new CustomQueue<Integer>();
+    public void stackPushandPopListImp() throws Exception {
+        IStack<Integer> sa = new StackListImp<>();
+        Assert.assertTrue(sa.isEmpty());
+        sa.push(3);
+        sa.push(4);
+        int poppedEl = sa.pop();
+        Assert.assertTrue(poppedEl == 4);
+        Assert.assertTrue(sa.size()== 1);
+        poppedEl = sa.pop();
+        Assert.assertTrue(poppedEl == 3);
+        Assert.assertTrue(sa.pop() == null);
+
+        sa.push(1);
+        sa.push(2);
+        sa.push(3);
+        sa.push(4);
+        poppedEl = sa.pop();
+        Assert.assertTrue(poppedEl == 4);
+
+        Iterator itr = sa.iterator();
+        StringBuilder sb = new StringBuilder();
+        while(itr.hasNext()) {
+            sb.append(itr.next()).append(", ");
+        }
+        Assert.assertTrue(sb.toString().equals("3, 2, 1, "));
+    }
+
+    @Test
+    public void deQueueEnqueueListImpTest() throws Exception {
+        IQueue<Integer> sa = new QueueListImp<Integer>();
         Assert.assertTrue(sa.isEmpty());
         sa.enqueue(3);
         sa.enqueue(4);
@@ -46,6 +83,40 @@ public class StackQueueListTest {
         dequeuedEl = sa.dequeue();
         Assert.assertTrue(dequeuedEl == 1);
 
+        Iterator itr = sa.iterator();
+        StringBuilder sb = new StringBuilder();
+        while(itr.hasNext()) {
+            sb.append(itr.next()).append(", ");
+        }
+        Assert.assertTrue(sb.toString().equals("2, 3, 4, "));
+    }
+
+    @Test
+    public void deQueueEnqueueArrImpTest() throws Exception {
+        IQueue<Integer> sa = new QueueArrayImp<>(3);
+        Assert.assertTrue(sa.isEmpty());
+        sa.enqueue(3);
+        sa.enqueue(4);
+        int dequeuedEl = sa.dequeue();
+        Assert.assertTrue(dequeuedEl == 3);
+        Assert.assertTrue(sa.size()== 1);
+        dequeuedEl = sa.dequeue();
+        Assert.assertTrue(dequeuedEl == 4);
+        Assert.assertTrue(sa.dequeue() == null);
+
+        sa.enqueue(1);
+        sa.enqueue(2);
+        sa.enqueue(3);
+        sa.enqueue(4);
+        dequeuedEl = sa.dequeue();
+        Assert.assertTrue(dequeuedEl == 1);
+
+        Iterator itr = sa.iterator();
+        StringBuilder sb = new StringBuilder();
+        while(itr.hasNext()) {
+            sb.append(itr.next()).append(", ");
+        }
+        Assert.assertTrue(sb.toString().equals("2, 3, 4, "));
     }
 
     private void listTestHelper(IList<Integer> sa) {
@@ -68,6 +139,10 @@ public class StackQueueListTest {
         sa.printElements();
         sa.remove(3);
         Assert.assertTrue(sa.size() == 3);
+        sa.remove(1);
+        Assert.assertTrue(sa.size() == 2);
+        sa.remove(4);
+        Assert.assertTrue(sa.size() == 1);
     }
 
     @Test

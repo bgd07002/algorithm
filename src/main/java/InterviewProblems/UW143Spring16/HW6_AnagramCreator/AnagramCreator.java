@@ -72,10 +72,8 @@ public class AnagramCreator {
             if (isWordExist)
 
             //Now search words from reduceWordSet
-
             generateMaxAnagramCoreSet(anagramList, filteredReducedWordSet, listRawPhase);
         }
-
         return null;
     }
 

@@ -1,6 +1,8 @@
 package AdvancedAlgorithms.DynamicProgramming;
 
 import org.junit.Assert;
+import org.testng.TestListenerAdapter;
+import org.testng.TestNG;
 import org.testng.annotations.Test;
 
 public class DynamicProgrammingTest {
@@ -18,5 +20,14 @@ public class DynamicProgrammingTest {
         str2 = "GXTXAYB";
         lcs = s.longestCommonSubSeq(str1, str2);
         Assert.assertEquals("GTAB", lcs);
+
+        /*
+        TestListenerAdapter tla = new TestListenerAdapter();
+        TestNG testng = new TestNG();
+        testng.
+        testng.setTestClasses(new Class[] { Run2.class });
+        testng.addListener(tla);
+        testng.run();
+        */
     }
 }

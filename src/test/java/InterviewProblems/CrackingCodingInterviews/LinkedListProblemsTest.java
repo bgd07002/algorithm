@@ -117,5 +117,8 @@ public class LinkedListProblemsTest {
 
         Node<Integer> commonNode = llP.findIntersectingNode(list1, list2);
         Assert.assertEquals(3, (int)commonNode.getValue());
+
+        //List 2: 10 -> 9 -> 8 -> 7 -> 6 -> 3 -> 4 -> 5
+        //List 1:                 1 -> 2 -> 3 -> 4 -> 5
     }
 }

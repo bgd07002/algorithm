@@ -3,7 +3,7 @@ package InterviewProblems.CrackingCodingInterviews;
 import org.junit.Assert;
 import org.testng.annotations.*;
 
-public class stringsArraysTest {
+public class StringsArraysTest {
 
     @Test
     public void stringDuplicateChar() throws Exception {
@@ -16,17 +16,23 @@ public class stringsArraysTest {
     }
 
     @Test
-    public void stringReverseEven() throws Exception {
+    public void stringReverse() throws Exception {
         StringsArrays sa = new StringsArrays();
         String s = sa.reverseString("abcd");
         Assert.assertEquals("dcba",s);
 
         s = sa.reverseString("abcde");
         Assert.assertEquals("edcba", s);
+
+        s = sa.reverseString("a");
+        Assert.assertEquals("a", s);
+
+        s = sa.reverseString("");
+        Assert.assertEquals("", s);
     }
 
     @Test
-    public void stringAnagramPositive() throws Exception {
+    public void stringAnagram() throws Exception {
         StringsArrays sa = new StringsArrays();
         boolean b = sa.isAnagram("abcde", "edcba");
         Assert.assertTrue("Two strings are not anagram. Positive case fails.", b);
@@ -56,16 +62,28 @@ public class stringsArraysTest {
 
         b = sa.isEditByOneChar("pale", "bake");
         Assert.assertEquals(false, b);
+
+        b = sa.isEditByOneChar("anagram", "naagmar");
+        Assert.assertEquals(false, b);
     }
 
     @Test
-    public void stringGoodCompression() throws Exception {
+    public void stringCompression() throws Exception {
         StringsArrays sa = new StringsArrays();
         String s = sa.stringCompression("aabcccccaaa");
         Assert.assertEquals("a2b1c5a3", s);
 
         s = sa.stringCompression("abcde");
         Assert.assertEquals("abcde", s);
+
+        s = sa.stringCompression("aaaaaa");
+        Assert.assertEquals("a6", s);
+
+        s = sa.stringCompression("a");
+        Assert.assertEquals("a", s);
+
+        s = sa.stringCompression("");
+        Assert.assertEquals("", s);
     }
 
     @Test

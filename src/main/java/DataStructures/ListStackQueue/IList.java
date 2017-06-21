@@ -8,11 +8,11 @@ public abstract class IList<T extends Comparable<T>> {
     public abstract T removeLast();
     public abstract void remove(T objValue);
     public abstract int size();
-    abstract Node<T> getHead();
+    public abstract Node<T> getHead();
 
     public boolean isEmpty() { return this.size() == 0; }
 
-    public void printElements() {
+    public String printElements() {
         StringBuilder sb = new StringBuilder("[");
         ListIterator<T> it = new ListIterator<>(this);
         while (it.hasNext()) {
@@ -21,6 +21,6 @@ public abstract class IList<T extends Comparable<T>> {
                 sb.append(", ");
         }
         sb.append("]");
-        System.out.println(sb.toString());
+        return sb.toString();
     }
 }

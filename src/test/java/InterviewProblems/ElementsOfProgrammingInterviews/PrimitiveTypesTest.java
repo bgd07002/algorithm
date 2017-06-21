@@ -3,8 +3,6 @@ package InterviewProblems.ElementsOfProgrammingInterviews;
 import org.junit.Assert;
 import org.testng.annotations.*;
 
-import java.util.PriorityQueue;
-
 public class PrimitiveTypesTest {
 
     @Test
@@ -102,5 +100,30 @@ public class PrimitiveTypesTest {
         Assert.assertEquals(13, decodedArr[0]);
         Assert.assertEquals(7, decodedArr[1]);
         Assert.assertEquals(5, decodedArr[2]);
+    }
+
+    @Test
+    public void isIntegerPalindromeTest() {
+        PrimitiveTypes p = new PrimitiveTypes();
+        Assert.assertEquals(true, p.isIntegerPalindrome(123321));
+        Assert.assertEquals(true, p.isIntegerPalindrome(12344321));
+        Assert.assertEquals(false, p.isIntegerPalindrome(12345321));
+    }
+
+    @Test
+    public void rectangeIntersectionTest() {
+        PrimitiveTypes p = new PrimitiveTypes();
+        PrimitiveTypes.Rectangle r1 = p.new Rectangle(1,1,3,4);
+        PrimitiveTypes.Rectangle r2 = p.new Rectangle(3,4,5,6);
+
+        PrimitiveTypes.Rectangle res = p.rectangeIntersection(r1,r2);
+        Assert.assertEquals(true, res!=null);
+        Assert.assertEquals(3, res.getX());
+        Assert.assertEquals(4, res.getY());
+        Assert.assertEquals(1, res.getWidth());
+        Assert.assertEquals(1, res.getHeight());
+
+        PrimitiveTypes.Rectangle r3 = p.new Rectangle(4,5,3,3);
+        Assert.assertEquals(true, p.rectangeIntersection(r1,r3) == null);
     }
 }

@@ -1,11 +1,13 @@
 package InterviewProblems.CrackingCodingInterviews;
 
-import DataStructures.ListStackQueue.CustomQueue;
+import DataStructures.ListStackQueue.QueueListImp;
 import DataStructures.ListStackQueue.IQueue;
 import DataStructures.ListStackQueue.IStack;
-import DataStructures.ListStackQueue.Stack;
+import DataStructures.ListStackQueue.StackArrayImp;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class StackQueueProblems<T extends Comparable<T>> {
 
@@ -14,38 +16,44 @@ public class StackQueueProblems<T extends Comparable<T>> {
      */
     public class StackWithThreeArrays<T>{
 
-        T[] stackArray;
-        int[] stackPointer;
+        T[] stackArr;
+        int[] stackPointers;
         int stackSize;
 
         public StackWithThreeArrays(int stackSize) {
             this.stackSize = stackSize;
-            stackArray = (T[])new Object[stackSize * 3];
-            stackPointer = new int[]{0,0,0};
+            stackArr = (T[])new Object[stackSize*3];
+            stackPointers = new int[3];
         }
 
         public void push(int stackNum, T element) {
-            int idx = stackNum * stackSize + stackPointer[stackNum];
-            stackArray[idx] = element;
-            stackPointer[stackNum]++;
+            //Check if full
+            if (stackPointers[stackNum] == stackSize) {
+                T[] stackArrExpanded = (T[]) new Object[stackSize*3];
+                System.arraycopy(stackArr, 0, stackArrExpanded, 0, stackSize);
+                System.arraycopy(stackArr, stackSize, stackArrExpanded, 2*stackSize, stackSize);
+                System.arraycopy(stackArr, 2*stackSize, stackArrExpanded, 4*stackSize, stackSize);
+                stackSize *=2;
+                stackArr = stackArrExpanded;
+            }
+
+            stackArr[stackNum*stackSize+ stackPointers[stackNum]] = element;
+            stackPointers[stackNum]++;
         }
 
         public T pop(int stackNum) {
-            if (stackPointer[stackNum] == 0)
-                return null;
+            if (stackPointers[stackNum] > 0)
+                return stackArr[stackSize*stackNum + stackPointers[stackNum]-1];
 
-            int idx = stackNum * stackSize + stackPointer[stackNum];
-            T element = stackArray[--idx];
-            stackPointer[stackNum]--;
-            return element;
+            return null;
         }
 
         public int size(int stackNum) {
-            return stackPointer[stackNum];
+            return stackPointers[stackNum];
         }
 
         public boolean isEmpty(int stackNum) {
-            return stackPointer[stackNum] == 0;
+            return stackPointers[stackNum]==0;
         }
     }
 
@@ -56,24 +64,21 @@ public class StackQueueProblems<T extends Comparable<T>> {
     public class StackWithMin<T extends Comparable<T>> {
 
         T min;
-        private ArrayList<T> underlyingArray;
+        List<T> underlyingList;
 
         public StackWithMin() {
-            underlyingArray = new ArrayList<>();
-            min = null;
-        }
-
-        public T getMin() {
-            return min;
+            underlyingList = new ArrayList<>();
         }
 
         public void push(T element) {
-            if (min == null)
+            underlyingList.add(element);
+
+            if (size() == 1) {
                 min = element;
+                return;
+            }
 
-            underlyingArray.add(element);
-
-            if (min.compareTo(element) > 0)
+            if (element.compareTo(min) < 0)
                 min = element;
         }
 
@@ -81,24 +86,22 @@ public class StackQueueProblems<T extends Comparable<T>> {
             if (isEmpty())
                 return null;
 
-            if (min == underlyingArray.get(underlyingArray.size()-1)) {
-                T newMin = underlyingArray.get(0);
-                for (int i=1; i < underlyingArray.size()-1; i++) {
-                    if (newMin.compareTo(underlyingArray.get(i)) > 0)
-                        newMin = underlyingArray.get(i);
+            T element = underlyingList.remove(underlyingList.size()-1);
+            if (element.equals(min) && !isEmpty()) {
+                min = underlyingList.get(0);
+                for (int i=1; i < underlyingList.size(); i++) {
+                    if (min.compareTo(underlyingList.get(i)) > 0)
+                        min = underlyingList.get(i);
                 }
-                min = newMin;
             }
-            return underlyingArray.remove(underlyingArray.size()-1);
+            return element;
         }
 
-        public int size() {
-            return underlyingArray.size();
-        }
+        public T getMin() { return min; }
 
-        public boolean isEmpty() {
-            return underlyingArray.isEmpty();
-        }
+        public int size() { return underlyingList.size(); }
+
+        public boolean isEmpty() { return underlyingList.isEmpty(); }
     }
 
     /**
@@ -107,49 +110,51 @@ public class StackQueueProblems<T extends Comparable<T>> {
     public class SetOfStacks<T> implements IStack<T> {
 
         private int threshold;
-        private ArrayList<Stack> listOfStack;
+        private List<StackArrayImp> listOfStack;
 
         public SetOfStacks(int threshold) {
             this.threshold = threshold;
             listOfStack = new ArrayList<>();
+            listOfStack.add(new StackArrayImp());
         }
 
         @Override
         public void push(T element) {
-            if (listOfStack.isEmpty() || listOfStack.get(listOfStack.size()-1).size() == threshold) {
-                Stack<T> newStack = new Stack<>();
-                newStack.push(element);
-                listOfStack.add(newStack);
-            } else {
-                listOfStack.get(listOfStack.size()-1).push(element);
-            }
+            if (listOfStack.get(listOfStack.size()-1).size() == threshold)
+                listOfStack.add(new StackArrayImp());
+
+            listOfStack.get(listOfStack.size()-1).push(element);
         }
 
         @Override
         public T pop() {
-            if (listOfStack.isEmpty())
+            if (listOfStack.get(0).isEmpty())
                 return null;
 
-            Stack<T> lastStack = listOfStack.get(listOfStack.size()-1);
-            T removedElement = (T)lastStack.pop();
-            if (lastStack.isEmpty())
-                listOfStack.remove(lastStack);
+            T temp = (T) listOfStack.get(listOfStack.size()-1).pop();
+            if (listOfStack.get(listOfStack.size()-1).isEmpty())
+                listOfStack.remove(listOfStack.size()-1);
 
-            return removedElement;
+            return temp;
         }
 
         @Override
         public int size() {
             int size = 0;
-            for (Stack<T> aStack : listOfStack)
-                size += aStack.size();
-
+            for (int i=0; i < listOfStack.size(); i++) {
+                size += listOfStack.get(i).size();
+            }
             return size;
         }
 
         @Override
         public boolean isEmpty() {
-            return size() == 0;
+            return listOfStack.isEmpty() || listOfStack.get(0).isEmpty() ;
+        }
+
+        @Override
+        public Iterator<T> iterator() {
+            return null;
         }
     }
 
@@ -158,12 +163,12 @@ public class StackQueueProblems<T extends Comparable<T>> {
      */
     public class QueueWithTwoStacks<T> implements IQueue<T> {
 
-        private Stack<T> stack1;
-        private Stack<T> stack2;
+        StackArrayImp<T> stack1;
+        StackArrayImp<T> stack2;
 
         public QueueWithTwoStacks() {
-            stack1 = new Stack<>();
-            stack2 = new Stack<>();
+            stack1 = new StackArrayImp<>();
+            stack2 = new StackArrayImp<>();
         }
 
         @Override
@@ -176,22 +181,34 @@ public class StackQueueProblems<T extends Comparable<T>> {
             if (isEmpty())
                 return null;
 
-            if (stack2.isEmpty()) {
-                while (!stack1.isEmpty()) {
-                    stack2.push(stack1.pop());
-                }
+            if (!stack2.isEmpty())
+                return stack2.pop();
+
+            while (!stack1.isEmpty()) {
+                stack2.push(stack1.pop());
             }
+
             return stack2.pop();
         }
 
         @Override
         public int size() {
-            return stack1.size() + stack2.size();
+            return stack1.size()+stack2.size();
         }
 
         @Override
         public boolean isEmpty() {
-            return (stack1.isEmpty() && stack2.isEmpty());
+            return stack1.isEmpty() && stack2.isEmpty();
+        }
+
+        @Override
+        public Iterator iterator() {
+            return null;
+        }
+
+        @Override
+        public T peek() {
+            return null;
         }
     }
 
@@ -224,6 +241,7 @@ public class StackQueueProblems<T extends Comparable<T>> {
         return newStack;
     }
 
+
     /**
      * 3.6 Animal shelter holds dog and cats. enqueue(), dequeueAny(), dequeueDog(), dequeueCat()
      */
@@ -231,7 +249,7 @@ public class StackQueueProblems<T extends Comparable<T>> {
 
         private int priority;
 
-        public class Dog {
+        public class Dog implements Comparable<Dog> {
             private int priority;
             private String dogId;
 
@@ -242,9 +260,14 @@ public class StackQueueProblems<T extends Comparable<T>> {
 
             public int getPriority() { return priority; }
             public String getDogId() { return dogId; }
+
+            @Override
+            public int compareTo(Dog o) {
+                return 0;
+            }
         }
 
-        public class Cat {
+        public class Cat implements Comparable<Cat> {
             private int priority;
             private String catId;
 
@@ -254,14 +277,19 @@ public class StackQueueProblems<T extends Comparable<T>> {
             }
             public int getPriority() { return priority; }
             public String getCatId() { return catId; }
+
+            @Override
+            public int compareTo(Cat o) {
+                return 0;
+            }
         }
 
-        private CustomQueue<Dog> dogQueue;
-        private CustomQueue<Cat> catQueue;
+        private IQueue<Dog> dogQueue;
+        private IQueue<Cat> catQueue;
 
         public AnimalShelter() {
-            dogQueue = new CustomQueue<>();
-            catQueue = new CustomQueue<>();
+            dogQueue = new QueueListImp<Dog>();
+            catQueue = new QueueListImp<Cat>();
         }
 
         public void enqueue(String animalName) {

@@ -11,9 +11,11 @@ public class StackQueueProblemsTest {
     @Test
     public void threeStackInarray() {
         StackWithThreeArrays st = (new StackQueueProblems<Integer>()).new StackWithThreeArrays<Integer>(4);
+        Assert.assertEquals(true,st.isEmpty(1));
         st.push(0,34);
         st.push(2,42);
         st.push(0,12);
+        Assert.assertEquals(false,st.isEmpty(2));
         Assert.assertEquals(2, st.size(0));
         Assert.assertEquals(0, st.size(1));
         Assert.assertEquals(1, st.size(2));

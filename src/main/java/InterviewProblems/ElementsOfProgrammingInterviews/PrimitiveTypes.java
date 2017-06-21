@@ -1,7 +1,5 @@
 package InterviewProblems.ElementsOfProgrammingInterviews;
 
-import com.sun.xml.internal.ws.api.streaming.XMLStreamWriterFactory;
-
 import java.util.ArrayList;
 
 public class PrimitiveTypes {
@@ -19,6 +17,14 @@ public class PrimitiveTypes {
             number /=2;
         }
         return (bitSum % 2);
+
+        /*
+        int bitSum2 = 0;
+        while (number !=0) {
+            bitSum2 ^= (number & 1);
+            number >>> 1;
+        }
+        */
     }
 
     /**
@@ -228,5 +234,73 @@ public class PrimitiveTypes {
 
         int[] arr = numberCol.stream().mapToInt(i -> i).toArray();
         return arr;
+    }
+
+    /**
+     * 5.10 Check integer is palindrome.
+     * Solution 1: Convert to string and verify it.
+     * Solution 2: Utilize integer arithmetic.
+     */
+    public boolean isIntegerPalindrome(int num) {
+        int palin = num;
+        if (num < 0)
+            return false;
+
+        int div = 1;
+        while (palin > 10) {
+            div++;
+            palin /=10;
+        }
+
+        if (div % 2 == 1)
+            return false;
+
+        while(div > 0) {
+            int temp = num/(int)Math.pow(10, div-1);
+            if (num%10 != temp%10)
+                return false;
+            div -=2;
+            num /=10;
+        }
+        return true;
+    }
+
+    /**
+     * 5.11 Rectangle Intersection: Check if two rectangles have intersection
+     */
+    public class Rectangle {
+        private int x,y,width,height;
+
+        public int getX() { return x; }
+        public int getY() { return y; }
+        public int getWidth() { return width; }
+        public int getHeight() { return height; }
+
+        public Rectangle(int x, int y, int width, int height) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+    }
+
+    private boolean isRectanglesIntersect(Rectangle r1, Rectangle r2) {
+        if ((r1.x+r1.width > r2.x && r1.y+r1.height > r2.y &&
+                r1.x+r1.width < r2.x+r2.width && r1.y+r1.height < r2.y+r2.height) ||
+                (r2.x+r2.width > r1.x && r2.y+r2.height > r1.y &&
+                        r2.x+r2.width < r1.x+r1.width && r2.y+r2.height < r1.y+r1.height))
+            return true;
+
+        return false;
+    }
+
+    public Rectangle rectangeIntersection(Rectangle r1, Rectangle r2) {
+        if (isRectanglesIntersect(r1,r2)) {
+            if (r2.x > r1.x)
+                return new Rectangle(r2.x, r2.y, r1.x+r1.width-r2.x, r1.y+r1.height-r2.y);
+            else
+                return new Rectangle(r1.x, r1.y, r2.x+r2.width-r1.x, r2.y+r2.height-r1.y);
+        }
+        return null;
     }
 }

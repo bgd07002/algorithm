@@ -8,6 +8,105 @@ public class DoublyLinkedList<T extends Comparable<T>> extends IList<T>  {
 
     public DoublyLinkedList() {
         head = tail = null;
+        size =0;
+    }
+
+    public void addFirst(T element) {
+        if (size == 0) {
+            head = tail = new DoublyLLNode<>(null, null, element);
+        } else {
+            DoublyLLNode<T> cur = new DoublyLLNode<>(head, null, element);
+            head.setPrev(cur);
+            head = cur;
+        }
+        size++;
+    }
+
+    public void addLast(T element) {
+        if (size == 0) {
+            head = tail = new DoublyLLNode<>(null, null, element);
+        } else {
+            DoublyLLNode<T> cur = new DoublyLLNode<>(null, tail, element);
+            tail.setNext(cur);
+            tail = cur;
+        }
+        size++;
+    }
+
+    public T removeFirst() {
+        if (size == 0)
+            return null;
+
+        DoublyLLNode<T> cur = head;
+        head = (DoublyLLNode<T>) head.getNext();
+        size--;
+        return cur.getValue();
+    }
+
+    public T removeLast() {
+        if (size == 0)
+            return null;
+
+        DoublyLLNode<T> cur = tail;
+        tail = tail.getPrev();
+        size--;
+        return cur.getValue();
+    }
+
+    public void remove(T objValue) {
+        if (size == 0)
+            return;
+
+        DoublyLLNode<T> cur = head;
+        while (cur != null) {
+            if (cur.getValue().equals(objValue)) {
+                if (cur.equals(head)) {
+                    removeFirst();
+                } else {
+                    cur.getPrev().setNext(cur.getNext());
+                    size--;
+                }
+                break;
+            }
+            cur = (DoublyLLNode<T>) cur.getNext();
+        }
+    }
+
+    public int size() {
+        return size;
+    }
+    public DoublyLLNode<T> getHead() {
+        return head;
+    }
+    public DoublyLLNode<T> getTail() {
+        return tail;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+    private DoublyLLNode<T> head;
+    private DoublyLLNode<T> tail;
+    private int size;
+
+    public DoublyLinkedList() {
+        head = tail = null;
     }
 
     public void addFirst(T element) {
@@ -105,4 +204,5 @@ public class DoublyLinkedList<T extends Comparable<T>> extends IList<T>  {
     public Node<T> getTail() {
         return tail;
     }
+    */
 }

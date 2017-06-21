@@ -77,14 +77,9 @@ public class SortingAndSearching<T extends Comparable<T>> {
             return mid;
 
         if (mid > start) {
-            if ((elem >= intArr[start] && elem < intArr[mid]) ||
-                    (elem >= intArr[start] && elem > intArr[mid])) {
-
+            if ((elem >= intArr[start] && elem < intArr[mid]) || (elem >= intArr[start] && elem > intArr[mid])) {
                 return searchInRotatedArrayHelper(elem, intArr, start, mid);
-
-            } else if ((elem > intArr[mid] && elem <= intArr[end]) ||
-                    (elem < intArr[mid] && elem > intArr[mid])) {
-
+            } else if ((elem > intArr[mid] && elem <= intArr[end]) || (elem < intArr[mid] && elem > intArr[mid])) {
                 return searchInRotatedArrayHelper(elem, intArr, mid + 1, end);
             }
             else

@@ -19,21 +19,24 @@ public class LinkedListsProblems<T extends Comparable<T>> {
      */
     public void removeDuplicates(DoublyLinkedList<T> list) {
 
-        if (list.size() < 2)
+        if (list.size() <= 1)
             return;
 
-        DoublyLLNode<T>  cur1 = (DoublyLLNode<T>) list.getHead();
+        DoublyLLNode<T> cur = list.getHead();
 
-        while (cur1 != null) {
+        while(cur != null) {
+            DoublyLLNode<T> cur2 = (DoublyLLNode<T>) cur.getNext();
 
-            DoublyLLNode<T> cur2 = cur1.getPrev();
             while(cur2 != null) {
-                if (cur2.getValue().equals(cur1.getValue())) {
-                    list.remove(cur2.getValue());
+                if (cur.equals(cur2)) {
+                    DoublyLLNode<T> temp = cur2;
+                    cur2 = (DoublyLLNode<T>) cur2.getNext();
+                    list.remove(temp.getValue());
+                } else {
+                    cur2 = (DoublyLLNode<T>) cur2.getNext();
                 }
-                cur2 = cur2.getPrev();
             }
-            cur1 = (DoublyLLNode<T>) cur1.getNext();
+            cur = (DoublyLLNode<T>) cur.getNext();
         }
     }
 
@@ -41,16 +44,18 @@ public class LinkedListsProblems<T extends Comparable<T>> {
      * 2.2 Implement an algorithm to find the nth to last element of a singly linked list.
      */
     public T kThLastElement(SinglyLinkedList<T> list, int k) {
+
         if (list.size() < k)
             return null;
 
-        Node<T>  cur1 = list.getHead();
-        for (int i =0; i < k; i++)
-            cur1 = cur1.getNext();
+        Node<T> cur = list.getHead();
+        for (int i=0; i < k; i++){
+            cur = cur.getNext();
+        }
 
         Node<T> cur2 = list.getHead();
-        while (cur1 != null) {
-            cur1 = cur1.getNext();
+        while (cur != null) {
+            cur = cur.getNext();
             cur2 = cur2.getNext();
         }
 
@@ -65,16 +70,18 @@ public class LinkedListsProblems<T extends Comparable<T>> {
      */
     public void removeMiddleNode(SinglyLinkedList<T> list) {
 
-        if (list.size() < 1)
+        if (list.size() <= 1) {
+            if (list.size() == 1)
+                list.removeFirst();
             return;
+        }
 
         Node<T> cur1 = list.getHead();
-        Node<T> cur2 = list.getHead();
+        Node<T> cur2 = cur1;
 
-        while (cur2.getNext() != null) {
+        while(cur2 != null && cur2.getNext() != null) {
             cur1 = cur1.getNext();
             cur2 = cur2.getNext();
-
             if (cur2 == null)
                 break;
 
@@ -83,7 +90,6 @@ public class LinkedListsProblems<T extends Comparable<T>> {
 
         list.remove(cur1.getValue());
     }
-
 
     /**
      * 2.5 You have two numbers represented by a linked list, where each node contains a single digit.
@@ -94,77 +100,70 @@ public class LinkedListsProblems<T extends Comparable<T>> {
      * Output: 8 -> 0 -> 8
      */
     public int sumList(int a, int b) {
-        LinkedList<Integer> aList = new LinkedList<>();
-        LinkedList<Integer> bList = new LinkedList<>();
 
-        while (a > 0) {
-            aList.add(a%10);
-            a /= 10;
-        }
-
-        while(b > 0)
-        {
-            bList.add(b%10);
-            b /= 10;
-        }
+        LinkedList<Integer> aList = numberToList(a);
+        LinkedList<Integer> bList = numberToList(b);
 
         LinkedList<Integer> sumList = new LinkedList<>();
-        int residue = 0;
-        int i;
 
-        for (i =0; i < aList.size() && i < bList.size(); i++) {
-            int addedDigit = aList.get(i) + bList.get(i) + residue;
-            residue = addDigitToSum(addedDigit, sumList);
+        int carryOver = 0;
+        int i = 0;
+        for(; i < aList.size() && i < bList.size(); i++) {
+            sumList.add((aList.get(i) + bList.get(i) + carryOver)%10);
+            carryOver = (aList.get(i) + bList.get(i) + carryOver) / 10;
         }
 
-        while (bList.size()-i > 0) {
-            int addedDigit = bList.get(i++) + residue;
-            residue = addDigitToSum(addedDigit, sumList);
+        while (i < aList.size()) {
+            sumList.add((aList.get(i) + carryOver)%10);
+            carryOver = (aList.get(i++) + carryOver) / 10;
         }
 
-        while (aList.size()-i > 0) {
-            int addedDigit = aList.get(i) + residue;
-            residue = addDigitToSum(addedDigit, sumList);
+        while (i < bList.size()) {
+            sumList.add((bList.get(i) + carryOver)%10);
+            carryOver = (bList.get(i++) + carryOver) / 10;
         }
 
-        if (residue > 0)
-            sumList.add(residue);
+        if (carryOver > 0)
+            sumList.add(carryOver);
 
-        int sum = 0;
-        for (int j = 0; j < sumList.size(); j++ ) {
-            sum += sumList.get(j) * Math.pow(10, j);
+        int sum =0;
+        for (int j=sumList.size()-1; j >=0; j--) {
+            sum = 10*sum + sumList.get(j);
         }
         return sum;
     }
 
-    private int addDigitToSum(int addedDigit, LinkedList<Integer> sum) {
-        int residue = 0;
-        if (addedDigit > 9)
-            residue = addedDigit/10;
-        sum.add(addedDigit % 10);
-        return residue;
+    private LinkedList<Integer> numberToList(int num) {
+        LinkedList<Integer> list = new LinkedList<>();
+        while (num > 0) {
+            list.add(num % 10);
+            num /= 10;
+        }
+        return list;
     }
 
     /**
      * 2.6 Implement a function to check if a linked list is a palindrome.
      * If SinglyLinkedList: Find the middle node, then convert pointers of second
      * half of lists, then compare.
+     * Or put the second half into a stack and compare with first half one by one.
      */
     public boolean isListPalindrome(DoublyLinkedList<T> list) {
-        if (list.isEmpty())
+        if (list.size() < 2)
             return true;
 
-        DoublyLLNode<T> cur1 = (DoublyLLNode)list.getHead();
-        DoublyLLNode<T> cur2 = (DoublyLLNode)list.getTail();
+        DoublyLLNode<T> cur1 = list.getHead();
+        DoublyLLNode<T> cur2 = list.getTail();
 
         int i =0;
-        while (i <= list.size()/2) {
-            if(cur1.getValue() != cur2.getValue())
+        while (i < list.size()/2) {
+            if (!cur1.getValue().equals(cur2.getValue()))
                 return false;
-
+            else {
+                cur1 = (DoublyLLNode<T>) cur1.getNext();
+                cur2 = (DoublyLLNode<T>) cur2.getPrev();
+            }
             i++;
-            cur1 = (DoublyLLNode) cur1.getNext();
-            cur2 = (DoublyLLNode) cur2.getPrev();
         }
         return true;
     }
@@ -174,17 +173,16 @@ public class LinkedListsProblems<T extends Comparable<T>> {
      * Return intersecting node.
      */
     public Node<T> findIntersectingNode(SinglyLinkedList<T> list1, SinglyLinkedList<T> list2) {
+
         if (list1.isEmpty() || list2.isEmpty())
             return null;
 
         Node<T> cur1 = list1.getHead();
-
-        while(cur1 != null){
+        while (cur1 != null) {
             Node<T> cur2 = list2.getHead();
             while (cur2 != null) {
                 if (cur1 == cur2)
                     return cur1;
-
                 cur2 = cur2.getNext();
             }
             cur1 = cur1.getNext();

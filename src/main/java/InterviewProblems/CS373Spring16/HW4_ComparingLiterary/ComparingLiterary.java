@@ -1,4 +1,4 @@
-package InterviewProblems.CS373Spring16;
+package InterviewProblems.CS373Spring16.HW4_ComparingLiterary;
 
 import Utility.CommonFunctions;
 
@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class HW4_ComparingLiterary {
+public class ComparingLiterary {
 
     private ArrayList<String> textWords;
     private LinkedHashMap<String, Integer> mapWord;
     private static final int THRESHOLD = 10;
 
-    public HW4_ComparingLiterary(String fileName) throws IOException {
+    public ComparingLiterary(String fileName) throws IOException {
         String separator = " ";
         textWords = CommonFunctions.loadDictionary(fileName, separator);
         mapWord = new LinkedHashMap<>();

@@ -12,24 +12,24 @@ public class SinglyLinkedList<T extends Comparable<T>> extends IList<T>{
     }
 
     public void addFirst(T element) {
-        if (size == 0) {
+        if (size ==0)
             head = new Node<>(element, null);
-        } else {
-            head = new Node(element, head);
+        else {
+            Node<T> newNode = new Node<>(element, head);
+            head = newNode;
         }
         size++;
     }
-    public void addLast(T element) {
-        if (size == 0) {
-            head = new Node<>(element, null);
-        } else {
-            Node<T> cur = head;
 
+    public void addLast(T element) {
+        if (size == 0)
+            head = new Node<>(element, head);
+        else {
+            Node<T> cur = head;
             while (cur.getNext() != null) {
                 cur = cur.getNext();
             }
-            Node<T> newNode = new Node(element, null);
-            cur.setNext(newNode);
+            cur.setNext(new Node(element, null));
         }
         size++;
     }
@@ -38,66 +38,70 @@ public class SinglyLinkedList<T extends Comparable<T>> extends IList<T>{
         if (size == 0)
             return null;
 
-        T temp = head.getValue();
+        if (size == 1) {
+            Node<T> cur = head;
+            head = null;
+            size--;
+            return cur.getValue();
+        }
+
+        Node<T> cur = head;
         head = head.getNext();
         size--;
-        return temp;
+        return cur.getValue();
     }
 
     public T removeLast() {
         if (size == 0)
             return null;
 
-        T returnedVal;
         if (size == 1) {
-            returnedVal = head.getValue();
+            Node<T> cur = head;
             head = null;
+            size--;
+            return cur.getValue();
         } else {
             Node<T> cur1 = head;
-            Node<T> cur2 = head.getNext();
+            Node<T> cur2 = cur1.getNext();
 
             while (cur2.getNext() != null) {
                 cur1 = cur1.getNext();
                 cur2 = cur2.getNext();
             }
-            returnedVal = cur2.getValue();
             cur1.setNext(null);
+            size--;
+            return cur2.getValue();
         }
-        size--;
-        return returnedVal;
     }
 
     public void remove(T objValue) {
         if (size == 0)
             return;
 
-        if (head.getValue() == objValue) {
+        if (head.getValue().equals(objValue)) {
             removeFirst();
-        } else if (size > 1){
-            Node<T> cur1 = head;
-            Node<T> cur2 = head.getNext();
+            return;
+        }
 
-            while (cur2.getNext() != null) {
-                if (cur2.getValue().equals(objValue)) {
-                    cur1.setNext(cur2.getNext());
-                    size--;
-                    break;
-                }
+        Node<T> cur1 = head;
+        Node<T> cur2 = cur1.getNext();
 
-                cur1 = cur1.getNext();
-                cur2 = cur2.getNext();
+        while(cur2 != null) {
+            if (cur2.getValue().equals(objValue)) {
+                cur1.setNext(cur2.getNext());
+                size--;
+                break;
             }
+            cur1 = cur1.getNext();
+            cur2 = cur2.getNext();
         }
     }
 
-    public int size() {
-        return size;
+    public int size() { return size; }
+    public void setSize(int size) {
+        this.size = size;
     }
-
-    public Node<T> getHead() {
-        return head;
-    }
-
+    public Node<T> getHead() { return head; }
     public void setHead(Node<T> head) {
         this.head = head;
     }

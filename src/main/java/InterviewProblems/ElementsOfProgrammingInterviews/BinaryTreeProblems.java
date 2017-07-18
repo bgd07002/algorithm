@@ -1,6 +1,5 @@
 package InterviewProblems.ElementsOfProgrammingInterviews;
 
-import DataStructures.Trees.BinaryFormedBinaryTree;
 import DataStructures.Trees.BinarySearchTrees;
 import DataStructures.Trees.BinaryTreeNode;
 
@@ -33,6 +32,7 @@ public class BinaryTreeProblems<T extends Comparable<T>> {
      * 10.5 Sum the root to leaf paths in a binary formed tree. Each its node consists of
      * binary numbers
      */
+    /*
     public int binaryFormedTreeSum(BinaryFormedBinaryTree tree) {
         return binaryFormedTreeSumHelper(tree.getRoot(),0);
     }
@@ -50,4 +50,5 @@ public class BinaryTreeProblems<T extends Comparable<T>> {
         return binaryFormedTreeSumHelper(node.getLeftChild(), partialSum) +
                 binaryFormedTreeSumHelper(node.getRightChild(), partialSum);
     }
+    */
 }

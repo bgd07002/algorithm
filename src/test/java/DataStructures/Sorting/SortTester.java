@@ -53,6 +53,19 @@ public class SortTester {
     public void bubbleSortTest() throws Exception {
         ArrayList<Integer> list = new ArrayList<Integer>(Arrays.asList(6, 3, 12, 9, 7, 14, 2, 5, 10));
         ISorter<Integer> sorter = new BubbleSort<Integer>();
+
+        sorter.sortList(list);
+        Assert.assertArrayEquals(new Object[]{2, 3, 5, 6, 7, 9, 10, 12, 14}, list.toArray());
+
+        ArrayList<Integer> listDuplicate = new ArrayList<Integer>(Arrays.asList(6, 5, 7, 2, 8, 1, 2));
+        sorter.sortList(listDuplicate);
+        Assert.assertArrayEquals(new Object[]{1, 2, 2, 5, 6, 7, 8}, listDuplicate.toArray());
+    }
+
+    @Test
+    public void selectionSortTest() throws Exception {
+        ArrayList<Integer> list = new ArrayList<Integer>(Arrays.asList(6, 3, 12, 9, 7, 14, 2, 5, 10));
+        ISorter<Integer> sorter = new SelectionSort<Integer>();
         sorter.sortList(list);
         Assert.assertArrayEquals(new Object[]{2, 3, 5, 6, 7, 9, 10, 12, 14}, list.toArray());
 

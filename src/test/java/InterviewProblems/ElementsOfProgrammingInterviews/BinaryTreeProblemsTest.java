@@ -1,6 +1,5 @@
 package InterviewProblems.ElementsOfProgrammingInterviews;
 
-import DataStructures.Trees.BinaryFormedBinaryTree;
 import DataStructures.Trees.BinarySearchTrees;
 import org.junit.Assert;
 import org.testng.annotations.Test;
@@ -28,6 +27,7 @@ public class BinaryTreeProblemsTest {
         Assert.assertEquals(false, b.isBinaryTreeSymmetric(bst));
     }
 
+    /*
     @Test
     public void binaryFormedTreeSumTest() {
         BinaryTreeProblems b = new BinaryTreeProblems();
@@ -42,4 +42,5 @@ public class BinaryTreeProblemsTest {
         int sum = b.binaryFormedTreeSum(binTree);
         System.out.println(sum);
     }
+    */
 }

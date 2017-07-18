@@ -1,7 +1,6 @@
 package DataStructures.ListStackQueue;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
 public class QueueListImp<T extends Comparable<T>> implements IQueue<T> {
 

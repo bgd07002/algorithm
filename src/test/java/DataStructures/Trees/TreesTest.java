@@ -53,8 +53,9 @@ public class TreesTest {
         Assert.assertEquals("Post-order traversals are not equal", "1, 4, 3, 6, 9, 7, 5, 14, 21, 20, 10, ", bst.postOrderTraversal());
         Assert.assertEquals("In-order traversals are not equal", "1, 3, 4, 5, 6, 7, 9, 10, 14, 20, 21, ", bst.inOrderTraversal());
         Assert.assertEquals(3, bst.height());
+
         Assert.assertTrue("Root is not correct", bst.isRoot(new BinaryTreeNode<>(10)));
-        Assert.assertTrue("3 is an internal node", bst.isInternal(new BinaryTreeNode<Integer>(3)));
-        Assert.assertTrue("21 is an external node", bst.isExternal(new BinaryTreeNode<Integer>(21)));
+        Assert.assertTrue("3 is an internal node", bst.isInternal(bst.getRoot().getLeftChild().getLeftChild()));
+        Assert.assertTrue("21 is an external node", bst.isExternal(bst.getRoot().getRightChild().getLeftChild()));
     }
 }

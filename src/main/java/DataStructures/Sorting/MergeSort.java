@@ -19,30 +19,25 @@ public class MergeSort<T extends Comparable<T>> implements ISorter<T> {
 
     private void merge(ArrayList<T> collection, int start, int end, int mid) {
 
-        ArrayList<T> sortedList = new ArrayList();
+        ArrayList<T> sortedCollection = new ArrayList<>();
+        int cur1 = start;
+        int cur2 = mid+1;
+
+        while (cur1 <= mid && cur2 <= end) {
+            if (collection.get(cur1).compareTo(collection.get(cur2)) < 0)
+                sortedCollection.add(collection.get(cur1++));
+            else
+                sortedCollection.add(collection.get(cur2++));
+        }
+
+        while (cur1 <= mid)
+            sortedCollection.add(collection.get(cur1++));
+
+        while (cur2 <= end)
+            sortedCollection.add(collection.get(cur2++));
 
         int i = start;
-        int j = mid+1;
-        while (i <= mid && j <= end) {
-            int compare = collection.get(i).compareTo(collection.get(j));
-            if (compare > 0) {
-                sortedList.add(collection.get(j++));
-            } else {
-                sortedList.add(collection.get(i++));
-            }
-        }
-
-        while (i <= mid) {
-            sortedList.add(collection.get(i++));
-        }
-
-        while (j <= end) {
-            sortedList.add(collection.get(j++));
-        }
-
-        int cur = start;
-        for (T el : sortedList) {
-            collection.set(cur++, el);
-        }
+        for (T element : sortedCollection)
+            collection.set(i++, element);
     }
 }

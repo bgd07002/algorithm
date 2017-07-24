@@ -161,16 +161,47 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
         return computeHeight(root);
     }
 
-    @Override
-    public T removeElement(T element) {
-        return null;
-    }
-
     public int computeHeight(BinaryTreeNode<T> curNode) {
         if (curNode.getLeftChild() == null || curNode.getRightChild() == null)
             return 0;
 
         return Math.max(computeHeight(curNode.getLeftChild()), computeHeight(curNode.getRightChild()))+1;
 
+    }
+
+    @Override
+    public T removeElement(T element) {
+        BinaryTreeNode<T> removedElement = null;
+        BinaryTreeNode<T> nodeElement = locateElement(element);
+
+        if (isExternal(nodeElement)) {
+            removedElement = nodeElement;
+            nodeElement = null;
+            size--;
+        } else {
+
+        }
+
+        if (removedElement == null)
+            return null;
+
+        return removedElement.getData();
+    }
+
+    public BinaryTreeNode locateElement(T element) {
+        if (isEmpty())
+            return null;
+
+        BinaryTreeNode<T> cur = root;
+        while (cur != null) {
+            int compare = cur.getData().compareTo(element);
+            if (compare > 0)
+                cur = cur.getLeftChild();
+            else if (compare < 0)
+                cur = cur.getRightChild();
+            else
+                return cur;
+        }
+        return null;
     }
 }

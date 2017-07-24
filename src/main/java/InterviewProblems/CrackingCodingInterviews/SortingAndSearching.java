@@ -15,6 +15,37 @@ public class SortingAndSearching<T extends Comparable<T>> {
             return;
 
         //First find number of elements in A
+        int numA = 0;
+        while (A[numA] != null) {
+            numA++;
+        }
+
+        int cur1 =0, cur2=0;
+        while (cur2 < B.length) {
+            int compare = A[cur1+cur2].compareTo(B[cur2]);
+
+            if(compare > 0) {
+                int j = numA + cur2 -1;
+                while (j >= cur1 + cur2) {
+                    A[j+1] = A[j];
+                    j--;
+                }
+                A[cur1+cur2] = B[cur2];
+                cur2++;
+            } else
+                cur1++;
+        }
+
+
+        /**
+         *
+         * second solution
+         */
+        /*
+        if (B == null || B.length < 1)
+            return;
+
+        //First find number of elements in A
         int num = 0;
         while (A[num] != null) {
             num ++;
@@ -33,6 +64,7 @@ public class SortingAndSearching<T extends Comparable<T>> {
                 j++;
             }
         }
+        */
     }
 
     /**

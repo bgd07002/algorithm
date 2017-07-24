@@ -1,6 +1,5 @@
 package InterviewProblems.CrackingCodingInterviews;
 
-import InterviewProblems.CrackingCodingInterviews.SortingAndSearching;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 
@@ -17,6 +16,19 @@ public class SortingAndSearchingTest {
         Assert.assertEquals("c", a[2]);
         Assert.assertEquals("d", a[3]);
         Assert.assertEquals("e", a[4]);
+    }
+
+    @Test
+    public void groupAnagramsTest() {
+        SortingAndSearching s = new SortingAndSearching();
+        String[] inputStrs = new String[]{"hello", "abaci", "hakkinen", "ciaba", "raikonen", "olleh"};
+
+        String[] groupAnag = s.groupAnagrams(inputStrs);
+        String[] expectedArr = new String[] {"abaci", "ciaba", "hakkinen", "hello", "olleh", "raikonen"};
+
+        for (int i =0; i < expectedArr.length; i++) {
+            Assert.assertEquals(expectedArr[i], groupAnag[i]);
+        }
     }
 
     @Test
@@ -58,19 +70,6 @@ public class SortingAndSearchingTest {
 
         isFound = s.sortedMatrixSearch(6, multi);
         Assert.assertEquals(false, isFound);
-    }
-
-    @Test
-    public void groupAnagramsTest() {
-        SortingAndSearching s = new SortingAndSearching();
-        String[] inputStrs = new String[]{"hello", "abaci", "hakkinen", "ciaba", "raikonen", "olleh"};
-
-        String[] groupAnag = s.groupAnagrams(inputStrs);
-        String[] expectedArr = new String[] {"abaci", "ciaba", "hakkinen", "hello", "olleh", "raikonen"};
-
-        for (int i =0; i < expectedArr.length; i++) {
-            Assert.assertEquals(expectedArr[i], groupAnag[i]);
-        }
     }
 
     @Test

@@ -170,31 +170,6 @@ public class StringsArrays {
         }
         return matrix;
 
-
-
-
-
-
-
-
-
-        /*
-        int arrLength = matrix.length;
-
-        for (int sum=0; sum< 2*(arrLength-1); sum++) {
-            int j;
-            for (int i=0; i <= sum; i++) {
-                if (i < arrLength && sum-i< arrLength && i < sum-i) {
-                    j = sum-i;
-                    int temp = matrix[i][j];
-                    matrix[i][j] = matrix[j][i];
-                    matrix[j][i] = temp;
-                }
-            }
-        }
-
-        return matrix;
-        */
     }
 
     /**

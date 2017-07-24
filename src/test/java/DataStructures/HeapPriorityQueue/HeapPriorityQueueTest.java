@@ -5,6 +5,9 @@ import org.testng.annotations.Test;
 
 public class HeapPriorityQueueTest {
 
+    //        5
+    //  14,       7
+    //30, 50   10, 20
     @Test
     public void priorityQueueTest() {
         IHeap<Integer, String> heap = new ArrayHeap<>();
@@ -23,6 +26,7 @@ public class HeapPriorityQueueTest {
         heap.insert(new Entry<>(1, "Bir"));
         Assert.assertEquals("1, 14, 5, 30, 50, 7, 20, 35, 36, 60, 70, 10, ", heap.printHeap());
         Assert.assertEquals(12, heap.getSize());
+
         Assert.assertEquals("Bir", heap.extractMin().getValue());
         Assert.assertEquals("5, 14, 7, 30, 50, 10, 20, 35, 36, 60, 70, ", heap.printHeap());
 

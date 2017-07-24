@@ -14,7 +14,6 @@ public class Entry<K,D> {
     public K getKey() {
         return key;
     }
-
     public void setKey(K key) {
         this.key = key;
     }
@@ -22,7 +21,6 @@ public class Entry<K,D> {
     public D getValue() {
         return value;
     }
-
     public void setValue(D value) {
         this.value = value;
     }

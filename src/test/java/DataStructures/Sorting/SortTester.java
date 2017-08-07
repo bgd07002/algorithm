@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SortTester {
 
@@ -72,5 +73,21 @@ public class SortTester {
         ArrayList<Integer> listDuplicate = new ArrayList<Integer>(Arrays.asList(6, 5, 7, 2, 8, 1, 2));
         sorter.sortList(listDuplicate);
         Assert.assertArrayEquals(new Object[]{1, 2, 2, 5, 6, 7, 8}, listDuplicate.toArray());
+    }
+
+    @Test
+    public void countingSortIntegerTest() throws Exception {
+        int[] intArr = {1, 4, 1, 2, 7, 5, 2};
+        CountingSort c = new CountingSort();
+        int[] sortedArr = c.sortIntegers(intArr, 0 ,9);
+        Assert.assertArrayEquals(new int[]{1,1,2,2,4,5,7}, sortedArr);
+    }
+
+    @Test
+    public void countingSortStringTest() throws Exception {
+        String[] strArr = {"Brown", "Andy", "Bear", "Wilson" ,"Zillow", "Osman", "Zeynel", "Williams"};
+        CountingSort c = new CountingSort();
+        List<String> sortedArr = c.sortStringsBy_N_th_Letter(Arrays.asList(strArr),0);
+        Assert.assertArrayEquals(new String[]{"Andy","Bear","Brown","Osman", "Williams", "Wilson", "Zeynel", "Zillow"}, sortedArr.toArray());
     }
 }

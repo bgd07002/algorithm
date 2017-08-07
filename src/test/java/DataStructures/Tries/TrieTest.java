@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 public class TrieTest {
 
     @Test
-    public void trieTest() {
+        public void trieTest() {
         Trie t = new Trie();
         t.addString("aircraft");
         t.addString("airplane");

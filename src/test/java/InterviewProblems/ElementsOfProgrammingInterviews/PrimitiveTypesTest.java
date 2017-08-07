@@ -21,22 +21,28 @@ public class PrimitiveTypesTest {
         Assert.assertEquals(45, p.swapBits(45, 2,3));
         Assert.assertEquals(43, p.swapBits(45, 1,2));
         Assert.assertEquals(29, p.swapBits(45, 4,5));
+        //32, 16, 8, 4, 2, 1
+        //1   0   1  1  0  1
     }
 
     @Test
     public void reverseBitsTest() {
         PrimitiveTypes p = new PrimitiveTypes();
         Assert.assertEquals(0, p.reverseBits(0));
-        //String hex = "ffffffff";
-        //int value = Integer.parseInt(hex, 16);
+        Assert.assertEquals(-1, p.reverseBits(-1));
 
-        //hex = Integer.valueOf("7FFFFFFF", 16).intValue();
-        //System.out.println(hex);
-        //System.out.println(p.reverseBits(1));
-        //System.out.println(p.reverseBits(65535));
-        //System.out.println(Integer.MAX_VALUE);
-        //System.out.println(Integer.MIN_VALUE);
-        //Assert.assertEquals(-1, p.reverseBits(Integer.MIN_VALUE));
+        String hex = "fffffff";
+        int value = Integer.parseInt(hex, 16);
+
+        System.out.println(p.reverseBits(value));
+        System.out.println(p.reverseBits(1));
+        System.out.println(p.reverseBits(-1));
+        System.out.println(p.reverseBits(65535));
+        System.out.println(Integer.MAX_VALUE);
+        System.out.println(p.reverseBits(Integer.MAX_VALUE));
+
+        System.out.println(Integer.MIN_VALUE);
+        System.out.println(p.reverseBits(Integer.MIN_VALUE));
     }
 
     @Test
@@ -44,6 +50,7 @@ public class PrimitiveTypesTest {
         PrimitiveTypes p = new PrimitiveTypes();
         Assert.assertEquals(46, p.closestIntegerSameWeight(45));
         Assert.assertEquals(16, p.closestIntegerSameWeight(32));
+        Assert.assertEquals(30, p.closestIntegerSameWeight(15));
         Assert.assertEquals(-1, p.closestIntegerSameWeight(0));
     }
 
@@ -85,8 +92,8 @@ public class PrimitiveTypesTest {
     @Test
     public void spreadsheetEncodingTest() {
         PrimitiveTypes p = new PrimitiveTypes();
-        Assert.assertEquals("ABC", p.spreadsheetEncoding(729));
-        Assert.assertEquals("CE", p.spreadsheetEncoding(81));
+        Assert.assertEquals("ABC", p.spreadsheetEncoding(730));
+        Assert.assertEquals("CD", p.spreadsheetEncoding(81));
         Assert.assertEquals("Y", p.spreadsheetEncoding(24));
     }
 
@@ -106,7 +113,7 @@ public class PrimitiveTypesTest {
     public void isIntegerPalindromeTest() {
         PrimitiveTypes p = new PrimitiveTypes();
         Assert.assertEquals(true, p.isIntegerPalindrome(123321));
-        Assert.assertEquals(true, p.isIntegerPalindrome(12344321));
+        Assert.assertEquals(true, p.isIntegerPalindrome(12321));
         Assert.assertEquals(false, p.isIntegerPalindrome(12345321));
     }
 
@@ -116,14 +123,9 @@ public class PrimitiveTypesTest {
         PrimitiveTypes.Rectangle r1 = p.new Rectangle(1,1,3,4);
         PrimitiveTypes.Rectangle r2 = p.new Rectangle(3,4,5,6);
 
-        PrimitiveTypes.Rectangle res = p.rectangeIntersection(r1,r2);
-        Assert.assertEquals(true, res!=null);
-        Assert.assertEquals(3, res.getX());
-        Assert.assertEquals(4, res.getY());
-        Assert.assertEquals(1, res.getWidth());
-        Assert.assertEquals(1, res.getHeight());
+        Assert.assertEquals(true, p.isRectanglesIntersect(r1,r2));
 
         PrimitiveTypes.Rectangle r3 = p.new Rectangle(4,5,3,3);
-        Assert.assertEquals(true, p.rectangeIntersection(r1,r3) == null);
+        Assert.assertEquals(false, p.isRectanglesIntersect(r1,r3));
     }
 }

@@ -1,5 +1,10 @@
 package InterviewProblems.CrackingCodingInterviews;
 
+import Utility.CommonFunctions;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -35,36 +40,6 @@ public class SortingAndSearching<T extends Comparable<T>> {
             } else
                 cur1++;
         }
-
-
-        /**
-         *
-         * second solution
-         */
-        /*
-        if (B == null || B.length < 1)
-            return;
-
-        //First find number of elements in A
-        int num = 0;
-        while (A[num] != null) {
-            num ++;
-        }
-
-        int i = 0, j = 0;
-        while (j < B.length) {
-            if (A[i].compareTo(B[j]) <= 0)
-                i++;
-            else {
-                for (int k = num; k > i; k--)
-                    A[k] = A[k-1];
-                num++;
-                A[i] = B[j];
-                i++;
-                j++;
-            }
-        }
-        */
     }
 
     /**
@@ -105,21 +80,22 @@ public class SortingAndSearching<T extends Comparable<T>> {
     private int searchInRotatedArrayHelper(int elem, int[] intArr, int start, int end) {
 
         int mid = (start+end)/2;
-        if (elem == intArr[mid])
+        if (intArr[mid] == elem)
             return mid;
 
         if (mid > start) {
-            if ((elem >= intArr[start] && elem < intArr[mid]) || (elem >= intArr[start] && elem > intArr[mid])) {
+            if (elem >= intArr[start] && elem < intArr[mid])
                 return searchInRotatedArrayHelper(elem, intArr, start, mid);
-            } else if ((elem > intArr[mid] && elem <= intArr[end]) || (elem < intArr[mid] && elem > intArr[mid])) {
-                return searchInRotatedArrayHelper(elem, intArr, mid + 1, end);
-            }
+            else if (elem >= intArr[start] && elem > intArr[mid] && elem > intArr[end])
+                return searchInRotatedArrayHelper(elem, intArr, start, mid);
+            else if (elem > intArr[mid] && elem <= intArr[end])
+                return searchInRotatedArrayHelper(elem, intArr, mid+1, end);
             else
-                return -1;
-        }
-        else
+                return searchInRotatedArrayHelper(elem, intArr, mid+1, end);
+        } else
             return -1;
     }
+
 
     /**
      * 10.4 Sorted Search, No Size: You are given an array-like structure Listy which lacks size method.
@@ -127,8 +103,43 @@ public class SortingAndSearching<T extends Comparable<T>> {
      * supports positive integers). Given Listy which contains sorted, positive integers, find the index at which
      * element x occurs. If x occurs multiple times, you may return any index.
      */
-    public int findIdxSortedArray(int x, int[] intArr) {
+    public int searchIdxSortedArray(int x, int[] intArr) {
+        int length = findLength_10_4(intArr);
+        return searchIdxSortedArrayHelper(x, intArr, 0 , length-1);
+    }
+
+    private int searchIdxSortedArrayHelper(int x, int[] intArr, int start , int end) {
+        int mid = (start + end)/2;
+        if (intArr[mid] == x)
+            return mid;
+
+        if (mid > start) {
+            if (x >= intArr[start] && x < intArr[mid])
+                return searchIdxSortedArrayHelper(x, intArr, start , mid);
+            else if (x <= intArr[end] && x > intArr[mid])
+                return searchIdxSortedArrayHelper(x, intArr, mid , end);
+        }
         return -1;
+    }
+
+    private int findLength_10_4(int[] intArr) {
+        if (intArr[0] == -1)
+            return 0;
+        if (intArr[1] == -1)
+            return 1;
+        return findLength_10_4_recursive(1, intArr);
+    }
+
+    private int findLength_10_4_recursive(int query, int[] intArr) {
+        if (intArr[query] != -1)
+            return findLength_10_4_recursive(2*query, intArr);
+        else {
+            for (int i = query/2+1; i < query; i++) {
+                if (intArr[i] == -1)
+                    return i;
+            }
+        }
+        return 0;
     }
 
     /**
@@ -142,14 +153,13 @@ public class SortingAndSearching<T extends Comparable<T>> {
     }
 
     private int sparseSearchHelper(String word, String[] stringCol, int start, int end) {
-        int mid = (start + end)/2;
+
+        int mid = (start+end)/2;
+        int leftMid = mid-1;
+        int rightMid = mid+1;
 
         if (stringCol[mid] == "") {
-            int leftMid = mid-1;
-            int rightMid = mid+1;
-
-            while(leftMid >= 0 && rightMid < stringCol.length-1) {
-
+            while (leftMid >= start && rightMid <= end ) {
                 if (stringCol[leftMid] != "") {
                     mid = leftMid;
                     break;
@@ -162,15 +172,17 @@ public class SortingAndSearching<T extends Comparable<T>> {
                 leftMid--;
                 rightMid++;
             }
+            if (stringCol[mid] == "")
+                return -1;
         }
 
         if (start < end) {
-            if (word.compareTo(stringCol[mid]) == 0)
-                return mid;
+            if (word.compareTo(stringCol[mid]) > 0)
+                return sparseSearchHelper(word, stringCol, mid+1, end);
             else if (word.compareTo(stringCol[mid]) < 0)
                 return sparseSearchHelper(word, stringCol, start, mid-1);
             else
-                return sparseSearchHelper(word, stringCol, mid+1, end);
+                return mid;
         }
 
         return -1;
@@ -178,10 +190,43 @@ public class SortingAndSearching<T extends Comparable<T>> {
 
     /**
      * 10.6 Sort Big File: Imagine you have 20GB file with one string per line. Explain how would you sort this file.
-     * 10.7 Missing Integer: Given an input file with four billion non-negative integers, provide an algorithm to generate
-     * an integer that is not contained in the file. Assume you have 1GB memory. Then, assume you have 10MB memory.
-     *
+     * External sorting ->
+     * Divide file into chunks
+     * Each chunk is sorted separately and then stored into file system
+     * Once sorting of chunks are finished, merge these one by one.
      */
+
+
+     /**
+      * 10.7 Missing Integer: Given an input file with four billion non-negative integers, provide an algorithm to generate
+      * an integer that is not contained in the file. Assume you have 1GB memory. Then, assume you have 10MB memory.
+      *
+      * Solution: 2^32 integers (or 4 million integers) and 2^31 non-negative integers. 1 GB of memory or 8 million bits. Map all integers to distinct bit.
+      *
+      * 1. Create a bit vector with 4 million bits. Do so with integer array where each int represented by 32 Boolean values
+      * 2. Initialize bit vector with 0s
+      * 3. Scan all numbers and call BV.set(num,1)
+      * 4. Scan again to find first index with value of 0.
+      *
+      */
+    public int missingInteger1GBMemory() throws IOException {
+
+        byte[] bitVector = new byte[(byte)Math.pow(2,27)];
+        try(BufferedReader br = new BufferedReader(new FileReader("FourBillionIntegers.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                byte num = Byte.parseByte(line);
+                int bucketNumber = (num >> 5) + 1;
+                int insideBucketLocation = num % 32;
+                bitVector[bucketNumber] = (byte)insideBucketLocation;
+            }
+        }
+
+        //for (int num : bitVector) {
+        //    if (num != 31)
+        //}
+        return -1;
+    }
 
     /**
      * 10.8 Find duplicates: You have an array with all numbers from 1 to N., where N is at most 32,000.
@@ -238,4 +283,8 @@ public class SortingAndSearching<T extends Comparable<T>> {
         }
         return i;
     }
+
+    /**
+     * 10.11
+     */
 }

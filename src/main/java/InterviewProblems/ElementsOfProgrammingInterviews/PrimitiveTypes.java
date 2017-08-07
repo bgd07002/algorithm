@@ -1,6 +1,8 @@
 package InterviewProblems.ElementsOfProgrammingInterviews;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 public class PrimitiveTypes {
 
@@ -9,28 +11,20 @@ public class PrimitiveTypes {
      * Parity 1 -> Number of 1s is odd, otherwise it is 0.
      */
     public int computeParity(long number) {
-        int bitSum = (number >= 0)? 0: 1;
 
-        number = (number > 0)? number: -number;
-        while (number > 0) {
-            bitSum += (number % 2);
-            number /=2;
+        int bitSum = 0;
+        while (number != 0) {
+            bitSum ^= (number & 1);
+            number = number >>> 1;
         }
-        return (bitSum % 2);
-
-        /*
-        int bitSum2 = 0;
-        while (number !=0) {
-            bitSum2 ^= (number & 1);
-            number >>> 1;
-        }
-        */
+        return bitSum;
     }
 
     /**
      * 5.2 Swap Bits: Swap bits at i and j for 64 bit integer
      */
     public int swapBits(int num, int i, int j) {
+
         if (((num >> i) & 1) != ((num >> j) & 1))
             num ^= (1 << i) | (1 << j);
 
@@ -41,9 +35,12 @@ public class PrimitiveTypes {
      * 5.3 Bit Reversal
      */
     public int reverseBits(int num) {
+
         int mid = 15;
-        for (int i =0; i <= mid; i++)
-            num = swapBits(num, i, 31-i);
+        int mostSigBit = 31;
+        for (int i =0; i <= mid; i++) {
+            num = swapBits(num, i, mostSigBit-i);
+        }
         return num;
     }
 
@@ -52,37 +49,27 @@ public class PrimitiveTypes {
      */
     public int closestIntegerSameWeight(int num) {
 
-        if (num == Integer.MAX_VALUE || num == 0)
+        if (num == Integer.MIN_VALUE || num == 0)
             return -1;
 
-        int intSize =32;
-        int smallestOne = -1;
-        int smallestZero = -1;
-        for (int i=0; i < intSize; i++) {
-            if ((num & (1 << i)) > 0) {
-                smallestOne = i;
+        int smallestOneLocation = -1;
+        int smallestZeroLocation = -1;
+
+        for (int i=0; i < Integer.SIZE; i++) {
+            if (smallestOneLocation == -1 && ((num >> i) & 1) == 1)
+                smallestOneLocation = i;
+
+            if (smallestZeroLocation == -1 && ((num >> i) & 1) == 0)
+                smallestZeroLocation = i;
+
+            if (smallestOneLocation != -1 && smallestZeroLocation != -1)
                 break;
-            }
         }
 
-        for (int i = smallestOne - 1 ; i >= 0; i--) {
-            if ((num ^ (1 << i)) > 0) {
-                smallestZero = i;
-                break;
-            }
-        }
+        if (smallestOneLocation > smallestZeroLocation)
+            smallestZeroLocation = smallestOneLocation-1;
 
-        if (smallestZero == -1) {
-            for (int i = smallestOne + 1; i < intSize; i++) {
-                if ((num ^ (1 << i)) > 0) {
-                    smallestZero = i;
-                    break;
-                }
-            }
-        }
-
-        int numClosest = swapBits(num, smallestOne, smallestZero);
-        return numClosest;
+        return swapBits(num, smallestOneLocation, smallestZeroLocation);
     }
 
     /**
@@ -96,17 +83,17 @@ public class PrimitiveTypes {
 
         //Use lexicographic notation to show all subsets
         for (int i =1; i < Math.pow(2,set.length); i++) {
-            int iBinary = 0;
-            int iTemp = i;
-            StringBuilder setSB = new StringBuilder();
-            while (iTemp > 0) {
-                if (iTemp % 2 == 1)
-                    setSB.append(set[iBinary]);
 
-                iBinary++;
-                iTemp /= 2;
+            int cur =i;
+            int j =0;
+            while(cur > 0) {
+                if ((cur & 1) == 1)
+                    sb.append(set[j]);
+
+                cur = cur >> 1;
+                j++;
             }
-            sb.append(setSB.toString()).append(", ");
+            sb.append(", ");
         }
         String makeupOutput = sb.toString().trim();
         return makeupOutput.substring(0, makeupOutput.length()-1);
@@ -121,56 +108,49 @@ public class PrimitiveTypes {
             return -1;
 
         char[] strArr = str.toCharArray();
-        int number = (strArr[0] != '-') ? Character.getNumericValue(strArr[0]): 0;
-        for (int i= 1; i < strArr.length; i++) {
-            number = 10* number + Character.getNumericValue(strArr[i]);
+        int number = (strArr[0] != '-') ? Character.getNumericValue(strArr[0]) : 0;
+        for (int i =1; i < strArr.length; i++) {
+            number = 10*number + Character.getNumericValue(strArr[i]);
         }
-        return (strArr[0] == '-') ? -number : number;
+        return (strArr[0] == '-')? -number : number;
     }
 
     /**
      * 5.7 Base Conversion: Write a function that performs the base conversion for 2 <= b <= 16
      */
     public String baseConversion(int num, int base) {
-        StringBuilder sb = new StringBuilder();
-        char[] convMapping = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-        int numPos = (num < 0)? -num : num;
 
-        while(numPos > 0) {
-            int residue = numPos % base;
-            sb.append(convMapping[residue]);
-            numPos /= base;
+        if (base > 16 || base < 2)
+            return null;
+
+        StringBuilder sb = new StringBuilder();
+        char[] hexaMapping = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
+
+        int numPositive = (num < 0)? -num: num;
+        while (numPositive > 0) {
+            sb.append(hexaMapping[numPositive % base]);
+            numPositive /=base;
         }
 
-        sb = (num < 0) ? sb.append('-').reverse() : sb.reverse();
-        return sb.toString();
+        return sb.append((num < 0)? "-" : "").reverse().toString();
     }
 
     /**
      * 5.8 Spreadsheet Column Encoding: Convert id into A, B,...,Z, AA, AB,..., AZ,..., ZZ ,AAA, AAB,...
      */
     public String spreadsheetEncoding(int id) {
+        if (id < 0)
+            return null;
+
         StringBuilder sbEncoding = new StringBuilder();
         char[] alphabetEnc = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
         int alphabetSize = alphabetEnc.length;
 
-        if (id < alphabetSize)
-            return sbEncoding.append(alphabetEnc[id % alphabetSize]).toString();
-
-        //First loop is for determining the encoding length
-        int encodingLength = 1;
-        while (id > 0) {
-            id -= Math.pow(alphabetSize, encodingLength);
-            encodingLength++;
+        while (id >= 26) {
+            sbEncoding.append(alphabetEnc[(id % alphabetSize)]);
+            id = (id - alphabetSize)/alphabetSize;
         }
-
-        id += Math.pow(alphabetSize, --encodingLength)+1;
-        while(id > 0 || encodingLength >0) {
-            sbEncoding.append(alphabetEnc[id % alphabetSize]);
-            id /= alphabetSize;
-            encodingLength--;
-        }
-
+        sbEncoding.append(alphabetEnc[(id % alphabetSize)]);
         return sbEncoding.reverse().toString();
     }
 
@@ -182,22 +162,23 @@ public class PrimitiveTypes {
      */
     public String eliasGammaEncoding(int[] numbers) {
         StringBuilder sb = new StringBuilder();
-        StringBuilder temp;
+        StringBuilder sbTemp;
 
-        for (int aNumber : numbers) {
-            temp = new StringBuilder();
-            while (aNumber > 0) {
-                temp.append(aNumber%2);
-                aNumber /=2;
+        for (int i : numbers) {
+            sbTemp = new StringBuilder();
+            while (i > 0) {
+                sbTemp.append(i & 1);
+                i = i >> 1;
             }
-
-            int zerosPrefix = temp.length()-1;
-            while(zerosPrefix > 0) {
-                temp.append("0");
-                zerosPrefix--;
+            //Add zeros first
+            int ilength = sbTemp.length()-1;
+            while (ilength > 0) {
+                sb.append("0");
+                ilength--;
             }
-            sb.append(temp.reverse());
+            sb.append(sbTemp.reverse());
         }
+
         return sb.toString();
     }
 
@@ -205,64 +186,65 @@ public class PrimitiveTypes {
         if (!encoding.matches("[01]+"))
             throw new IllegalArgumentException("Non-binary character on file or input contents");
 
-        ArrayList<Integer> numberCol = new ArrayList<>();
-        int countZeros = 0;
-        boolean zeroSection = true;
-        int number =0;
-        for (char c : encoding.toCharArray()) {
-            //if we are processing zeros
-            if (c == '0' && zeroSection)
-                countZeros++;
+        List<Integer> decodedIntegerList = new ArrayList<>();
+        char[] encodingChar = encoding.toCharArray();
 
-            if (c == '1' && zeroSection) {
-                countZeros++;
-                zeroSection = false;
-                number = 1;
-                countZeros--;
-            } else if (!zeroSection && countZeros > 0) {
-                number = (int)c - 48 + (number << 1);
-                countZeros--;
-            } else if (!zeroSection && countZeros == 0) {
-                numberCol.add(number);
-                zeroSection = true;
-                number = 0;
-                countZeros++;
+        int countZeros = 0;
+        boolean isCountingZeros = true;
+        int number =0;
+        for (int i =0; i< encodingChar.length; i++) {
+            if (isCountingZeros) {
+                if (encodingChar[i] == '0')
+                    countZeros++;
+                else {
+                    isCountingZeros = false;
+                    number = Character.getNumericValue(encodingChar[i]);
+                }
+            } else {
+                if (countZeros > 0) {
+                    countZeros--;
+                    number = (number << 1) + Character.getNumericValue(encodingChar[i]);
+                } else {
+                    isCountingZeros = true;
+                    decodedIntegerList.add(number);
+                    number =0;
+                    countZeros++;
+                }
             }
         }
-        if (number > 0)
-            numberCol.add(number);
 
-        int[] arr = numberCol.stream().mapToInt(i -> i).toArray();
+        if (number > 0)
+            decodedIntegerList.add(number);
+
+        int[] arr = decodedIntegerList.stream().mapToInt(i -> i).toArray();
         return arr;
     }
 
     /**
      * 5.10 Check integer is palindrome.
      * Solution 1: Convert to string and verify it.
-     * Solution 2: Utilize integer arithmetic.
+     * Solution 2: Utilize integer arithmetic. if 123 == 123
      */
     public boolean isIntegerPalindrome(int num) {
-        int palin = num;
         if (num < 0)
             return false;
 
-        int div = 1;
-        while (palin > 10) {
-            div++;
-            palin /=10;
+        int newNum = 0;
+        int remainder = 0;
+
+        while (num > newNum) {
+            remainder = (num % 10);
+            newNum = 10*newNum + remainder;
+            num /= 10;
+
+            if (num == newNum)
+                return true;
         }
 
-        if (div % 2 == 1)
-            return false;
+        if (10*num + remainder == newNum)
+            return true;
 
-        while(div > 0) {
-            int temp = num/(int)Math.pow(10, div-1);
-            if (num%10 != temp%10)
-                return false;
-            div -=2;
-            num /=10;
-        }
-        return true;
+        return false;
     }
 
     /**
@@ -284,6 +266,29 @@ public class PrimitiveTypes {
         }
     }
 
+    public boolean isRectanglesIntersect(Rectangle r1, Rectangle r2) {
+        //Case I
+        if (r1.x+r1.width > r2.x && r2.y + r2.height > r1.y)
+            return true;
+        //Case II
+        else if (r1.x + r1.width > r2.x && r1.y + r1.height > r2.y)
+            return true;
+        //Case III
+        else if (r2.x + r2.width > r1.x && r1.y + r1.height > r2.y)
+            return true;
+        //Case IV
+        else if (r2.x + r2.width > r1.x && r2.y + r2.height > r2.y)
+            return true;
+        //Case V (one rectangle is inside of another)
+        else if (r1.x < r2.x && r1.x + r1.width > r2.x + r2.width && r2.y > r1.y && r1.y + r1.height > r2.y + r2.height)
+            return true;
+        else if (r2.x < r1.x && r2.x + r2.width > r1.x + r1.width && r1.y > r2.x && r2.y + r2.height > r1.y + r1.height)
+            return true;
+
+        return false;
+    }
+
+    /*
     private boolean isRectanglesIntersect(Rectangle r1, Rectangle r2) {
         if ((r1.x+r1.width > r2.x && r1.y+r1.height > r2.y &&
                 r1.x+r1.width < r2.x+r2.width && r1.y+r1.height < r2.y+r2.height) ||
@@ -303,4 +308,5 @@ public class PrimitiveTypes {
         }
         return null;
     }
+    */
 }

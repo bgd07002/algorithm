@@ -1,5 +1,9 @@
 package InterviewProblems.CrackingCodingInterviews;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 public class RecursionAndDynamicProgramming {
 
     /**
@@ -36,4 +40,20 @@ public class RecursionAndDynamicProgramming {
      * right and down. How many possible paths are there for the robot?
      */
 
+
+    /**
+     * 8.4 Write a method to return all subsets of a set
+     */
+    public List<Set<String>> powerSet(Set<String> set) {
+
+        List<Set<String>> powerSet = new LinkedList<>();
+        return powerSetHelper(set, powerSet);
+    }
+
+    private List<Set<String>> powerSetHelper(Set<String> set, List<Set<String>> powerSet) {
+        //for (String element : set) {
+        //    powerSet.add()
+        //}
+        return null;
+    }
 }

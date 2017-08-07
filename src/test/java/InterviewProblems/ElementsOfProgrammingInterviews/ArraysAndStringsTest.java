@@ -4,8 +4,25 @@ import org.junit.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ArraysAndStringsTest {
+
+    @Test
+    public void bigIntegerTest() {
+        ArraysAndStrings a = new ArraysAndStrings();
+        ArraysAndStrings.BigInteger b = a.new BigInteger();
+
+        ArrayList<Integer> a1 = new ArrayList<>(Arrays.asList(1,2,3,4,5));
+        ArrayList<Integer> a2 = new ArrayList<>(Arrays.asList(5,6,7));
+        ArrayList<Integer> sum = b.add(a1,a2);
+        Assert.assertArrayEquals(new int[] {1,2,9,1,2}, sum.stream().mapToInt(i->i).toArray());
+
+        a1 = new ArrayList<>(Arrays.asList(-1,2,3,4,5));
+        a2 = new ArrayList<>(Arrays.asList(-7,8,9));
+        sum = b.add(a1,a2);
+        Assert.assertArrayEquals(new int[] {-1,3,1,3,4}, sum.stream().mapToInt(i->i).toArray());
+    }
 
     @Test
     public void maxDifferenceArrayTest() {
@@ -14,6 +31,46 @@ public class ArraysAndStringsTest {
         Assert.assertEquals(66, a.maxDifferenceArray(numArr));
     }
 
+    /**
+     * 6.18 Run length encoding
+     */
+    @Test
+    public void runLengthEncodingDecodingTest() {
+        ArraysAndStrings a = new ArraysAndStrings();
+        Assert.assertEquals("4a1b3c2a", a.runLengthEncoding("aaaabcccaa"));
+        Assert.assertEquals("1a", a.runLengthEncoding("a"));
+        Assert.assertEquals("5a", a.runLengthEncoding("aaaaa"));
+
+        Assert.assertEquals("aaaabbccc", a.runLengthDecoding("4a2b3c"));
+        Assert.assertEquals("bbbbbbbbbbc", a.runLengthDecoding("10b1c"));
+        Assert.assertEquals("d", a.runLengthDecoding("1d"));
+    }
+
+    /**
+     * 6.19 Reverse All Words
+     */
+    @Test
+    public void reverseAllWordsTest() {
+        ArraysAndStrings a = new ArraysAndStrings();
+        Assert.assertEquals("Bob Likes Alice", a.reverseWords("Alice Likes Bob"));
+        Assert.assertEquals("d c b a", a.reverseWords("a b c d"));
+        Assert.assertEquals("abcd", a.reverseWords("abcd"));
+    }
+
+    /**
+     * 6.20 Find first substring
+     */
+    @Test
+    public void findFirstOccurenceStringTest() {
+        ArraysAndStrings a = new ArraysAndStrings();
+        Assert.assertEquals(9, a.findFirstOccurenceString("the", "Istanbul the pazar the pijama the"));
+        Assert.assertEquals(-1, a.findFirstOccurenceString("the", "Istanbul t th pazar pijama "));
+        Assert.assertEquals(0, a.findFirstOccurenceString("the", "the "));
+    }
+
+    /**
+     * 6.21 Replace and remove
+     */
     @Test
     public void replaceAndRemoveTest() {
         ArraysAndStrings a = new ArraysAndStrings();

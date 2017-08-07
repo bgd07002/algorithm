@@ -5,6 +5,9 @@ import org.testng.annotations.Test;
 
 public class SortingAndSearchingTest {
 
+    /**
+     * 10.1
+     */
     @Test
     public void sortedMergeTest() {
         SortingAndSearching<String> s = new SortingAndSearching<>();
@@ -18,6 +21,9 @@ public class SortingAndSearchingTest {
         Assert.assertEquals("e", a[4]);
     }
 
+    /**
+     * 10.2
+     */
     @Test
     public void groupAnagramsTest() {
         SortingAndSearching s = new SortingAndSearching();
@@ -31,6 +37,9 @@ public class SortingAndSearchingTest {
         }
     }
 
+    /**
+     * 10.3
+     */
     @Test
     public void searchInRotatedArrayTest() {
         SortingAndSearching s = new SortingAndSearching();
@@ -45,11 +54,52 @@ public class SortingAndSearchingTest {
         searchRes = s.searchInRotatedArray(1,inpArr);
         Assert.assertEquals(5, searchRes);
 
+        searchRes = s.searchInRotatedArray(14,inpArr);
+        Assert.assertEquals(11, searchRes);
+
+        searchRes = s.searchInRotatedArray(7,inpArr);
+        Assert.assertEquals(9, searchRes);
+
         searchRes = s.searchInRotatedArray(12,inpArr);
         Assert.assertEquals(-1, searchRes);
 
         searchRes = s.searchInRotatedArray(17,inpArr);
         Assert.assertEquals(-1, searchRes);
+    }
+
+    /**
+     * 10.4
+     */
+    @Test
+    public void searchIdxInSortedArrayTest() {
+        SortingAndSearching s = new SortingAndSearching();
+        int[] inpArr = {1,2,2,3,4,5,7,10,11,11,14,17,19,20,20, -1, -1, -1, -1};
+
+        int serachIdx = s.searchIdxSortedArray(1, inpArr);
+        Assert.assertEquals(0, serachIdx);
+
+        serachIdx = s.searchIdxSortedArray(20, inpArr);
+        Assert.assertEquals(13, serachIdx);
+
+        serachIdx = s.searchIdxSortedArray(4, inpArr);
+        Assert.assertEquals(4, serachIdx);
+
+        serachIdx = s.searchIdxSortedArray(18, inpArr);
+        Assert.assertEquals(-1, serachIdx);
+    }
+
+    /**
+     * 10.5
+     */
+    @Test
+    public void sparseSearchTest() {
+        SortingAndSearching s = new SortingAndSearching();
+        String[] inputArr  = new String[]{"at", "", "", "", "ball", "", "", "car", "", "", "dad", "", ""};
+
+        Assert.assertEquals(4, s.sparseSearch("ball", inputArr));
+        Assert.assertEquals(0, s.sparseSearch("at", inputArr));
+        Assert.assertEquals(10, s.sparseSearch("dad", inputArr));
+        Assert.assertEquals(-1, s.sparseSearch("son", inputArr));
     }
 
     @Test
@@ -70,17 +120,6 @@ public class SortingAndSearchingTest {
 
         isFound = s.sortedMatrixSearch(6, multi);
         Assert.assertEquals(false, isFound);
-    }
-
-    @Test
-    public void sparseSearchTest() {
-        SortingAndSearching s = new SortingAndSearching();
-        String[] inputArr  = new String[]{"at", "", "", "", "ball", "", "", "car", "", "", "dad", "", ""};
-
-        Assert.assertEquals(4, s.sparseSearch("ball", inputArr));
-        Assert.assertEquals(0, s.sparseSearch("at", inputArr));
-        Assert.assertEquals(10, s.sparseSearch("dad", inputArr));
-        Assert.assertEquals(-1, s.sparseSearch("son", inputArr));
     }
 
     @Test

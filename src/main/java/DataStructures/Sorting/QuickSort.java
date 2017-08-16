@@ -21,10 +21,10 @@ public class QuickSort<T extends Comparable<T>> implements ISorter<T>  {
             int cur2 = end-1;
 
             while(cur1 < cur2 ) {
-                int compareCur1 = collection.get(cur1).compareTo(pivot);
-                int compareCur2 = collection.get(cur2).compareTo(pivot);
+                    int compareCur1 = collection.get(cur1).compareTo(pivot);
+                    int compareCur2 = collection.get(cur2).compareTo(pivot);
 
-                if (compareCur1 < 0 && compareCur2 > 0) {
+                    if (compareCur1 < 0 && compareCur2 > 0) {
                     cur1++;
                     cur2--;
                 } else if (compareCur1 < 0 && compareCur2 < 0) {
@@ -51,4 +51,53 @@ public class QuickSort<T extends Comparable<T>> implements ISorter<T>  {
             quickSort(collection, curToBeReplaced, end);
         }
     }
+
+    public void sortThreeWayPartition(ArrayList<T> collection) {
+        if (collection == null || collection.size() < 2)
+            return;
+        sortThreeWayPartitionHelper(collection, 0, collection.size()-1);
+    }
+
+    private void sortThreeWayPartitionHelper(ArrayList<T> collection, int start, int end) {
+
+        int lt = start;
+        int gt = end-1;
+
+        // ---<v-- lt --=v---- i ---gt--- >v ---||pivot
+        if (gt <= lt)
+            return;
+
+        T pivot = collection.get(end);
+        int i =start;
+        while (i <= gt) {
+            int compare = collection.get(i).compareTo(pivot);
+            //Exchange col[lt] with col[i]; increment both lt and i
+            if (compare < 0) {
+                T temp = collection.get(lt);
+                collection.set(lt, collection.get(i));
+                collection.set(i, temp);
+                lt++;
+                i++;
+            }
+            //if col[i]>v, exchange col[gt] with col[i], decrement gt
+            else if (compare > 0) {
+                T temp = collection.get(gt);
+                collection.set(gt, collection.get(i));
+                collection.set(i, temp);
+                gt--;
+            }
+            //if col[i] == v, increment i
+            else
+                i++;
+        }
+
+        //Now exchange position i and pivot element
+        collection.set(end, collection.get(i));
+        collection.set(i, pivot);
+
+        //Iteration is done. Now take care of recursion
+        sortThreeWayPartitionHelper(collection, start, lt-1);
+        sortThreeWayPartitionHelper(collection, gt+1, end);
+    }
+
 }

@@ -1,5 +1,7 @@
 package DataStructures.Trees;
 
+import java.util.TreeSet;
+
 public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearchTree<T> {
 
     private BinaryTreeNode<T> root;
@@ -57,6 +59,62 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
             cur = cur.getRightChild();
         }
         return cur.getData();
+    }
+
+    @Override
+    public T floorElement(BinaryTreeNode<T> node) {
+        if (node.getLeftChild()!= null) {
+            BinaryTreeNode<T> cur = node.getLeftChild();
+            while (cur.getRightChild() != null) {
+                cur = cur.getRightChild();
+            }
+            return cur.getData();
+        } else {
+            if (isRightChild(node))
+                return node.getParentNode().getData();
+            else {
+                BinaryTreeNode<T> cur = node.getParentNode();
+                while (cur.getParentNode() != null) {
+                    if (isRightChild(cur))
+                        return cur.getParentNode().getData();
+
+                    cur = cur.getParentNode();
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public T ceilingElement(BinaryTreeNode<T> node) {
+        if (node.getRightChild()!= null) {
+            BinaryTreeNode<T> cur = node.getRightChild();
+            while (cur.getLeftChild() != null) {
+                cur = cur.getLeftChild();
+            }
+            return cur.getData();
+        } else {
+            if (isLeftChild(node))
+                return node.getParentNode().getData();
+            else {
+                BinaryTreeNode<T> cur = node.getParentNode();
+                while (cur.getParentNode() != null) {
+                    if (isLeftChild(cur))
+                        return cur.getParentNode().getData();
+
+                    cur = cur.getParentNode();
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean isLeftChild(BinaryTreeNode<T> node) {
+        return node.getParentNode().getLeftChild().equals(node);
+    }
+
+    private boolean isRightChild(BinaryTreeNode<T> node) {
+        return node.getParentNode().getRightChild().equals(node);
     }
 
     @Override
@@ -171,36 +229,55 @@ public class BinarySearchTrees<T extends Comparable<T>> implements IBinarySearch
 
     @Override
     public T removeElement(T element) {
-        BinaryTreeNode<T> removedElement = null;
-        BinaryTreeNode<T> nodeElement = locateElement(element);
-
-        if (isExternal(nodeElement)) {
-            removedElement = nodeElement;
-            nodeElement = null;
-            size--;
-        } else {
-
-        }
-
-        if (removedElement == null)
-            return null;
-
-        return removedElement.getData();
-    }
-
-    public BinaryTreeNode locateElement(T element) {
         if (isEmpty())
             return null;
+        return removeHelper(element, root);
+    }
 
-        BinaryTreeNode<T> cur = root;
-        while (cur != null) {
-            int compare = cur.getData().compareTo(element);
-            if (compare > 0)
-                cur = cur.getLeftChild();
-            else if (compare < 0)
-                cur = cur.getRightChild();
-            else
-                return cur;
+    private T removeHelper(T element, BinaryTreeNode<T> cur) {
+        if (cur == null)
+            return null;
+
+        int compare = cur.getData().compareTo(element);
+        if (compare > 0)
+            return removeHelper(element, cur.getLeftChild());
+        else if (compare < 0)
+            return removeHelper(element, cur.getRightChild());
+        else {
+            T removedElement = cur.getData();
+            if (cur.getLeftChild()!=null && cur.getRightChild()!=null) {
+
+                BinaryTreeNode<T> curRight = cur.getRightChild();
+                while (curRight.getLeftChild() != null) {
+                    curRight = curRight.getLeftChild();
+                }
+                //Connect left and right subtrees
+                cur.getLeftChild().setParent(curRight);
+                curRight.setLeftChild(cur.getLeftChild());
+
+                if (isLeftChild(cur))
+                    cur.getParentNode().setLeftChild(cur.getRightChild());
+                else
+                    cur.getParentNode().setRightChild(cur.getRightChild());
+            }
+            else if (cur.getLeftChild() != null) {
+                if (isLeftChild(cur))
+                    cur.getParentNode().setLeftChild(cur.getLeftChild());
+                else
+                    cur.getParentNode().setRightChild(cur.getLeftChild());
+            }
+            else if (cur.getRightChild() != null) {
+                if (isLeftChild(cur))
+                    cur.getParentNode().setLeftChild(cur.getRightChild());
+                else
+                    cur.getParentNode().setRightChild(cur.getRightChild());
+            } else {
+                if (isLeftChild(cur))
+                    cur.getParentNode().setLeftChild(null);
+                else
+                    cur.getParentNode().setRightChild(null);
+                return removedElement;
+            }
         }
         return null;
     }

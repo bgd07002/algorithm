@@ -51,6 +51,19 @@ public class SortTester {
     }
 
     @Test
+    public void quickSortThreeWayPartitionTest() throws Exception {
+        ArrayList<Integer> list = new ArrayList<Integer>(Arrays.asList(6, 3, 12, 6, 2, 9, 7, 6, 3, 12, 9, 6));
+        QuickSort<Integer> sorter = new QuickSort<Integer>();
+        sorter.sortThreeWayPartition(list);
+        Assert.assertArrayEquals(new Object[]{2, 3, 3, 6, 6, 6, 6, 7, 9, 9, 12, 12}, list.toArray());
+
+        list = new ArrayList<Integer>(Arrays.asList(6, 5, 2, 6, 5, 2, 6, 5, 2));
+        sorter.sortThreeWayPartition(list);
+        Assert.assertArrayEquals(new Object[]{2, 2, 2, 5, 5, 5, 6, 6, 6}, list.toArray());
+    }
+
+
+    @Test
     public void bubbleSortTest() throws Exception {
         ArrayList<Integer> list = new ArrayList<Integer>(Arrays.asList(6, 3, 12, 9, 7, 14, 2, 5, 10));
         ISorter<Integer> sorter = new BubbleSort<Integer>();

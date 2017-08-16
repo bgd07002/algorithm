@@ -1,13 +1,16 @@
 package InterviewProblems.CrackingCodingInterviews;
 
-import InterviewProblems.CrackingCodingInterviews.Moderate;
 import org.junit.Assert;
+import org.testng.TestNGAntTask;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 
 public class ModerateTest {
 
+    /**
+     * 16.1 Swap numbers
+     */
     @Test
     public void numberSwapperTest() {
         int a =5;
@@ -19,6 +22,9 @@ public class ModerateTest {
         Assert.assertEquals(5, swap[1]);
     }
 
+    /**
+     * 16.2
+     */
     @Test
     public void wordFrequencyTest() {
         Moderate m = new Moderate();
@@ -35,6 +41,40 @@ public class ModerateTest {
         Assert.assertEquals(18, m.wordFrequency(text, word));
     }
 
+    /**
+     * 16.3
+     */
+    @Test
+    public void intersectionTwoLinesTest() {
+        Moderate m = new Moderate();
+        int a[] = {1,4};
+        int b[] = {2,5};
+        Assert.assertArrayEquals(new int[]{2,4}, m.intersectionTwoLines(a,b));
+
+        //Case where B is inside of A
+        b[1] = 3;
+        Assert.assertArrayEquals(new int[]{2,3}, m.intersectionTwoLines(a,b));
+
+        b[0] = -1;
+        b[1] = 3;
+        Assert.assertArrayEquals(new int[]{1,3}, m.intersectionTwoLines(a,b));
+
+        a[0]=0;
+        a[1]=1;
+        Assert.assertArrayEquals(new int[]{0,1}, m.intersectionTwoLines(a,b));
+
+        a[0]=3;
+        a[1]=4;
+        Assert.assertArrayEquals(new int[]{3,3}, m.intersectionTwoLines(a,b));
+
+        a[0]=5;
+        a[1]=6;
+        Assert.assertArrayEquals(null, m.intersectionTwoLines(a,b));
+    }
+
+    /**
+     * 16.4
+     */
     @Test
     public void ticTacToeWonTest() {
         Moderate m = new Moderate();
@@ -59,6 +99,13 @@ public class ModerateTest {
         };
         Assert.assertEquals(true, m.ticTacToeWon(multiDiag));
 
+        int[][] multiReverseDiag = new int[][]{
+                {-1,  0,  1},
+                { 0, -1, -1},
+                { 1,  1, -1}
+        };
+        Assert.assertEquals(true, m.ticTacToeWon(multiReverseDiag));
+
         int[][] multiNonTTT = new int[][]{
                 {-1,  0,  1},
                 { 0,  0, -1},
@@ -67,6 +114,9 @@ public class ModerateTest {
         Assert.assertEquals(false, m.ticTacToeWon(multiNonTTT));
     }
 
+    /**
+     * 16.5
+     */
     @Test
     public void factorialZerosTest() {
         Moderate m = new Moderate();
@@ -74,6 +124,9 @@ public class ModerateTest {
         Assert.assertEquals(0, m.factorialZeros(4));
     }
 
+    /**
+     * 16.6
+     */
     @Test
     public void smallestDifferenceIntArrTest() {
         Moderate m = new Moderate();
@@ -152,5 +205,12 @@ public class ModerateTest {
         int[] input = new int[] {1, 2, 4, 7, 10, 11, 7, 12, 6, 7, 16, 18, 19};
         int[] expected = new int[] {3,9};
         Assert.assertArrayEquals(expected, m.subSort(input));
+    }
+
+    @Test
+    public void noParenthesesCalculatorTest() {
+        Moderate m = new Moderate();
+        Assert.assertEquals(21, m.noParenthesesCalculator("2*3+5/6*3+15"));
+        Assert.assertEquals(2, m.noParenthesesCalculator("2*3*5/14"));
     }
 }

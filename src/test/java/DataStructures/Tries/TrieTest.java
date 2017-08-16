@@ -19,11 +19,18 @@ public class TrieTest {
         t.addString("corn");
 
         Assert.assertEquals(true, t.hasString("birch"));
+        Assert.assertEquals(true, t.hasString("airplane"));
         Assert.assertEquals(false, t.hasString("bi"));
         Assert.assertEquals(false, t.hasString("bottler"));
 
         Assert.assertEquals(true, t.removeString("airplane"));
         Assert.assertEquals(false, t.removeString("airplane"));
+
+        t.addString("airspace");
+
+        Assert.assertEquals("aircraft airspace bar bicycle birch bird bottle cork corn", t.allStrings());
+        Assert.assertEquals("aircraft airspace", t.prefixMatches("air"));
+        Assert.assertEquals("birch bird", t.prefixMatches("bir"));
     }
 
     @Test

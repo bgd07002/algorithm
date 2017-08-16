@@ -1,5 +1,8 @@
 package InterviewProblems.CrackingCodingInterviews;
 
+import DataStructures.ListStackQueue.IStack;
+import DataStructures.ListStackQueue.StackListImp;
+
 import java.util.*;
 
 public class Moderate {
@@ -17,6 +20,9 @@ public class Moderate {
     /**
      * 16.2 Word Frequencies: Design a method to find the frequency of occurrences of any given word in a book.
      * What if we were running this algorithms multiple times?
+     *
+     * If multiple times, we can afford to take extra time and memory to do pre-processing. Create a hash table which maps
+     * word to frequency. This costs O(1) time.
      */
     public int wordFrequency(String text, String word) {
         //To specifically split on white space and the apostrophe
@@ -34,45 +40,64 @@ public class Moderate {
     }
 
     /**
-     * 16.3 Line Intersection
+     * 16.3 Line intersection: Given two straight line segments (represented as start and end point), compute
+     * the point of intersection, if any.
+     */
+    public int[] intersectionTwoLines(int[] a, int[] b) {
+        if (a == null || a.length != 2 || b == null || b.length != 2)
+            return null;
+
+        if (a[1] > b[1] && a[0] > b[0] && b[1] >= a[0])
+            return new int[] {a[0], b[1]};
+        else if (a[1] > b[1] && b[0] > a[0])
+            return new int[] {b[0], b[1]};
+        else if (b[1] > a[1] && b[0] > a[0] && a[1] >= b[0])
+            return new int[] {b[0], a[1]};
+        else if (b[1] > a[1] && a[0] > b[0])
+            return new int[] {a[0], a[1]};
+
+        return null;
+    }
+
+
+    /**
      * 16.4 Tic Tac Toe Win: Design an algorithm to figure out if someone won a game of tic tac toe.
      */
     public boolean ticTacToeWon(int[][] ticTacToeBoard) {
-        if (ticTacToeBoard.length != ticTacToeBoard[0].length || ticTacToeBoard.length != 3)
+
+        if (ticTacToeBoard == null || ticTacToeBoard.length != ticTacToeBoard[0].length || ticTacToeBoard.length != 3)
             return false;
 
-        int diagonalSum1 = 0;
-        int diagonalSum2 = 0;
-        int[] columnSum = new int[ticTacToeBoard.length];
+        int[] columnSum = new int[3];
+        int diagonalSum =0;
+        int reverseDiagonalSum = 0;
 
-        for (int i=0; i < ticTacToeBoard.length; i++) {
+        //Assuming board consists of 1 and -1 and empty entries as 0
+        for (int i =0; i < ticTacToeBoard.length; i++) {
             int rowSum = 0;
-            for (int j =0; j < ticTacToeBoard[i].length; j++) {
+            for (int j = 0; j < ticTacToeBoard[i].length; j++) {
                 if (ticTacToeBoard[i][j] > 1 || ticTacToeBoard[i][j] < -1)
                     return false;
 
                 rowSum += ticTacToeBoard[i][j];
                 columnSum[j] += ticTacToeBoard[i][j];
 
-                //Diagonal Validation
                 if (i == j)
-                    diagonalSum1 += ticTacToeBoard[i][j];
+                    diagonalSum += ticTacToeBoard[i][j];
 
-                if (i + j == ticTacToeBoard.length-1)
-                    diagonalSum2 += ticTacToeBoard[i][j];
+                if (i+j == 2)
+                    reverseDiagonalSum += ticTacToeBoard[i][j];
             }
-            //Validating rows
+
             if (rowSum == 3 || rowSum == -3)
                 return true;
         }
-
-        if (diagonalSum1 == 3 || diagonalSum1 == -3 || diagonalSum2 == 3 || diagonalSum2 == -3)
-            return true;
-
-        for (int colSum : columnSum) {
-            if (colSum == 3 || colSum == -3)
+        for (int i : columnSum)
+            if (i == 3 || i == -3)
                 return true;
-        }
+
+        if (diagonalSum == 3 || diagonalSum == -3 || reverseDiagonalSum == 3 || reverseDiagonalSum == -3)
+            return true;
 
         return false;
     }
@@ -83,13 +108,13 @@ public class Moderate {
     public int factorialZeros(int n) {
 
         int totalFiveMultiples = 0;
-        for (int i =1; i <= n; i++) {
-            if (i % 5 ==0) {
-                int temp = i;
-                while (temp % 5 == 0) {
-                    totalFiveMultiples++;
-                    temp /=5;
-                }
+
+        for (int i =1; 5*i <= n; i++) {
+            totalFiveMultiples++;
+            int temp =i;
+            while (temp % 5 == 0) {
+                totalFiveMultiples++;
+                temp = temp/5;
             }
         }
         return totalFiveMultiples;
@@ -107,16 +132,21 @@ public class Moderate {
         Arrays.sort(arr2);
 
         int min = Math.max(Math.abs(arr2[arr2.length-1]-arr1[0]), Math.abs(arr1[arr1.length-1]-arr2[0]));
-        //Complexity -> O(nlogn)
+
         for (int i=0; i < arr1.length; i++) {
-            int diff = Math.max(Math.abs(arr2[arr2.length-1]-arr1[i]), Math.abs(arr2[0]-arr1[i]));
-            diff = smallestDifferenceIntArrHelper(arr2, diff, arr1[i], 0, arr2.length-1);
-            if (diff < min)
-                min = diff;
+            for (int j = 0; j < arr2.length; j++) {
+                if (arr2[j] - arr1[i] > min)
+                    break;
+                else if (Math.abs(arr2[j]-arr1[i]) < min)
+                    min = Math.abs(arr2[j]-arr1[i]);
+
+            }
         }
         return min;
     }
 
+    /*
+    SOLUTION IN BINARY SEARCH TREE
     private int smallestDifferenceIntArrHelper(int[] arr, int diff, int num, int start, int end) {
         int mid = (start+end)/2;
         int tempDiff = diff;
@@ -135,10 +165,12 @@ public class Moderate {
         else
             return tempDiff;
     }
+    */
 
     /**
      * 16.7 Number Max: Write a method to find the maximum of two numbers. You shouldn't use if-else or any other
-     * comparison method. (???)
+     * comparison method.
+     * Skip this question.
      */
     public int maxWithoutBranching(int a, int b) {
         int sigBitInInt = Integer.valueOf("0x80000000", 16).intValue();
@@ -160,7 +192,6 @@ public class Moderate {
         String[] midNumbers = {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety", "Hundred"};
         String[] bigNumbers = {"", "Thousand", "Million", "Billion"};
 
-
         StringBuilder sb = new StringBuilder();
         for (int i=0; i<4; i++) {
             if (n/(int)Math.pow(1000, i) == 0)
@@ -174,6 +205,7 @@ public class Moderate {
             sb.insert(0, str);
         }
         return sb.toString().trim();
+
     }
 
     private String writeThousands(int n, String[] smallInts, String[] midNumbers) {
@@ -425,16 +457,80 @@ public class Moderate {
      * Output: 5 -> {3, -2, 4}
      */
 
+
+
+
     /**
+     * BUG -> /14 for second test
      * 16.26 Calculator: Given an arithmetic equation consisting of positive integers, +, -, *, and /
      * (no parentheses), compute the result.
      *
-     * Input: 2*3+5/6*3+15 = 6+5/2+15
-     * Output: 23.5
+     * Input: 2*3+5/6*3+15 = 6+15
+     * Output: 21
      */
     public int noParenthesesCalculator(String expr) {
         char[] expArr = expr.replace(" ", "").toCharArray();
-        return 1;
+
+        IStack<Integer> operandStack = new StackListImp<>();
+        IStack<Character> operatorStack = new StackListImp<>();
+
+        boolean isPriorityOperator = false;
+        int digitNumber = 0;
+        for (char c : expArr) {
+            if (Character.isDigit(c)) {
+                digitNumber++;
+                //If operator is
+                if (isPriorityOperator) {
+                    switch (operatorStack.pop()) {
+                        case '*':
+                            operandStack.push(operandStack.pop() * ((int)c -48));
+                            break;
+                        case '/':
+                            operandStack.push(operandStack.pop() / ((int)c -48));
+                        break;
+                    }
+                    isPriorityOperator = false;
+                }
+                else
+                    operandStack.push((int)c-48);
+            }
+            else {
+                operatorStack.push(c);
+                if (c == '*' || c == '/')
+                    isPriorityOperator = true;
+                if (digitNumber > 1)
+                    calculateMultipleDigits(digitNumber, operandStack);
+
+                digitNumber = 0;
+            }
+        }
+
+        if (digitNumber > 1)
+            calculateMultipleDigits(digitNumber, operandStack);
+
+
+        while (operatorStack.size() > 0) {
+            switch (operatorStack.pop()) {
+                case '+':
+                    operandStack.push(operandStack.pop() + operandStack.pop());
+                    break;
+                case '-':
+                    operandStack.push(operandStack.pop() - operandStack.pop());
+                    break;
+            }
+        }
+        return operandStack.pop();
+    }
+
+    private IStack<Integer> calculateMultipleDigits(int digitNumber, IStack<Integer> operandStack) {
+        int constructMultiDigitNumber =0;
+        int temp = digitNumber;
+        while (digitNumber > 0) {
+            constructMultiDigitNumber += Math.pow(10,temp-digitNumber)* operandStack.pop();
+            digitNumber--;
+        }
+        operandStack.push(constructMultiDigitNumber);
+        return operandStack;
     }
 
 }

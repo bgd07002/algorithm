@@ -57,5 +57,23 @@ public class TreesTest {
         Assert.assertTrue("Root is not correct", bst.isRoot(new BinaryTreeNode<>(10)));
         Assert.assertTrue("3 is an internal node", bst.isInternal(bst.getRoot().getLeftChild().getLeftChild()));
         Assert.assertTrue("21 is an external node", bst.isExternal(bst.getRoot().getRightChild().getLeftChild()));
+
+        Assert.assertEquals(6, (int)bst.ceilingElement(bst.getRoot().getLeftChild())); //Ceiling of 5
+        Assert.assertEquals(7, (int)bst.ceilingElement(bst.getRoot().getLeftChild().getRightChild().getLeftChild())); //Ceiling of 6
+        Assert.assertEquals(10, (int)bst.ceilingElement(bst.getRoot().getLeftChild().getRightChild().getRightChild())); //Ceiling of 9
+
+        Assert.assertEquals(4, (int)bst.floorElement(bst.getRoot().getLeftChild())); //Floor of 5
+        Assert.assertEquals(7, (int)bst.floorElement(bst.getRoot().getLeftChild().getRightChild().getRightChild())); //Ceiling of 9
+        Assert.assertEquals(5, (int)bst.floorElement(bst.getRoot().getLeftChild().getRightChild().getLeftChild())); //Ceiling of 6
+
+        bst.removeElement(9);
+        Assert.assertEquals(false, bst.findElement(9));
+
+        bst.removeElement(7);
+        Assert.assertEquals("Pre-order traversals are not equal", "10, 5, 3, 1, 4, 6, 20, 14, 21, ", bst.preOrderTraversal());
+
+        bst.addElement(8);
+        bst.removeElement(5);
+        Assert.assertEquals("Pre-order traversals are not equal", "10, 6, 3, 1, 4, 8, 20, 14, 21, ", bst.preOrderTraversal());
     }
 }

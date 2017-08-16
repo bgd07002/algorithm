@@ -58,6 +58,16 @@ public class BinarySearchTreesArrayRep<T extends Comparable<T>> implements IBina
         return bstList.get(i).getData();
     }
 
+    @Override
+    public T floorElement(BinaryTreeNode<T> node) {
+        return null;
+    }
+
+    @Override
+    public T ceilingElement(BinaryTreeNode<T> node) {
+        return null;
+    }
+
     public boolean isEmpty() {
         return size ==0;
     }

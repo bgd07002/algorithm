@@ -1,7 +1,9 @@
 package DataStructures.Tries;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 public class Trie implements ITrie {
 
@@ -93,17 +95,46 @@ public class Trie implements ITrie {
 
     @Override
     public String allStrings() {
-        return allStringsHelper(root).toString();
+        return allStringsHelper(root).toString().replace("$", " ").trim();
     }
 
     private StringBuilder allStringsHelper(TrieNode node) {
         StringBuilder sb = new StringBuilder();
+
+        int numElem =0;
         for (TrieNode aNode : node.getChildren()) {
+            if (numElem > 0) {
+                Stack<Character> stack = new Stack<>();
+                TrieNode cur = node;
+                while (!cur.equals(root)) {
+                    stack.push(cur.getValue());
+                    cur = cur.getParent();
+                }
+
+                while(stack.size() > 0)
+                    sb.append(stack.pop());
+            }
+
             sb.append(aNode.getValue());
             sb.append(allStringsHelper(aNode));
+            numElem++;
         }
-
         return sb;
+    }
+
+    @Override
+    public String prefixMatches(String prefix) {
+
+        char[] prefixArr = prefix.toCharArray();
+        TrieNode cur = root;
+        for (int i=0; i < prefixArr.length; i++) {
+            char c = prefixArr[i];
+            cur = cur.getChildren().stream().filter(e -> c == e.getValue()).findAny().orElse(null);
+
+            if (cur == null)
+                return null;
+        }
+        return prefix+allStringsHelper(cur).toString().replace("$", " ").trim();
     }
 
     protected class TrieNode {
@@ -126,105 +157,4 @@ public class Trie implements ITrie {
         public TrieNode getParent() { return parent; }
         public char getValue() { return value; }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    public void addString(String s) {
-        if (s == null || s.length() < 1)
-            return;
-
-        TrieNode cur = root;
-        for (char ch : (s + "$").toCharArray()) {
-            ArrayList<TrieNode> listNodes = cur.getChildren();
-
-            boolean isMatchOK = false;
-            for (TrieNode node : listNodes) {
-                if (node.getValue() == ch) {
-                    isMatchOK = true;
-                    cur = node;
-                    break;
-                }
-            }
-
-            if (!isMatchOK) {
-                listNodes.add(new TrieNode(ch));
-                cur = listNodes.get(listNodes.size()-1);
-            }
-        }
-    }
-
-    public boolean hasString(String s) {
-
-        TrieNode cur = root;
-        for (char ch : (s + "$").toCharArray()) {
-            ArrayList<TrieNode> listNodes = cur.getChildren();
-
-            boolean isMatchOK = false;
-            for (TrieNode node : listNodes) {
-                if (node.getValue() == ch) {
-                    isMatchOK = true;
-                    cur = node;
-                    break;
-                }
-            }
-
-            if (!isMatchOK)
-                return false;
-        }
-        return true;
-    }
-
-    public boolean removeString(String s) {
-
-        TrieNode cur = root;
-        ArrayList<TrieNode> listToBePurged = new ArrayList<>();
-        int nodeIdxToBePurged = -1;
-
-        for (char ch :  (s + "$").toCharArray()) {
-            ArrayList<TrieNode> listNodes = cur.getChildren();
-            boolean isMatchOK = false;
-
-            for (int i =0; i< listNodes.size(); i++) {
-                if (listNodes.get(i).getValue() == ch) {
-                    isMatchOK = true;
-                    if (listNodes.get(i).getChildren() != null &&
-                            listNodes.get(i).getChildren().size() <= 1 &&
-                            listNodes.size() >1) {
-
-                        nodeIdxToBePurged = i;
-                        listToBePurged = listNodes;
-                    }
-                    cur = listNodes.get(i);
-                    break;
-                }
-            }
-
-            if (!isMatchOK)
-                return false;
-        }
-
-        listToBePurged.remove(nodeIdxToBePurged);
-        return true;
-    }
-    */
-
-
 }

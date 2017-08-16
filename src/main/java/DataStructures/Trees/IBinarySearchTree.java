@@ -9,6 +9,8 @@ public interface IBinarySearchTree<T> {
     boolean isExternal(BinaryTreeNode<T> node);
     T minElement();
     T maxElement();
+    T floorElement(BinaryTreeNode<T> node);
+    T ceilingElement(BinaryTreeNode<T> node);
     boolean isEmpty();
     int getSize();
     int height();

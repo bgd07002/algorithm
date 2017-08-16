@@ -5,6 +5,7 @@ public interface ITrie {
     boolean hasString(String s);
     boolean removeString(String s);
     String allStrings();
+    String prefixMatches(String prefix);
 }
 
 

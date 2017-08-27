@@ -5,6 +5,28 @@ import java.util.*;
 public class HashTables {
 
     /**
+     * 13.1 Test for palindromic permutation. Write a program to test whether a string can be permuted
+     * to form a palindrome. Example: "edified" -> deified
+     */
+    public boolean permutationPalindrome(String str) {
+        int[] charArr =  new int[256];
+
+        //Add character values into integer array of length 256
+        for (char c : str.toCharArray()) {
+            charArr[(int)c]++;
+        }
+
+        //Pass the integer array for odd values
+        int oddValues = 0;
+        for (int i: charArr) {
+            oddValues += ((i&1) == 1)? 1:0;
+        }
+
+        return oddValues <= 1;
+    }
+
+
+    /**
      * 12.3 Nearest Repetition: People do not like reading text in which word is used multiple times.
      * Write a function which identifies closest pair of equal entities.
      */

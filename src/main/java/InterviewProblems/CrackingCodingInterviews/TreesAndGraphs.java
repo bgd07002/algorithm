@@ -5,6 +5,7 @@ import DataStructures.Trees.BinaryTreeNode;
 import DataStructures.Trees.IBinarySearchTree;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
@@ -21,48 +22,43 @@ public class TreesAndGraphs<T extends Comparable<T>> {
      * tree with minimal height.
      */
     public IBinarySearchTree<Integer> bstFromSortedArray(int[] sortedArray) {
-
         IBinarySearchTree<Integer> bst = new BinarySearchTrees<>();
-        if (sortedArray.length < 1)
-            return bst;
-
-        bstFromSortedArrayHelper(bst, sortedArray, 0, sortedArray.length-1);
+        bstFromSortedArrayHelper(sortedArray, bst, 0, sortedArray.length-1);
         return bst;
     }
 
-    private void bstFromSortedArrayHelper(IBinarySearchTree<Integer> bst, int[] sortedArray, int start, int finish) {
-        int mid = (start+finish)/2;
+    private void bstFromSortedArrayHelper(int[] sortedArray, IBinarySearchTree<Integer> bst, int start, int end) {
+        if (start > end)
+            return;
+
+        int mid = (start+end)/2;
         bst.addElement(sortedArray[mid]);
-
-        if (start <= mid-1)
-            bstFromSortedArrayHelper(bst, sortedArray, start, mid-1);
-
-        if (mid+1 <= finish)
-            bstFromSortedArrayHelper(bst, sortedArray, mid+1, finish);
+        bstFromSortedArrayHelper(sortedArray, bst, start, mid-1);
+        bstFromSortedArrayHelper(sortedArray, bst, mid+1, end);
     }
 
     /**
      * 4.3 List of depths: Given a binary tree, design an algorithm which creates a linked list of all nodes at each depth
      * (if you have tree with depth D, you will have D linked lists)
      */
-    public LinkedHashMap<Integer, LinkedList<BinaryTreeNode<T>>> listAtDepth(BinarySearchTrees<T> bst) {
-        LinkedHashMap<Integer, LinkedList<BinaryTreeNode<T>>> listOfDepths = new LinkedHashMap<>();
+    public HashMap<Integer, LinkedList<BinaryTreeNode<T>>> listAtDepth(BinarySearchTrees<T> bst) {
+        HashMap<Integer, LinkedList<BinaryTreeNode<T>>> listOfDepths = new HashMap<>();
         listAtDepthHelper(listOfDepths, bst.getRoot(), 0);
         return listOfDepths;
     }
 
-    private void listAtDepthHelper(LinkedHashMap<Integer, LinkedList<BinaryTreeNode<T>>> listOfDepths, BinaryTreeNode<T> node, int level) {
-        LinkedList<BinaryTreeNode<T>> nodeList = listOfDepths.get(level);
-        if (nodeList == null)
-            nodeList = new LinkedList<>();
-        nodeList.add(node);
-        listOfDepths.put(level, nodeList);
+    private void listAtDepthHelper(HashMap<Integer, LinkedList<BinaryTreeNode<T>>> listOfDepths, BinaryTreeNode<T> node, int height) {
+        if (listOfDepths.get(height) == null) {
+            LinkedList<BinaryTreeNode<T>> list = new LinkedList<>();
+            list.add(node);
+            listOfDepths.put(height, list);
+        } else
+            listOfDepths.get(height).add(node);
 
         if (node.getLeftChild() != null)
-            listAtDepthHelper(listOfDepths, node.getLeftChild(), level+1);
-
+            listAtDepthHelper(listOfDepths, node.getLeftChild(), height+1);
         if (node.getRightChild() != null)
-            listAtDepthHelper(listOfDepths, node.getRightChild(), level+1);
+            listAtDepthHelper(listOfDepths, node.getRightChild(), height+1);
     }
 
     /**
@@ -77,8 +73,7 @@ public class TreesAndGraphs<T extends Comparable<T>> {
         if (node == null)
             return true;
 
-        if (Math.abs(inputTree.computeHeight(node.getRightChild())-
-                inputTree.computeHeight(node.getLeftChild())) > 1)
+        if (Math.abs(inputTree.computeHeight(node.getRightChild())- inputTree.computeHeight(node.getLeftChild())) > 1)
             return false;
         else {
             return checkBalancedHelper(inputTree, node.getLeftChild()) &&
@@ -90,27 +85,28 @@ public class TreesAndGraphs<T extends Comparable<T>> {
      * 4.5 BST Validation: Implement a function to check if a binary tree is a binary search tree
      */
     public boolean validateBST(BinarySearchTrees<T> inputTree) {
-        if (inputTree.getSize() < 2)
+        if (inputTree.getSize() <= 1)
             return true;
 
         return validateBSTHelper(inputTree.getRoot());
     }
 
-    private boolean validateBSTHelper(BinaryTreeNode<T> subRoot) {
-        if (subRoot.getRightChild() != null) {
-            if (subRoot.getData().compareTo(subRoot.getRightChild().getData()) <= 0)
-                validateBSTHelper(subRoot.getRightChild());
-            else
+    private boolean validateBSTHelper(BinaryTreeNode<T> node) {
+        boolean isBST = true;
+        if (node.getRightChild() != null) {
+            if (node.getData().compareTo(node.getRightChild().getData()) >= 0)
                 return false;
+
+            isBST = validateBSTHelper(node.getRightChild());
         }
 
-        if (subRoot.getLeftChild() != null) {
-            if (subRoot.getData().compareTo(subRoot.getLeftChild().getData()) >= 0)
-                validateBSTHelper(subRoot.getLeftChild());
-            else
+        if (node.getLeftChild() != null) {
+            if (node.getData().compareTo(node.getLeftChild().getData()) <= 0)
                 return false;
+
+            isBST = isBST && validateBSTHelper(node.getRightChild());
         }
-        return true;
+        return isBST;
     }
 
     /**
@@ -148,21 +144,20 @@ public class TreesAndGraphs<T extends Comparable<T>> {
      * 4.8 First common ancestor: Design an algorithm and write code to find the first common ancestor ow two nodes
      * in a binary tree.
      */
-    public T firstCommonAncestor(BinarySearchTrees<T> bst, BinaryTreeNode<T> node1, BinaryTreeNode<T> node2) {
+    public T firstCommonAncestor(BinaryTreeNode<T> node1, BinaryTreeNode<T> node2) {
         BinaryTreeNode<T> cur1 = node1;
-        BinaryTreeNode<T> cur2;
 
-        while (!cur1.equals(bst.getRoot())) {
-            cur2 = node2;
-            while (!cur2.equals(bst.getRoot())) {
-                if (cur1.equals(cur2)) {
+        while (cur1 != null) {
+            BinaryTreeNode<T> cur2 = node2;
+            while(cur2 != null) {
+                if (cur1.getData().equals(cur2.getData()))
                     return cur1.getData();
-                }
+
                 cur2 = cur2.getParentNode();
             }
             cur1 = cur1.getParentNode();
         }
-        return bst.getRoot().getData();
+        return null;
     }
 
     /**

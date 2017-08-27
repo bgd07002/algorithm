@@ -98,10 +98,15 @@ public class LinkedLists<T extends Comparable<T>>{
     }
 
     /**
-     * 7.9 Reversing a Singly Linked List
+     * 8.2 Reversing a Singly Linked List
      */
-    public SinglyLinkedList<T> reverseSinglyLinkedList(SinglyLinkedList<T> list) {
+    public void reverseSinglyLinkedList(SinglyLinkedList<T> list) {
 
+        if (list.size() < 2)
+            return;
+
+        //1--> 2 --> 3 --> 4
+        //1<-- 2 --> 3 --> 4
         Node<T> cur = list.getHead();
         Node<T> reverseNext = null;
         Node<T> next;
@@ -112,8 +117,6 @@ public class LinkedLists<T extends Comparable<T>>{
             reverseNext = cur;
             cur = next;
         }
-
         list.setHead(reverseNext);
-        return list;
     }
 }

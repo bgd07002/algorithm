@@ -4,8 +4,8 @@ public class PriorityQueue<K,D> implements IPriorityQueue<K,D> {
 
     private IHeap<K,D> heap;
 
-    public PriorityQueue(IHeap<K, D> heap) {
-        this.heap = heap;
+    public PriorityQueue() {
+        heap = new ArrayHeap<>();
     }
 
     @Override

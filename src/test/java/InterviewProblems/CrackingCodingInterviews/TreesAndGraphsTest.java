@@ -6,12 +6,82 @@ import org.junit.Assert;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 public class TreesAndGraphsTest {
 
     /**
+     * 4.2
+     */
+    @Test
+    public void bstFromSortedArrayTest() {
+        TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
+        int[] inputArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+        IBinarySearchTree<Integer> bst = s.bstFromSortedArray(inputArr);
+        Assert.assertEquals(16, bst.getSize());
+        Assert.assertEquals(3, bst.height());
+    }
+
+    /**
+     * 4.3
+     */
+    @Test
+    public void listAtDepthTest() {
+        TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
+        BinarySearchTrees<Integer> bst = new BinarySearchTrees<>();
+        bst.addElement(10);
+        bst.addElement(5);
+        bst.addElement(20);
+        bst.addElement(3);
+        bst.addElement(7);
+        bst.addElement(14);
+        bst.addElement(21);
+        bst.addElement(1);
+        bst.addElement(4);
+        bst.addElement(6);
+        bst.addElement(9);
+        bst.addElement(4);
+
+        HashMap<Integer, LinkedList<BinaryTreeNode<Integer>>> listOfDepths = s.listAtDepth(bst);
+        Assert.assertEquals(1, listOfDepths.get(0).size());
+        Assert.assertEquals(2, listOfDepths.get(1).size());
+        Assert.assertEquals(4, listOfDepths.get(2).size());
+        Assert.assertEquals(4, listOfDepths.get(3).size());
+    }
+
+    /**
+     * 4.4
+     */
+    @Test
+    public void checkBalancedTest() {
+        TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
+        BinarySearchTrees<Integer> bst = new BinarySearchTrees<>();
+        bst.addElement(10);
+        bst.addElement(5);
+        bst.addElement(20);
+        bst.addElement(3);
+        bst.addElement(7);
+        bst.addElement(14);
+        bst.addElement(21);
+        bst.addElement(1);
+        bst.addElement(4);
+        bst.addElement(6);
+        bst.addElement(9);
+        bst.addElement(4);
+
+        boolean isBalanced = s.checkBalanced(bst);
+        Assert.assertEquals(true, isBalanced);
+
+        bst.addElement(0);
+        isBalanced = s.checkBalanced(bst);
+        Assert.assertEquals(false, isBalanced);
+    }
+
+    /**
+     * 4.5
+     *
      *                 10
      *               /    \
      *             /       \
@@ -42,64 +112,9 @@ public class TreesAndGraphsTest {
         Assert.assertEquals(true, s.validateBST(bst));
     }
 
-    @Test
-    public void bstFromSortedArrayTest() {
-        TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
-        int[] inputArr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
-        IBinarySearchTree<Integer> bst = s.bstFromSortedArray(inputArr);
-        Assert.assertEquals(16, bst.getSize());
-        Assert.assertEquals(5, bst.height());
-    }
-
-    @Test
-    public void listAtDepthTest() {
-        TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
-        BinarySearchTrees<Integer> bst = new BinarySearchTrees<>();
-        bst.addElement(10);
-        bst.addElement(5);
-        bst.addElement(20);
-        bst.addElement(3);
-        bst.addElement(7);
-        bst.addElement(14);
-        bst.addElement(21);
-        bst.addElement(1);
-        bst.addElement(4);
-        bst.addElement(6);
-        bst.addElement(9);
-        bst.addElement(4);
-
-        LinkedHashMap<Integer, LinkedList<BinaryTreeNode<Integer>>> listOfDepths = s.listAtDepth(bst);
-        Assert.assertEquals(1, listOfDepths.get(0).size());
-        Assert.assertEquals(2, listOfDepths.get(1).size());
-        Assert.assertEquals(4, listOfDepths.get(2).size());
-        Assert.assertEquals(4, listOfDepths.get(3).size());
-    }
-
-    @Test
-    public void checkBalancedTest() {
-        TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
-        BinarySearchTrees<Integer> bst = new BinarySearchTrees<>();
-        bst.addElement(10);
-        bst.addElement(5);
-        bst.addElement(20);
-        bst.addElement(3);
-        bst.addElement(7);
-        bst.addElement(14);
-        bst.addElement(21);
-        bst.addElement(1);
-        bst.addElement(4);
-        bst.addElement(6);
-        bst.addElement(9);
-        bst.addElement(4);
-
-        boolean isBalanced = s.checkBalanced(bst);
-        Assert.assertEquals(true, isBalanced);
-
-        bst.addElement(0);
-        isBalanced = s.checkBalanced(bst);
-        Assert.assertEquals(false, isBalanced);
-    }
-
+    /**
+     * 4.6
+     */
     @Test
     public void findSuccessorTest() {
         TreesAndGraphs<Integer> s = new TreesAndGraphs<>();
@@ -128,6 +143,8 @@ public class TreesAndGraphsTest {
     }
 
     /**
+     * 4.8
+     *
      *                 10
      *               /    \
      *             /       \
@@ -160,13 +177,13 @@ public class TreesAndGraphsTest {
         BinaryTreeNode<Integer> seven = bst.getRoot().getLeftChild().getRightChild();
         BinaryTreeNode<Integer> ten = bst.getRoot();
 
-        int commonAnc = s.firstCommonAncestor(bst, one, six);
+        int commonAnc = s.firstCommonAncestor(one, six);
         Assert.assertEquals(5, commonAnc);
 
-        commonAnc = s.firstCommonAncestor(bst, one, seven);
+        commonAnc = s.firstCommonAncestor(one, seven);
         Assert.assertEquals(5, commonAnc);
 
-        commonAnc = s.firstCommonAncestor(bst, one, ten);
+        commonAnc = s.firstCommonAncestor(one, ten);
         Assert.assertEquals(10, commonAnc);
     }
 

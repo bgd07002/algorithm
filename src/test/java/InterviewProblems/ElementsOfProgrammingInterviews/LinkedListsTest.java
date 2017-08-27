@@ -89,7 +89,7 @@ public class LinkedListsTest {
         list.addLast(5);
         list.addLast(6);
         list.addLast(7);
-        list = l.reverseSinglyLinkedList(list);
+        l.reverseSinglyLinkedList(list);
         Node<Integer> cur = list.getHead();
         Assert.assertEquals(7, (int)cur.getValue());
         Assert.assertEquals(6, (int)cur.getNext().getValue());

@@ -6,7 +6,7 @@ import java.util.Stack;
 public class StacksAndQueues {
 
     /**
-     * 8.2 Reverse Polish Notation (RPN):
+     * 9.2 Reverse Polish Notation (RPN):
      * Example: 3,4,*,1,2,+,+
      */
     public int reversePolishExpression(String exp) {
@@ -46,6 +46,42 @@ public class StacksAndQueues {
             }
         }
         return expResult;
+    }
+
+    /**
+     * 9.3 Paranthesis well-formation for a string
+     * For example: "([]){()}" and "[()[]{()()}]" are well-formed
+     * but "{]" and "[()[]{()()" are not well-formed
+     */
+    public boolean paranthesisWellFormationCheck(String s) {
+        Stack<Character> stack = new Stack<>();
+
+        for (char c: s.toCharArray()) {
+            switch (c) {
+                case '}':
+                    if (stack.peek() == '{')
+                        stack.pop();
+                    break;
+                case ']':
+                    if (stack.peek() == '[')
+                        stack.pop();
+                    break;
+                case ')':
+                    if (stack.peek() == '(')
+                        stack.pop();
+                    break;
+                default:
+                    if (c == '{' || c == '[' || c == '(')
+                        stack.push(c);
+                    else
+                        return false; //due to invalid character
+            }
+        }
+
+        if (stack.isEmpty())
+            return true;
+
+        return false;
     }
 
     /**

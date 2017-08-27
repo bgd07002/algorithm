@@ -6,6 +6,17 @@ import java.io.IOException;
 
 public class HashTablesTest {
 
+    /**
+     * 13.1
+     */
+    @Test
+    public void permutationPalindromeTest() {
+        HashTables h = new HashTables();
+        Assert.assertEquals(true, h.permutationPalindrome("edified"));
+        Assert.assertEquals(true, h.permutationPalindrome("ediffied"));
+        Assert.assertEquals(false, h.permutationPalindrome("sdiffiedt"));
+    }
+
     @Test
     public void nearestRepetitionTest() throws IOException {
         HashTables h = new HashTables();

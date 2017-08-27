@@ -5,6 +5,9 @@ import org.testng.annotations.Test;
 
 public class StacksAndQueuesTest {
 
+    /**
+     * 9.2
+     */
     @Test
     public void reversePolishExpressionTest() {
         StacksAndQueues s = new StacksAndQueues();
@@ -16,5 +19,18 @@ public class StacksAndQueuesTest {
 
         exp = "4,6,/,2,/";
         Assert.assertEquals(0, s.reversePolishExpression(exp));
+    }
+
+    /**
+     * 9.3
+     */
+    @Test
+    public void paranthesisWellFormationCheckTest() {
+        StacksAndQueues s = new StacksAndQueues();
+        Assert.assertEquals(true, s.paranthesisWellFormationCheck("([]){()}"));
+        Assert.assertEquals(true, s.paranthesisWellFormationCheck("[()[]{()()}]"));
+
+        Assert.assertEquals(false, s.paranthesisWellFormationCheck("{]"));
+        Assert.assertEquals(false, s.paranthesisWellFormationCheck("[()[]{()()"));
     }
 }

@@ -229,7 +229,70 @@ public class Arrays {
         return true;
     }
 
+
     /**
+     * 6.17 Spiral Ordering of 2D array
+     */
+    public int[] spiralOrdering(int[][] arr) {
+        int[] spiralOrder = new int[arr.length*arr.length];
+        int cur1 = 0;
+        int cur2 = 0;
+        int idx = 0;
+
+        while (cur1+cur2 < arr.length) {
+            idx = upperRowForward(arr, spiralOrder, idx, cur1);
+
+            if (idx == spiralOrder.length)
+                break;
+            idx = rightColumnDownward(arr, spiralOrder, idx, cur2);
+
+            if (idx == spiralOrder.length)
+                break;
+            idx = lowerRowBackward(arr, spiralOrder, idx, cur1);
+
+
+            idx = leftColumnUpward(arr, spiralOrder, idx, cur2);
+            cur1++;
+            cur2++;
+        }
+
+        return spiralOrder;
+    }
+
+    private int upperRowForward(int[][] arr, int[] spiralOrder, int idx, int cur1) {
+        for (int j =cur1; j < arr[cur1].length-cur1; j++) {
+            spiralOrder[idx] = arr[cur1][j];
+            idx++;
+        }
+        return idx;
+    }
+
+    private int rightColumnDownward(int[][] arr, int[] spiralOrder, int idx, int cur2) {
+        for (int i =cur2+1; i< arr.length-cur2; i++) {
+            spiralOrder[idx] = arr[i][arr.length-cur2-1];
+            idx++;
+        }
+        return idx;
+    }
+
+    private int lowerRowBackward(int[][] arr, int[] spiralOrder, int idx, int cur1) {
+        for (int j =arr.length-cur1-2; j>= cur1; j--) {
+            spiralOrder[idx] = arr[arr.length-1-cur1][j];
+            idx++;
+        }
+        return idx;
+    }
+
+    private int leftColumnUpward(int[][] arr, int[] spiralOrder, int idx, int cur2) {
+        for (int i = arr.length-cur2-2; i>= cur2+1; i--) {
+            spiralOrder[idx] = arr[i][cur2];
+            idx++;
+        }
+        return idx;
+    }
+
+    /**
+     * 6.18 Rotate 2D array by 90 degrees (Cracking Coding Interview 1.7).
      * 6.19 Computes Pascal triangle
      */
     public List<int[]> computePascalTriangle(int n) {

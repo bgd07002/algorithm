@@ -188,4 +188,39 @@ public class Strings {
         }
         return true;
     }
+
+    /**
+     * 7.11 Write string sinusoidally
+     * 7.12 Run length encoding (Cracking Coding Interview 1.6)
+     * 7.13 First occurrence of substring (KMP, Rabin Karp, etc)
+     */
+    public String stringSinusoidally(String str, int verticality) {
+
+        StringBuilder[] sbArr = new StringBuilder[verticality];
+
+        char[] strArr = str.toCharArray();
+        int idx =0;
+        boolean isIncreasing = true;
+        for (int j=0; j<strArr.length; j++) {
+            if (sbArr[idx] == null)
+                sbArr[idx] = new StringBuilder();
+
+            sbArr[idx].append(strArr[j]);
+
+            //Logic at border points
+            if (isIncreasing && idx == verticality-1)
+                isIncreasing = false;
+            else if (!isIncreasing && idx == 0)
+                isIncreasing = true;
+
+            idx = (isIncreasing)? idx+1: idx-1;
+        }
+
+        //Concatenate these string builders
+        StringBuilder sb = new StringBuilder();
+        for (StringBuilder aStrBld: sbArr)
+            sb.append(aStrBld);
+
+        return sb.toString();
+    }
 }

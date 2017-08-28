@@ -88,4 +88,13 @@ public class StringsTest {
         Assert.assertEquals(false, a.testPalindromicity(s3));
     }
 
+    /**
+     * 7.11
+     */
+    @Test
+    public void stringSinusoidallyTest() {
+        Strings s = new Strings();
+        Assert.assertEquals("HOREL OLLWD", s.stringSinusoidally("HELLO WORLD",3));
+        Assert.assertEquals("HWE OLORDLL", s.stringSinusoidally("HELLO WORLD",4));
+    }
 }

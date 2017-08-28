@@ -3,6 +3,8 @@ package InterviewProblems.ElementsOfProgrammingInterviews;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Sorting<T extends Comparable<T>> {
 
@@ -31,6 +33,19 @@ public class Sorting<T extends Comparable<T>> {
     }
 
     /**
-     *
+     * 14.2 Merge Two Sorted Arrays
+     * 14.3 Remove First Name Duplicates
      */
+    public List<String[]> removeFirstNameDuplicates(List<String[]> names) {
+        Map<String,String> mapNames = new TreeMap();
+        for (String[] aName : names)
+            mapNames.put(aName[0],aName[1]);
+
+        List<String[]> result = new ArrayList<>();
+        for (String firstName: mapNames.keySet())
+            result.add(new String[]{firstName, mapNames.get(firstName)});
+
+        return result;
+    }
+
 }

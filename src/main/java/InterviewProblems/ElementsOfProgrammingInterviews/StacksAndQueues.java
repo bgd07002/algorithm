@@ -10,42 +10,48 @@ public class StacksAndQueues {
      * Example: 3,4,*,1,2,+,+
      */
     public int reversePolishExpression(String exp) {
-
-        String[] units = exp.split(",");
-        String operators = "+*/-";
-        Stack<String> expStack = new Stack<>();
-
-        int expResult = 0;
-        for (String s : units) {
-
-            if (!operators.contains(s)) {
-                expStack.push(s);
-            } else {
-                expStack.push(s);
-                if (expStack.size() < 3)
-                    throw new InvalidParameterException("Format of RPN is wrong!");
-
-                String operator = expStack.pop();
-                int num2 = Integer.parseInt(expStack.pop());
-                int num1 = Integer.parseInt(expStack.pop());
-                switch (operator) {
-                    case "+":
-                        expResult = num1 + num2;
-                        break;
-                    case "-":
-                        expResult = num1 - num2;
-                        break;
-                    case "*":
-                        expResult = num1 * num2;
-                        break;
-                    case "/":
-                        expResult = num1 / num2;
-                        break;
-                }
-                expStack.push(Integer.toString(expResult));
+        //Case 12, -23
+        String[] expressionUnits = exp.split(",");
+        Stack<String> stack = new Stack<>();
+        for (String s : expressionUnits) {
+            //Contains only operator
+            if (s.matches("^[+*/-]+$")) {
+                arithmeticForRPN(stack, s);
+            } else if (s.matches("^[0-9-]+$")){
+                stack.push(s);
             }
+            else
+                throw new InvalidParameterException("RPN contains illegal characters!");
         }
-        return expResult;
+
+        if (stack.size() == 1)
+            return Integer.parseInt(stack.pop());
+
+        return -1;
+    }
+
+    private void arithmeticForRPN(Stack<String> stack, String operator) {
+        String num1Str = stack.pop();
+        String num2Str = stack.pop();
+        if (num1Str == null || num2Str == null)
+            throw new InvalidParameterException("Format of RPN is wrong!");
+
+        int num1 = Integer.parseInt(num1Str);
+        int num2 = Integer.parseInt(num2Str);
+        switch (operator) {
+            case "+":
+                stack.push(Integer.toString(num1 + num2));
+                break;
+            case "-":
+                stack.push(Integer.toString(num1 - num2));
+                break;
+            case "*":
+                stack.push(Integer.toString(num1 * num2));
+                break;
+            case "/":
+                stack.push(Integer.toString(num1 / num2));
+                break;
+        }
     }
 
     /**

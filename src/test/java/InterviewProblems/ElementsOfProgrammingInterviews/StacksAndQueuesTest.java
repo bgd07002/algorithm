@@ -17,8 +17,8 @@ public class StacksAndQueuesTest {
         exp = "1,1,+,-2,*";
         Assert.assertEquals(-4, s.reversePolishExpression(exp));
 
-        exp = "4,6,/,2,/";
-        Assert.assertEquals(0, s.reversePolishExpression(exp));
+        exp = "4,6,/,-25,+";
+        Assert.assertEquals(-24, s.reversePolishExpression(exp));
     }
 
     /**

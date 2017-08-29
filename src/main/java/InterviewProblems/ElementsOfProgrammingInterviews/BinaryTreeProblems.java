@@ -6,6 +6,7 @@ import DataStructures.Trees.BinaryTreeNode;
 public class BinaryTreeProblems<T extends Comparable<T>> {
 
     /**
+     * 10.1 Test if binary tree is height balanced
      * 10.2 Test if binary tree is symmetric
      */
     public boolean isBinaryTreeSymmetric(BinarySearchTrees<T> bst) {
@@ -29,8 +30,9 @@ public class BinaryTreeProblems<T extends Comparable<T>> {
     }
 
     /**
-     * 10.5 Sum the root to leaf paths in a binary formed tree. Each its node consists of
-     * binary numbers
+     * 10.3 Lowest common ancestor without parent node
+     * 10.4 Lowest common ancestor with parent node
+     * 10.5 Sum the root to leaf paths in a binary formed tree. Each its node consists of binary numbers
      */
     /*
     public int binaryFormedTreeSum(BinaryFormedBinaryTree tree) {

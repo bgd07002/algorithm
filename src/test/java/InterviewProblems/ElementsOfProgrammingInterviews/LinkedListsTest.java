@@ -7,6 +7,9 @@ import org.testng.annotations.Test;
 
 public class LinkedListsTest {
 
+    /**
+     * 8.1
+     */
     @Test
     public void mergeSortedLists() {
         SinglyLinkedList<Integer> first = new SinglyLinkedList<>();
@@ -37,6 +40,29 @@ public class LinkedListsTest {
         Assert.assertEquals("[1, 2, 3, 4, 6, 8]", first.printElements());
     }
 
+    /**
+     * 8.2
+     */
+    @Test
+    public void reverseSinglyLinkedListTest() {
+        LinkedLists l = new LinkedLists();
+        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
+        list.addLast(2);
+        list.addLast(3);
+        list.addLast(4);
+        list.addLast(5);
+        list.addLast(6);
+        list.addLast(7);
+        l.reverseSinglyLinkedList(list);
+        Node<Integer> cur = list.getHead();
+        Assert.assertEquals(7, (int)cur.getValue());
+        Assert.assertEquals(6, (int)cur.getNext().getValue());
+        Assert.assertEquals(4, (int)cur.getNext().getNext().getNext().getValue());
+    }
+
+    /**
+     * 8.3
+     */
     @Test
     public void isListCircularTest() {
         LinkedLists l = new LinkedLists();
@@ -48,13 +74,13 @@ public class LinkedListsTest {
         list.addLast(1);
         list.addLast(3);
         list.addLast(5);
-        Assert.assertEquals(false, l.isListCircular(list));
+        Assert.assertEquals(null, l.findHeadOfCircularList(list));
         list.addLast(7);
-        Assert.assertEquals(false, l.isListCircular(list));
+        Assert.assertEquals(null, l.findHeadOfCircularList(list));
         Node<Integer> tail = list.getHead().getNext().getNext().getNext().getNext().getNext().getNext().getNext();
-        tail.setNext(list.getHead());
+        tail.setNext(list.getHead().getNext().getNext());
 
-        Assert.assertEquals(true, l.isListCircular(list));
+        Assert.assertEquals(6, l.findHeadOfCircularList(list));
     }
 
     @Test
@@ -77,22 +103,5 @@ public class LinkedListsTest {
         node.setNext(list.getHead());
         cur.setNext(node);
         Assert.assertEquals(6, l.medianSortedCircularList(list));
-    }
-
-    @Test
-    public void reverseSinglyLinkedListTest() {
-        LinkedLists l = new LinkedLists();
-        SinglyLinkedList<Integer> list = new SinglyLinkedList<>();
-        list.addLast(2);
-        list.addLast(3);
-        list.addLast(4);
-        list.addLast(5);
-        list.addLast(6);
-        list.addLast(7);
-        l.reverseSinglyLinkedList(list);
-        Node<Integer> cur = list.getHead();
-        Assert.assertEquals(7, (int)cur.getValue());
-        Assert.assertEquals(6, (int)cur.getNext().getValue());
-        Assert.assertEquals(4, (int)cur.getNext().getNext().getNext().getValue());
     }
 }

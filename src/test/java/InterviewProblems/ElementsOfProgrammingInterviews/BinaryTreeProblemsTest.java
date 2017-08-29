@@ -6,6 +6,10 @@ import org.testng.annotations.Test;
 
 public class BinaryTreeProblemsTest {
 
+    /**
+     * 10.1 Test if tree is balanced
+     * 10.2 Test if tree is symmetric
+     */
     @Test
     public void isBinaryTreeSymmetricTest() {
         BinaryTreeProblems b = new BinaryTreeProblems();

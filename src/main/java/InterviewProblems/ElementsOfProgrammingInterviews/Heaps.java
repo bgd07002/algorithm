@@ -27,4 +27,12 @@ public class Heaps {
 
         return mergedList;
     }
+
+    /**
+     * 11.2 Sort Increasing Decreasing Array
+     */
+    public List<Integer> sortIncreasingDecreasingArray(int[] arr) {
+
+        return null;
+    }
 }

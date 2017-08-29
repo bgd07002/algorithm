@@ -6,7 +6,7 @@ import DataStructures.ListStackQueue.SinglyLinkedList;
 public class LinkedLists<T extends Comparable<T>>{
 
     /**
-     * 7.1 Merge Two Sorted Singly Lists
+     * 8.1 Merge Two Sorted Singly Lists
      */
     public void mergeSortedLists(SinglyLinkedList<T> first, SinglyLinkedList<T> second) {
 
@@ -55,49 +55,6 @@ public class LinkedLists<T extends Comparable<T>>{
     }
 
     /**
-     * 7.2 Checking for Cyclicity: Given a reference to the head of linked list L. How would you
-     * determine whether L ends with null or cycle.
-     */
-    public boolean isListCircular(SinglyLinkedList<T> list) {
-        Node<T> cur1 = list.getHead();
-        Node<T> cur2 = list.getHead();
-
-        while (cur2 != null) {
-            cur1 = cur1.getNext();
-            cur2 = cur2.getNext();
-            if (cur2 == null)
-                return false;
-
-            cur2 = cur2.getNext();
-
-            if (cur1 == cur2)
-                return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * 7.3 Median of Sorted Circular Linked List
-     */
-    public T medianSortedCircularList(SinglyLinkedList<T> list) {
-        Node<T> cur = list.getHead();
-        while (cur.getNext().getValue().compareTo(cur.getValue()) >= 0) {
-            cur = cur.getNext();
-        }
-
-        cur = cur.getNext();
-        Node<T> fasterCur = cur;
-
-        while (fasterCur.getValue().compareTo(cur.getValue()) >= 0) {
-            cur = cur.getNext();
-            fasterCur = fasterCur.getNext();
-            fasterCur = fasterCur.getNext();
-        }
-        return cur.getValue();
-    }
-
-    /**
      * 8.2 Reversing a Singly Linked List
      */
     public void reverseSinglyLinkedList(SinglyLinkedList<T> list) {
@@ -118,5 +75,64 @@ public class LinkedLists<T extends Comparable<T>>{
             cur = next;
         }
         list.setHead(reverseNext);
+    }
+
+    /**
+     * 8.3 Checking for Cyclicity: Given a reference to the head of linked list L. How would you
+     * determine whether L ends with null or cycle.
+     */
+    public T findHeadOfCircularList(SinglyLinkedList<T> list) {
+        if (list.size() < 2)
+            return null;
+
+        Node<T> cur1 = list.getHead().getNext();
+        Node<T> cur2 = list.getHead().getNext().getNext();
+
+        int cycleLength = 1;
+        while (cur2 != null && cur2.getNext() != null) {
+            if (cur1.getValue().equals(cur2.getValue()))
+                break;
+
+            cur1 = cur1.getNext();
+            cur2 = cur2.getNext();
+            cur2 = cur2.getNext();
+            cycleLength++;
+        }
+
+        if (cur2 == null || cur2.getNext() == null)
+            return null;
+
+        //After we found the cycle length. We start traversing with two cursor again.
+        //First one is cycleLength after the second one.
+        cur2 = list.getHead();
+        for (int i =0; i< cycleLength; i++)
+            cur2 = cur2.getNext();
+
+        cur1 = list.getHead();
+        while (!cur1.getValue().equals(cur2.getValue())){
+            cur1 = cur1.getNext();
+            cur2 = cur2.getNext();
+        }
+        return cur1.getValue();
+    }
+
+    /**
+     * 7.3 Median of Sorted Circular Linked List
+     */
+    public T medianSortedCircularList(SinglyLinkedList<T> list) {
+        Node<T> cur = list.getHead();
+        while (cur.getNext().getValue().compareTo(cur.getValue()) >= 0) {
+            cur = cur.getNext();
+        }
+
+        cur = cur.getNext();
+        Node<T> fasterCur = cur;
+
+        while (fasterCur.getValue().compareTo(cur.getValue()) >= 0) {
+            cur = cur.getNext();
+            fasterCur = fasterCur.getNext();
+            fasterCur = fasterCur.getNext();
+        }
+        return cur.getValue();
     }
 }

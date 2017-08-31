@@ -37,7 +37,7 @@ public class RecursionAndDynamicProgramming {
 
     /**
      * 8.2 Robot in a grid: Imagine a robot sitting on the upper left hand corner of an NxN grid. The robot can only move in two directions:
-     * right and down. How many possible paths are there for the robot?
+     * right and down. How many possible paths are there for the robot? (Elements of programming interviews 17.3)
      */
 
 

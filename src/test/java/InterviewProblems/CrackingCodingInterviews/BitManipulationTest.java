@@ -1,8 +1,7 @@
 package InterviewProblems.CrackingCodingInterviews;
 
-import InterviewProblems.CrackingCodingInterviews.BitManipulation;
 import org.junit.Assert;
-import org.testng.annotations.Test;
+;import org.testng.annotations.Test;
 
 public class BitManipulationTest {
 

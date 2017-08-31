@@ -29,7 +29,7 @@ public class Searching {
 
     /**
      * 12.2 Search a sorted array equal to its index
-     * Brute force
+     * Binary search is very inefficient for test #2. Brute force is better.
      */
     public int searchElementEqualtoIndex(int[] sortedArr) {
         return searchElementEqualtoIndexHelper(sortedArr, 0, sortedArr.length-1);
@@ -37,17 +37,20 @@ public class Searching {
 
     private int searchElementEqualtoIndexHelper(int[] sortedArr, int start, int end) {
         int mid = (start+end)/2;
-        if (sortedArr[mid] == mid)
-            return mid;
+        if (end < start)
+            return -1;
 
-        if (end > start) {
-            int idx = searchElementEqualtoIndexHelper(sortedArr, mid+1, end);
-            if (idx > -1)
-                return idx;
-            idx = searchElementEqualtoIndexHelper(sortedArr, start, mid-1);
-            if (idx > -1)
-                return idx;
+        int elementFound = -1;
+        if (mid == sortedArr[mid]) {
+            return mid;
         }
-        return -1;
+
+        elementFound = searchElementEqualtoIndexHelper(sortedArr, mid+1, end);
+        if (elementFound != -1)
+            return elementFound;
+
+        elementFound = searchElementEqualtoIndexHelper(sortedArr, start, mid-1);
+
+        return elementFound;
     }
 }

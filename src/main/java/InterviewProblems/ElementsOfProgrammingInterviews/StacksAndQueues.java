@@ -1,6 +1,13 @@
 package InterviewProblems.ElementsOfProgrammingInterviews;
 
+import DataStructures.ListStackQueue.IQueue;
+import DataStructures.ListStackQueue.QueueArrayImp;
+import DataStructures.Trees.BinarySearchTrees;
+import DataStructures.Trees.BinaryTreeNode;
+
 import java.security.InvalidParameterException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
 public class StacksAndQueues {
@@ -91,21 +98,26 @@ public class StacksAndQueues {
     }
 
     /**
-     *  8.5 Towers of Hanoi
+     * 9.4 File path names (skip)
+     * 9.5 Search a postings list (skip)
+     * 9.6 Building with sunset view (skip)
+     * 9.7 Binary tree nodes with depth order
      */
-    public String towersOfHanoi(Stack<Integer> bar) {
-        int hanoiSize = bar.size();
-        Stack<Integer> bar1 = bar;
-        Stack<Integer> bar2 = new Stack<>();
-        Stack<Integer> bar3 = new Stack<>();
+    public List<Integer> binaryTreeDepthOrder(BinarySearchTrees<Integer> bst) {
 
-        while (bar2.size() != hanoiSize &&  bar3.size() != hanoiSize) {
-            if (bar2.empty() || bar2.peek().compareTo(bar1.peek()) > 0)
-                bar2.push(bar1.pop());
+        List<Integer> nodeList = new LinkedList<>();
+        IQueue<BinaryTreeNode> nodeQueue = new QueueArrayImp<>();
+        nodeQueue.enqueue(bst.getRoot());
 
-            if (bar3.empty() || bar3.peek().compareTo(bar1.peek()) > 0)
-                bar3.push(bar1.pop());
+        while (nodeQueue.size() != 0) {
+            BinaryTreeNode<Integer> cur = nodeQueue.dequeue();
+            nodeList.add(cur.getData());
+
+            if (cur.getLeftChild() != null)
+                nodeQueue.enqueue(cur.getLeftChild());
+            if (cur.getRightChild() != null)
+                nodeQueue.enqueue(cur.getRightChild());
         }
-        return null;
+        return nodeList;
     }
 }

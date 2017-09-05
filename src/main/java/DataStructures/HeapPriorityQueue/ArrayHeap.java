@@ -2,6 +2,9 @@ package DataStructures.HeapPriorityQueue;
 
 import java.util.ArrayList;
 
+/**
+ * Min-heap implementation
+ */
 public class ArrayHeap<K extends Comparable<K>,D> implements IHeap {
 
     private ArrayList<Entry<K,D>> heapList;

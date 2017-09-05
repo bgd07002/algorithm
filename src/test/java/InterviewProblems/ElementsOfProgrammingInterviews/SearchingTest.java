@@ -32,4 +32,19 @@ public class SearchingTest {
         sortedArr = new int[]{1,2,3,4,5,6,7,8,9,11,12,14,18,21};
         Assert.assertEquals(-1, s.searchElementEqualtoIndex(sortedArr));
     }
+
+    /**
+     * 12.3
+     * 12.4 Compute Integer Square Root
+     * 12.5
+     * 12.6
+     */
+    @Test
+    public void integerSquareRootTest() {
+        Searching s = new Searching();
+        Assert.assertEquals(5, s.integerSquareRoot(24));
+        Assert.assertEquals(4, s.integerSquareRoot(19));
+        Assert.assertEquals(4, s.integerSquareRoot(20));
+        Assert.assertEquals(6, s.integerSquareRoot(36));
+    }
 }

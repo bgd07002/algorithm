@@ -108,5 +108,21 @@ public class Heaps {
         }
     }
 
+    /**
+     * 11.3 Sort an almost sorted array. Min-heap is the best strategy among other O(nlogn) algorithms
+     */
+    public void sortAlmostSortedArray(int[] arr) {
+        IHeap<Integer, Integer> heap = new ArrayHeap<>();
 
+        //Overload heap structure to get rid of Entry object and second parameter. This algorithm doesn't work if
+        // array contains duplicate elements. Support the duplication as well.
+        for (int i : arr) {
+            heap.insert(new Entry<>(i,0));
+        }
+
+        //Now place the sorted elements back to the array
+        for (int i=0; i< arr.length; i++) {
+            arr[i] = heap.extractMin().getKey().intValue();
+        }
+    }
 }

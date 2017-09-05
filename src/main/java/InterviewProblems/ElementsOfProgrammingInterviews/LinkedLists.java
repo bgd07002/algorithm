@@ -117,6 +117,12 @@ public class LinkedLists<T extends Comparable<T>>{
     }
 
     /**
+     * 8.4 Test for overlapping two singly linked lists. Lists are cycle free (Cracking Coding Interview 2.7)
+     * 8.6 Delete a node from Singly Linked Lists (Implemented in DataStructures/SinglyLinkedLists)
+     * 8.7 Remove the kth last element from singly linked list
+     */
+
+    /**
      * 7.3 Median of Sorted Circular Linked List
      */
     public T medianSortedCircularList(SinglyLinkedList<T> list) {
@@ -135,4 +141,16 @@ public class LinkedLists<T extends Comparable<T>>{
         }
         return cur.getValue();
     }
+
+    /**
+     *
+     */
+
+    /**
+     * 8.11 Test singly linked list is palindrome (Cracking coding interview 2.6)
+     */
+
+    /**
+     * 8.13 Add list based integers (Cracking coding interview 2.5)
+     */
 }

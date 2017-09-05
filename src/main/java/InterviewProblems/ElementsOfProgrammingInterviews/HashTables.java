@@ -1,5 +1,8 @@
 package InterviewProblems.ElementsOfProgrammingInterviews;
 
+import DataStructures.Maps.IMap;
+
+import java.security.InvalidParameterException;
 import java.util.*;
 
 public class HashTables {
@@ -25,6 +28,60 @@ public class HashTables {
         return oddValues <= 1;
     }
 
+    /**
+     * 13.2 Anonymous letter
+     * 13.3 Implement 10 digit ISBN Cache. First 9 chars are digits and 10th character is sum
+     * mod 11 with 10th number as 'X'. Use LRU as cache eviction.
+     */
+    public class ISBNCache {
+
+        Map<String,Integer> lruCache;
+        private static final int ISBN_LENGTH = 10;
+
+        public ISBNCache() {
+            lruCache = new LinkedHashMap<>();
+        }
+
+        public int lookup(String isbn) {
+            return (lruCache.containsKey(isbn))? lruCache.get(isbn): -1;
+        }
+
+        public void insert(String isbn, int price) {
+            if (!isISBNValid(isbn))
+                throw new InvalidParameterException();
+
+            if (lruCache.containsKey(isbn))
+                lruCache.remove(isbn);
+
+            lruCache.put(isbn, price);
+
+        }
+
+        public void remove(String isbn) {
+            if (lruCache.containsKey(isbn))
+                lruCache.remove(isbn);
+        }
+
+        private boolean isISBNValid(String isbn) {
+            if (!isbn.matches("^[0-9X-]+$"))
+                return false;
+
+            isbn = isbn.replace("-","");
+
+            if (isbn.length() != ISBN_LENGTH)
+                return false;
+
+            char[] isbnArr = isbn.toCharArray();
+            int sum =0;
+            for (int i=0; i<isbnArr.length-1; i++)
+                sum += (int) isbnArr[i] -48;
+
+            if (sum % 11 == 10)
+                return (isbnArr[isbnArr.length-1] == 'X')? true: false;
+            else
+                return (isbnArr[isbnArr.length-1] == (char)(sum%11+48))? true: false;
+        }
+    }
 
     /**
      * 12.3 Nearest Repetition: People do not like reading text in which word is used multiple times.

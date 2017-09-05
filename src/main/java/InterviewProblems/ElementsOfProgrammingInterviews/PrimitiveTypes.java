@@ -99,60 +99,6 @@ public class PrimitiveTypes {
         return makeupOutput.substring(0, makeupOutput.length()-1);
     }
 
-    /**
-     * 5.6 String Integer Encoding: "123" -> 123, "-123" -> -123, "123bc" -> Exception
-     * Edge Cases: Max integer
-     */
-    public int stringIntegerEncoding(String str) {
-        if (!str.matches("[0-9-]+"))
-            return -1;
-
-        char[] strArr = str.toCharArray();
-        int number = (strArr[0] != '-') ? Character.getNumericValue(strArr[0]) : 0;
-        for (int i =1; i < strArr.length; i++) {
-            number = 10*number + Character.getNumericValue(strArr[i]);
-        }
-        return (strArr[0] == '-')? -number : number;
-    }
-
-    /**
-     * 5.7 Base Conversion: Write a function that performs the base conversion for 2 <= b <= 16
-     */
-    public String baseConversion(int num, int base) {
-
-        if (base > 16 || base < 2)
-            return null;
-
-        StringBuilder sb = new StringBuilder();
-        char[] hexaMapping = {'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-
-        int numPositive = (num < 0)? -num: num;
-        while (numPositive > 0) {
-            sb.append(hexaMapping[numPositive % base]);
-            numPositive /=base;
-        }
-
-        return sb.append((num < 0)? "-" : "").reverse().toString();
-    }
-
-    /**
-     * 5.8 Spreadsheet Column Encoding: Convert id into A, B,...,Z, AA, AB,..., AZ,..., ZZ ,AAA, AAB,...
-     */
-    public String spreadsheetEncoding(int id) {
-        if (id < 0)
-            return null;
-
-        StringBuilder sbEncoding = new StringBuilder();
-        char[] alphabetEnc = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
-        int alphabetSize = alphabetEnc.length;
-
-        while (id >= 26) {
-            sbEncoding.append(alphabetEnc[(id % alphabetSize)]);
-            id = (id - alphabetSize)/alphabetSize;
-        }
-        sbEncoding.append(alphabetEnc[(id % alphabetSize)]);
-        return sbEncoding.reverse().toString();
-    }
 
     /**
      * 5.9 Elias Gamma Encoding

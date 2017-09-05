@@ -62,42 +62,6 @@ public class PrimitiveTypesTest {
     }
 
     @Test
-    public void stringIntegerEncodingTest() {
-        PrimitiveTypes p = new PrimitiveTypes();
-        Assert.assertEquals(123, p.stringIntegerEncoding("123"));
-        Assert.assertEquals(-123, p.stringIntegerEncoding("-123"));
-        Assert.assertEquals(1000, p.stringIntegerEncoding("1000"));
-        Assert.assertEquals(-1, p.stringIntegerEncoding("123abc"));
-        Assert.assertEquals(0, p.stringIntegerEncoding("0"));
-    }
-
-    @Test
-    public void baseConversionTest() {
-        PrimitiveTypes p = new PrimitiveTypes();
-        int num = 347;
-        Assert.assertEquals("101011011", p.baseConversion(num, 2));
-        Assert.assertEquals("110212", p.baseConversion(num, 3));
-        Assert.assertEquals("533", p.baseConversion(num, 8));
-        Assert.assertEquals("347", p.baseConversion(num, 10));
-        Assert.assertEquals("15B", p.baseConversion(num, 16));
-
-        num = -347;
-        Assert.assertEquals("-101011011", p.baseConversion(num, 2));
-        Assert.assertEquals("-110212", p.baseConversion(num, 3));
-        Assert.assertEquals("-533", p.baseConversion(num, 8));
-        Assert.assertEquals("-347", p.baseConversion(num, 10));
-        Assert.assertEquals("-15B", p.baseConversion(num, 16));
-    }
-
-    @Test
-    public void spreadsheetEncodingTest() {
-        PrimitiveTypes p = new PrimitiveTypes();
-        Assert.assertEquals("ABC", p.spreadsheetEncoding(730));
-        Assert.assertEquals("CD", p.spreadsheetEncoding(81));
-        Assert.assertEquals("Y", p.spreadsheetEncoding(24));
-    }
-
-    @Test
     public void eliasGammaEncodingTest() {
         PrimitiveTypes p = new PrimitiveTypes();
         Assert.assertEquals("00011010011100101", p.eliasGammaEncoding(new int[] {13,7,5}));

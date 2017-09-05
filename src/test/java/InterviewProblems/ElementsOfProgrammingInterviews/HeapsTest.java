@@ -36,4 +36,15 @@ public class HeapsTest {
         Assert.assertArrayEquals(new int[] {1,2,3,4,5,6,7}, h.sortIncreasingDecreasingArray(input2));
     }
 
+    /**
+     * 11.3 Almost sorted array
+     */
+    @Test
+    public void sortAlmostSortedArrayTest() {
+        Heaps h = new Heaps();
+        int[] almostSortedArray = {0,2,4,6,5,7,9,11,10,14,17,19,15,22,45,30};
+        h.sortAlmostSortedArray(almostSortedArray);
+        Assert.assertArrayEquals(new int[]{0,2,4,5,6,7,9,10,11,14,15,17,19,22,30,45}, almostSortedArray);
+    }
+
 }
